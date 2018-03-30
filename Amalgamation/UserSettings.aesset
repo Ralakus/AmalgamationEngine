@@ -1,0 +1,12 @@
+<Window_Width/2560>
+<Window_Height/1440>
+<Window_Fullscreen/0> [1 = true, 0 = false]
+
+<Mouse_Sensitivity/3.5>
+<Movement_Speed/3.5>
+
+<Camera_FOV/90>
+
+<Texture_Variable_0/container2.png>
+
+<Texture_Variable_1/container2.png>
