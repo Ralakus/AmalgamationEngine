@@ -1,61 +1,51 @@
 #pragma once
 
-#include "../../Graphics/OpenGL/Mesh.hpp"
+#include <Engine/Graphics/OpenGL/GLMesh.hpp>
+#include <Core/Graphics/Shader.hpp>
 #include "TransformComponent.hpp"
-#include <Core/World/Component/Component.hpp>
-#include <Core/World/Entity/Entity.hpp>
-#include <Engine/Graphics/OpenGL/Renderers/IRenderer.hpp>
+#include <Core/World/Entity.hpp>
+#include <Core/Graphics/Renderer.hpp>
 
 namespace Amalgamation {
 
-	/* The mesh component requires a transformation component, if one is not found on the entity, it will create one */
-	class MeshComponent : public Component {
+	class MeshComponent : public Component, public GraphicsClass {
 
-		TransformComponent* m_Transform;
-
+		TransformComponent* m_TransformComponentPtr;
 		Mesh* m_Mesh;
-
-		IRenderer* m_Renderer;
+		Renderer* m_Renderer;
+		Shader* m_Shader;
 
 	public:
 
-		MeshComponent(IRenderer* Renderer) : Component(), m_Renderer(Renderer) {}
-		virtual ~MeshComponent() { delete m_Mesh; }
-
-		void CreateMesh(const std::vector<glm::vec3>& Vertices, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices, Shader* Shader) {
-			m_Mesh = new Mesh(Vertices, Normals, TextureCoords, Indices, Shader);
-
-			if (static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>()) {
-				m_Transform = static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>();
-			}
-			else {
-				m_Transform = static_cast<Entity*>(m_Parent)->AddComponent<TransformComponent>();
-			}
-
-			m_Mesh->SetTransform(&m_Transform->GetTransform());
-		}
+		MeshComponent(Renderer* Renderer) : GraphicsClass(Renderer->GetAPI()), m_Renderer(Renderer) {}
+		virtual ~MeshComponent() { SafeDelete(m_Mesh); }
 
 		MeshComponent* CreateMesh(const MeshData& Data, Shader* Shader) {
-			m_Mesh = new Mesh(Data, Shader);
-
-			if (static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>()) {
-				m_Transform = static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>();
+			if (m_API == API::OpenGL && Shader->GetAPI() == API::OpenGL) {
+				m_Mesh = new GLMesh(static_cast<GLShader*>(Shader));
+				m_Mesh->PushData(Data);
 			}
 			else {
-				m_Transform = static_cast<Entity*>(m_Parent)->AddComponent<TransformComponent>();
+				throw Error("AE: Invalid API");
 			}
 
-			m_Mesh->SetTransform(&m_Transform->GetTransform());
+			if (static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>()) {
+				m_TransformComponentPtr = static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>();
+			}
+			else {
+				m_TransformComponentPtr = static_cast<Entity*>(m_Parent)->AddComponent<TransformComponent>();
+			}
+
+			m_Mesh->SetTransform(&m_TransformComponentPtr->GetTransform());
 
 			return this;
 		}
 
-		bool AddTexture(Texture* TextureIn) {
-			return m_Mesh->AddTexture(TextureIn);
+		bool AddTexture(Texture* TexturePtr) {
+			return m_Mesh->AddTexture(TexturePtr);
 		}
 
-		virtual void Awake() override {
-		}
+		virtual void Awake() override {}
 
 		virtual void Update(float Delta) override {
 			if (m_Mesh) {
@@ -63,10 +53,7 @@ namespace Amalgamation {
 			}
 		}
 
-		virtual void Destroy() override {
-		}
-
-
+		virtual void Destroy() override {}
 
 	};
 

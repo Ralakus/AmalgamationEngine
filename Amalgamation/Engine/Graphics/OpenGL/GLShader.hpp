@@ -1,13 +1,14 @@
 #pragma once
+#pragma once
 
 #include "GLCommon.hpp"
+#include <Core/Graphics/Shader.hpp>
 #include <Core/Utilities/File.hpp>
-#include <Core/Types/Macros.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <unordered_map>
 
 namespace Amalgamation {
-	class Shader {
+	class GLShader : public Shader {
 
 	private:
 
@@ -46,8 +47,9 @@ void main() {
 
 
 	public:
-		Shader(std::string sourcePath);
-		~Shader();
+		GLShader(const std::string& sourcePath);
+		GLShader() : Shader(API::OpenGL) {}
+		~GLShader();
 
 		void SetUniform(const char* name, float value);
 		void SetUniform(const char* name, int value);

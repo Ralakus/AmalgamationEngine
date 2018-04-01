@@ -1,18 +1,20 @@
 #pragma once
 
+#include "Mesh.hpp"
+
 namespace Amalgamation {
 
-	class Mesh;
-	class Light;
+	class Renderer : public GraphicsClass {
 
-	class IRenderer {
 	public:
+
+		Renderer(API API) : GraphicsClass(API) {}
+		virtual ~Renderer()                    {}
+
 		virtual void Begin() = 0;
 		virtual void Submit(Mesh* Mesh) = 0;
 		virtual void End() = 0;
 		virtual void Flush() = 0;
-
-		virtual void AddLight(Light* Light) = 0;
 
 	};
 

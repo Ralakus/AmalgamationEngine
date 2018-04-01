@@ -1,30 +1,31 @@
 #include "GLShader.hpp"
 
 namespace Amalgamation {
-	Shader::Shader(std::string sourcePath)
-		: m_SourcePath(sourcePath) {
+	GLShader::GLShader(const std::string& sourcePath)
+		: Shader(API::OpenGL), m_SourcePath(sourcePath) {
 		m_ShaderID = Load();
 	}
 
-	Shader::~Shader() {
+	GLShader::~GLShader() {
 		GLCall(glDeleteProgram(m_ShaderID));
 	}
 
-	void Shader::Bind() const {
+	void GLShader::Bind() const {
 		GLCall(glUseProgram(m_ShaderID));
 	}
-	void Shader::Unbind() const {
+	void GLShader::Unbind() const {
 		GLCall(glUseProgram(0));
 	}
 
-	void Shader::LoadShader(const std::string& ShaderLocation) {
+	void GLShader::LoadShader(const std::string& ShaderLocation) {
 
+		GLCall(glDeleteProgram(m_ShaderID));
 		m_SourcePath = ShaderLocation;
 		m_ShaderID = Load();
 
 	}
 
-	uint32 Shader::Load()
+	uint32 GLShader::Load()
 	{
 		GLCall(GLuint program = glCreateProgram());
 		GLCall(GLuint vertex = glCreateShader(GL_VERTEX_SHADER));
@@ -53,7 +54,7 @@ namespace Amalgamation {
 
 		ShaderType addType = NONE;
 
-		for (unsigned long long int i = 0; i <= shaderSourceString.length(); i++) {
+		for (size_t i = 0; i <= shaderSourceString.length(); i++) {
 			if (shaderSourceString[i] == '@') {
 				i++;
 				if (shaderSourceString[i] == 'V') {
@@ -165,7 +166,7 @@ namespace Amalgamation {
 	}
 
 
-	int Shader::GetUniformLocation(const char* name)
+	int GLShader::GetUniformLocation(const char* name)
 	{
 		if (m_UniformLocationCahce.find(name) != m_UniformLocationCahce.end()) {
 			return m_UniformLocationCahce[name];
@@ -179,31 +180,31 @@ namespace Amalgamation {
 		return Location;
 	}
 
-	void Shader::SetUniform(const char * name, float value) {
+	void GLShader::SetUniform(const char * name, float value) {
 		GLCall(glUniform1f(GetUniformLocation(name), value));
 	}
-	void Shader::SetUniform(const char * name, int value) {
+	void GLShader::SetUniform(const char * name, int value) {
 		GLCall(glUniform1i(GetUniformLocation(name), value));
 	}
-	void Shader::SetUniform(const char * name, const glm::vec2 & vector) {
+	void GLShader::SetUniform(const char * name, const glm::vec2 & vector) {
 		GLCall(glUniform2f(GetUniformLocation(name), vector.x, vector.y));
 	}
-	void Shader::SetUniform(const char * name, float  x, float y) {
+	void GLShader::SetUniform(const char * name, float  x, float y) {
 		GLCall(glUniform2f(GetUniformLocation(name), x, y));
 	}
-	void Shader::SetUniform(const char * name, const glm::vec3 & vector) {
+	void GLShader::SetUniform(const char * name, const glm::vec3 & vector) {
 		GLCall(glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z));
 	}
-	void Shader::SetUniform(const char * name, float  x, float y, float z) {
+	void GLShader::SetUniform(const char * name, float  x, float y, float z) {
 		GLCall(glUniform3f(GetUniformLocation(name), x, y, z));
 	}
-	void Shader::SetUniform(const char * name, const glm::vec4 & vector) {
+	void GLShader::SetUniform(const char * name, const glm::vec4 & vector) {
 		GLCall(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 	}
-	void Shader::SetUniform(const char * name, float x, float  y, float z, float  w) {
+	void GLShader::SetUniform(const char * name, float x, float  y, float z, float  w) {
 		GLCall(glUniform4f(GetUniformLocation(name), x, y, z, w));
 	}
-	void Shader::SetUniform(const char * name, const glm::mat4 & matrix) {
+	void GLShader::SetUniform(const char * name, const glm::mat4 & matrix) {
 		GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix)));
 	}
 }

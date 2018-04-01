@@ -1,34 +1,57 @@
-#include <memory>
-#include <Engine/Graphics/OpenGL/GLWindow.hpp>
-#include <Core/World/World.hpp>
-#include <Engine/World/Entities/BasicEntity.hpp>
-#include <Engine/World/Components/MeshComponent.hpp>
-#include <Engine/Graphics/OpenGL/Renderers/BasicRenderer.hpp>
-#include <Engine/Graphics/OpenGL/GLShader.hpp>
-#include <Core/Utilities/Time.hpp>
-#include <Core/Types/Singleton.hpp>
-#include <Core/Math/MathFunctions.hpp>
-#include <Core/Utilities/UniqueID.hpp>
-#include <Engine/World/Components/CameraComponent.hpp>
-#include <Core/Input/Input.hpp>
-#include <Engine/Graphics/OpenGL/Texture.hpp>
-#include <Core/Utilities/Aesset/AessetReader.hpp>
 #include <iostream>
-#include <glm/gtx/quaternion.hpp>
+#include <Core/World/World.hpp>
+#include <Core/Utilities/Time.hpp>
+#include <Core/Utilities/AessetReader.hpp>
+#include <Engine/World/Components/MeshComponent.hpp>
+#include <Engine/Graphics/OpenGL/GLTexture.hpp>
+#include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
+#include <Engine/World/Components/CameraComponent.hpp>
+#include <Engine/World/Entities/BasicEntity.hpp>
+#include <Engine/Graphics/OpenGL/GLWindow.hpp>
 
 using namespace Amalgamation;
+
+class TestRenderer : public Renderer {
+
+	DArray<GLMesh*> m_Meshes;
+
+public:
+
+	TestRenderer() : Renderer(API::OpenGL) {}
+	~TestRenderer()                        {}
+
+	void Begin() override {}
+	void Submit(Mesh* Mesh) override {
+		m_Meshes.push_back(static_cast<GLMesh*>(Mesh));
+	}
+	void End() override {}
+	void Flush() override {
+		for (GLMesh* M : m_Meshes) {
+
+			M->GetVertexArray().Bind();
+			M->GetElementBuffer().Bind();
+
+			M->GetShader()->Bind();
+
+			GLCall(glDrawElements(GL_TRIANGLES, M->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
+
+		}
+		m_Meshes.clear();
+	}
+
+};
 
 int main() {
 
 	AessetReader::Instance().LoadAeseet("UserSettings.aesset");
 
-	float MSensitivity  = AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity") <= 0 ? 1  : AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity");
-	float MovementSpeed = AessetReader::Instance().GetProperty<float>("Movement_Speed")    <= 0 ? 1  : AessetReader::Instance().GetProperty<float>("Movement_Speed");
-	float CamFOV        = AessetReader::Instance().GetProperty<float>("Camera_FOV")        <= 0 ? 90 : AessetReader::Instance().GetProperty<float>("Camera_FOV");
+	float MSensitivity = AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity") <= 0 ? 1 : AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity");
+	float MovementSpeed = AessetReader::Instance().GetProperty<float>("Movement_Speed") <= 0 ? 1 : AessetReader::Instance().GetProperty<float>("Movement_Speed");
+	float CamFOV = AessetReader::Instance().GetProperty<float>("Camera_FOV") <= 0 ? 90 : AessetReader::Instance().GetProperty<float>("Camera_FOV");
 
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
 		"Noice", AessetReader::Instance().GetProperty<int>("Window_Width") == 0 ? 800 : AessetReader::Instance().GetProperty<int>("Window_Width"),
-		AessetReader::Instance().GetProperty<int>("Window_Height")         == 0 ? 600 : AessetReader::Instance().GetProperty<int>("Window_Height"),
+		AessetReader::Instance().GetProperty<int>("Window_Height") == 0 ? 600 : AessetReader::Instance().GetProperty<int>("Window_Height"),
 		AessetReader::Instance().GetProperty<int>("Window_Fullscreen"));
 
 	World World;
@@ -40,11 +63,11 @@ int main() {
 	BasicEntity* FloorPlane;
 	BasicEntity* Cube2;
 
-	BasicRenderer Renderer;
+	GLBasicRenderer Renderer;
 
-	Shader Shader("TexturedShader.Shader");
+	GLShader Shader("TexturedShader.glsl");
 
-	Texture T1;
+	GLTexture T1;
 	if (T1.LoadTexture(
 		AessetReader::Instance().GetProperty<std::string>("Texture_Variable_0").c_str() == AessetReader::Instance().ReadError ? "NULL" : AessetReader::Instance().GetProperty<std::string>("Texture_Variable_0").c_str(),
 		true, 0, 0))
@@ -55,7 +78,7 @@ int main() {
 		std::cout << "Texture load failed!" << std::endl;
 	}
 
-	Texture T2;
+	GLTexture T2;
 	if (T2.LoadTexture(
 		AessetReader::Instance().GetProperty<std::string>("Texture_Variable_1").c_str() == AessetReader::Instance().ReadError ? "NULL" : AessetReader::Instance().GetProperty<std::string>("Texture_Variable_1").c_str(),
 		false, 0, 0))
@@ -72,18 +95,17 @@ int main() {
 
 	Cube2 = World.CreateEntity<BasicEntity>();
 	Cube2->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->AddTexture(&T1);
-	Cube2->GetTransform()->SetTransform({0, -1.25, -5});
+	Cube2->GetTransform()->SetTransform({ 0, -1.25, -5 });
 
 
 	Player = World.CreateEntity<BasicEntity>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
 	Player->GetTransform()->Position.z = -5;
-	
+
 
 	FloorPlane = World.CreateEntity<BasicEntity>();
 	FloorPlane->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader)->AddTexture(&T2);
 	FloorPlane->GetTransform()->SetTransform({ 0, -1.25f, 0 }, { glm::vec3(glm::radians(90.f),0 ,0) }, { 5, 5, 1 });
-
 
 	World.Awake();
 
@@ -112,7 +134,7 @@ int main() {
 
 		GLCall(glGetIntegerv(GL_VIEWPORT, viewPort));
 		Cam->SetProjection(glm::perspective(glm::radians(CamFOV), (float)viewPort[2] / (float)viewPort[3], 0.001f, 100.f));
-		
+
 		MouseOffset.x = Mouse::Instance().GetX() - LastMousePos.x;
 		MouseOffset.y = Mouse::Instance().GetY() - LastMousePos.y;
 		Cam->Pitch(MouseOffset.y * Time.GetDelta() * MSensitivity);
@@ -121,14 +143,14 @@ int main() {
 		LastMousePos.y = Mouse::Instance().GetY();
 
 
-		glm::vec3 CamEuler = glm::eulerAngles(Player->GetTransform()->Rotation);
-		glm::vec3 CamFront = glm::normalize(glm::vec3(
-
-			cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),
-			sin(glm::radians(CamEuler.y)),
-			sin(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y))
-
-		)) * Player->GetTransform()->Rotation;
+		//glm::vec3 CamEuler = glm::eulerAngles(Player->GetTransform()->Rotation);
+		//glm::vec3 CamFront = glm::normalize(glm::vec3(
+		//
+		//	cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),
+		//	sin(glm::radians(CamEuler.y)),
+		//	sin(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y))
+		//
+		//)) * Player->GetTransform()->Rotation;
 
 		//printf("%f, %f, %f    \r", CamFront.x, CamFront.y, CamFront.z);
 

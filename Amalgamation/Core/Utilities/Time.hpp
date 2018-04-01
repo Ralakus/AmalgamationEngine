@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include "../Types/Macros.hpp"
 
 namespace Amalgamation {
 

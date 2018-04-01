@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IRenderer.hpp"
+#include <Core/Graphics/Renderer.hpp>
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -8,16 +8,18 @@ namespace Amalgamation {
 
 	class CameraComponent;
 
-	class BasicRenderer : public IRenderer {
+	class GLBasicRenderer : public Renderer {
 
 		std::vector<Mesh*> m_Meshes;
-		std::vector<Light*> m_Lights;
 		glm::mat4 m_BufferedTransform;
 		CameraComponent* m_Cam;
 
 	public:
 
-		void SetCamera(CameraComponent* Cam);
+		GLBasicRenderer() : Renderer(API::OpenGL)  {}
+		~GLBasicRenderer()                         {}
+
+		void SetCamera(CameraComponent* Cam) { m_Cam = Cam; }
 
 		virtual void Begin() override;
 
@@ -27,7 +29,6 @@ namespace Amalgamation {
 
 		virtual void Flush() override;
 
-		virtual void AddLight(Light* Light) override;
 
 	};
 

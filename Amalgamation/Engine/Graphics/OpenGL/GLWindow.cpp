@@ -8,7 +8,7 @@ namespace Amalgamation {
 	void OnMouseChange(GLFWwindow* window, int button, int action, int mods);
 	void OnMouseMove(GLFWwindow* window, double xpos, double ypos);
 
-	GLWindow::GLWindow() : Window(API::OPENGL) {
+	GLWindow::GLWindow() : Window(API::OpenGL) {
 
 		if (!m_Init()) {
 			//LOG_ERROR("Failed to create OpenGL Window!");
@@ -18,7 +18,7 @@ namespace Amalgamation {
 
 	}
 
-	GLWindow::GLWindow(const std::string& title, uint32 width, uint32 height, bool Fullscreen) : Window(title, width, height, Fullscreen, API::OPENGL) {
+	GLWindow::GLWindow(const std::string& title, uint32 width, uint32 height, bool Fullscreen) : Window(title, width, height, Fullscreen, API::OpenGL) {
 
 		if (!m_Init()) {
 			//LOG_ERROR("Failed to create OpenGL Window!");
@@ -64,9 +64,9 @@ namespace Amalgamation {
 		glfwSetWindowSizeCallback(m_Window, WindowSizeCallback);
 
 		glfwSetMouseButtonCallback(m_Window, OnMouseChange);
-		
+
 		glfwSetKeyCallback(m_Window, OnKeyChange);
-		
+
 		glfwSetCursorPosCallback(m_Window, OnMouseMove);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -114,6 +114,6 @@ namespace Amalgamation {
 		Window::SetMouseButton(button, action != GLFW_RELEASE);
 	}
 	void OnMouseMove(GLFWwindow* window, double xpos, double ypos) {
-		Window::SetMousePos(xpos, ypos);
+		Window::SetMousePos(static_cast<float>(xpos), static_cast<float>(ypos));
 	}
 }

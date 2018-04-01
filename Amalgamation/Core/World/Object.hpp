@@ -33,27 +33,27 @@ namespace Amalgamation {
 			return m_Tags;
 		}
 
-		inline virtual void AddTag(const std::string& Tag) { 
+		inline virtual void AddTag(const std::string& Tag) {
 			m_Tags.push_back(Tag);
 		}
 
 		inline virtual bool HasTag(const std::string& Tag) const {
 			for (auto tag : m_Tags) {
-				if (tag == Tag) { 
-					return true; 
-				} 
+				if (tag == Tag) {
+					return true;
+				}
 			}
 			return false;
 		}
 
-		inline virtual bool RemoveTag(const std::string& Tag) { 
-			for (int i = 0; i < m_Tags.size(); i++) {
-				if (Tag == m_Tags[i]) { 
-					m_Tags.erase(m_Tags.begin() + i); 
+		inline virtual bool RemoveTag(const std::string& Tag) {
+			for (size_t i = 0; i < m_Tags.size(); i++) {
+				if (Tag == m_Tags[i]) {
+					m_Tags.erase(m_Tags.begin() + i);
 					return true;
-				} 
+				}
 			}
-			return false; 
+			return false;
 		}
 
 

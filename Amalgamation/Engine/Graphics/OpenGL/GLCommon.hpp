@@ -1,9 +1,9 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <Core/Types/Macros.hpp>
 #include <glm/common.hpp>
 #include <cstdio>
+#include <Core/Platform/Platform.hpp>
 
 namespace Amalgamation {
 	class GLErrorManagement {

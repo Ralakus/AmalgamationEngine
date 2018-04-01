@@ -5,16 +5,16 @@
 
 namespace Amalgamation {
 
-	class ArrayElement {
+	class GLArrayElement {
 	public:
-		ArrayElement(uint32 Type, uint32 Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
+		GLArrayElement(uint32 Type, uint32 Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
 		uint32 Type;
 		uint32 Count;
 		int8 Normalized;
 	};
 
 	//using VertexElement = ArrayElement;
-	typedef ArrayElement VertexElement;
+	typedef GLArrayElement VertexElement;
 
 
 	class ArrayBufferLayout {
@@ -31,7 +31,7 @@ namespace Amalgamation {
 		}
 
 	private:
-		std::vector<ArrayElement> m_Elements;
+		std::vector<GLArrayElement> m_Elements;
 		uint32 m_Stride;
 	public:
 
@@ -66,7 +66,7 @@ namespace Amalgamation {
 			m_Stride += Count * GetSizeOfType(GL_UNSIGNED_BYTE);
 		}
 
-		inline const std::vector<ArrayElement>& GetElements() const { return m_Elements; }
+		inline const std::vector<GLArrayElement>& GetElements() const { return m_Elements; }
 
 		inline uint32 GetStride() const { return m_Stride; }
 
@@ -78,7 +78,7 @@ namespace Amalgamation {
 	/*
 	ARRAY BUFFER LAYOUT MUST BE INTERLACED!
 	*/
-	class ArrayBuffer {
+	class GLArrayBuffer {
 
 		uint32 m_BufferID;
 
@@ -86,17 +86,17 @@ namespace Amalgamation {
 
 	public:
 
-		ArrayBuffer() {
+		GLArrayBuffer() {
 			GLCall(glGenBuffers(1, &m_BufferID));
 		}
 
-		ArrayBuffer(const void* Data, uint32 Size) {
+		GLArrayBuffer(const void* Data, size_t Size) {
 			GLCall(glGenBuffers(1, &m_BufferID));
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
 		}
 
-		~ArrayBuffer() {
+		~GLArrayBuffer() {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 			GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID));
 		}
@@ -109,7 +109,7 @@ namespace Amalgamation {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 		}
 
-		inline void PushData(const void* Data, uint32 Size) {
+		inline void PushData(const void* Data, size_t Size) {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
 		}
@@ -117,11 +117,11 @@ namespace Amalgamation {
 		ArrayBufferLayout& GetLayout() { return m_Layout; }
 		const ArrayBufferLayout& GetLayout() const { return m_Layout; }
 
-		const uint32& GetID() const { return m_BufferID; }
+		uint32 GetID() const { return m_BufferID; }
 
 	};
 
 	//using VertexBuffer = ArrayBuffer;
-	typedef ArrayBuffer VertexBuffer;
+	typedef GLArrayBuffer VertexBuffer;
 
 }

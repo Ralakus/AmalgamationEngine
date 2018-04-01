@@ -6,11 +6,10 @@
 
 namespace Amalgamation {
 
-
 	class GLWindow : public Window {
 	private:
 
-		GLFWwindow* m_Window;
+		GLFWwindow * m_Window;
 
 		bool m_Init() override;
 
@@ -35,6 +34,7 @@ namespace Amalgamation {
 		void SetTitle(const std::string& title) override { m_Title = title; glfwSetWindowTitle(m_Window, title.c_str()); }
 		void SetTitle(const char* title) override { m_Title = title; glfwSetWindowTitle(m_Window, title); }
 
+		/*ONLY INTEDED FOR DEBUG*/
 		GLFWwindow* GetGLFWWindowPtr() { return m_Window; }
 
 	};

@@ -1,1 +1,0 @@
-Entity and Component class IDs

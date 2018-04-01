@@ -1,7 +1,10 @@
 #pragma once
 
-#define AMALGAMATION_ENGINE_VERSION "Amalgamation Version: 0.7a Overhaul"
+#include "API.hpp"
+
+#define AMALGAMATION_ENGINE_VERSION "Amalgamation Version: 0.8a Rebuild"
 #define SafeDelete(x) { if(x) { delete x; x = nullptr; } }
+#define DArray std::vector
 
 typedef unsigned long long int uint64;
 typedef unsigned int           uint32;
@@ -19,7 +22,7 @@ typedef double                 float64;
 namespace Amalgamation {
 
 	template<class Type>
-	struct IsPointer        { static const bool Value = false; };
+	struct IsPointer { static const bool Value = false; };
 
 	template<class Type>
 	struct IsPointer<Type*> { static const bool Value = true; };

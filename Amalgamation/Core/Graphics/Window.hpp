@@ -1,20 +1,14 @@
 #pragma once
 
-#include <Core/Types/Macros.hpp>
-#include <string>
+#include <Core/Platform/Platform.hpp>
 #include <Core/Input/Input.hpp>
+#include "GraphicsClass.hpp"
+#include <string>
 
 namespace Amalgamation {
 
-	class Window {
-	public:
-		enum class API {
-			OPENGL, VULKAN, UNDEFINED
-		};
-
+	class Window : public GraphicsClass {
 	protected:
-
-		API m_API;
 
 		std::string m_Title;
 		uint32 m_Width, m_Height;
@@ -32,8 +26,8 @@ namespace Amalgamation {
 
 	public:
 
-		Window(const std::string& title, uint32 width, uint32 height, bool Fullscreen, API API) : m_API(API), m_Title(title), m_Width(width), m_Height(height), m_Fullscreen(Fullscreen) {}
-		Window(API API) : m_API(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
+		Window(const std::string& title, uint32 width, uint32 height, bool Fullscreen, API API) : GraphicsClass(API), m_Title(title), m_Width(width), m_Height(height), m_Fullscreen(Fullscreen) {}
+		Window(API API) : GraphicsClass(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
 		virtual ~Window() {}
 
 		inline virtual uint32 GetHeight() const { return m_Height; }
@@ -52,14 +46,6 @@ namespace Amalgamation {
 
 		virtual bool IsValid() { return m_Valid; }
 		virtual bool IsFullscreen() { return m_Fullscreen; }
-
-		virtual API GetType() const { return m_API; }
-
-		template<typename WindowType, typename... WindowArgs>
-		static Window* Make(WindowArgs... Args) {
-			static_assert(std::is_base_of<Window, WindowType>::value, "Make must take in a class derived from Window!");
-			return new WindowType(std::forward<WindowArgs>(Args)...);
-		}
 	};
 
 }

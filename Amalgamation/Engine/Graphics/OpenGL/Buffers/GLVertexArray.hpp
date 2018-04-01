@@ -5,25 +5,25 @@
 
 namespace Amalgamation {
 
-	class VertexArray {
+	class GLVertexArray {
 	private:
 
 		uint32 m_ArrayID;
 
 	public:
 
-		VertexArray() {
+		GLVertexArray() {
 			GLCall(glGenVertexArrays(1, &m_ArrayID));
 		}
-		~VertexArray() {
+		~GLVertexArray() {
 			GLCall(glDeleteVertexArrays(1, &m_ArrayID));
 		}
 
 		inline void Bind() const { GLCall(glBindVertexArray(m_ArrayID)); }
 		inline void Unbind() const { GLCall(glBindVertexArray(0)); }
-		inline const uint32& GetID() const { return m_ArrayID; }
+		inline uint32 GetID() const { return m_ArrayID; }
 
-		void AddBuffer(const ArrayBuffer& Buffer) {
+		void AddBuffer(const GLArrayBuffer& Buffer) {
 			Bind();
 			Buffer.Bind();
 			const auto& Elements = Buffer.GetLayout().GetElements();

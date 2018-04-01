@@ -1,71 +1,63 @@
 #pragma once
 
-#include <Core/Types/Macros.hpp>
-#include <string>
-#include <glad/glad.h>
+#include <Core/Graphics/Texture.hpp>
 #include "GLCommon.hpp"
-#include <stb_image.h>
 
-#include <functional>
+#include <stb_image.h>
+#include <string>
 
 namespace Amalgamation {
 
-	class Texture {
-
-		std::string m_FilePath;
-
-		int m_Width, m_Height, m_Channels;
-
-		uint64 m_TextureLevel;
+	class GLTexture : public Texture {
 
 		uint32 m_TextureID;
 
-		int m_TextureLayer;
-
 	public:
 
-		Texture()  {}
-		~Texture() {}
+		GLTexture() : Texture(API::OpenGL) {}
+		~GLTexture()                       {}
 
-		template<typename Lambda>
-		bool LoadTexture(const char* Filepath, bool Flip, uint32 LodLevel, int Layer, Lambda LoadLambda) {
-			m_TextureLayer = Layer;
-			glGenTextures(1, &m_TextureID);
-			glBindTexture(GL_TEXTURE_2D, m_TextureID);
+		bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer, std::function<void()> LoadFunction) override {
+			if (Layer >= 0 && Layer <= 31) {
+				m_Layer = Layer;
+			}
+			else {
+				throw Error("AE: Texture layer out of range!");
+			}
+			GLCall(glGenTextures(1, &m_TextureID));
+			GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
 
-			LoadLambda();
+			LoadFunction();
 
- 			stbi_set_flip_vertically_on_load(Flip);
+			stbi_set_flip_vertically_on_load(Flip);
 
-			unsigned char* LoadedData = stbi_load(Filepath, &m_Width, &m_Height, &m_Channels, 0);
+			unsigned char* LoadedData = stbi_load(FilePath.c_str(), &m_Width, &m_Height, &m_Channels, 0);
 
 			if (LoadedData) {
 				switch (m_Channels)
 				{
-				case 3: glTexImage2D(GL_TEXTURE_2D, LodLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, LoadedData); break;
-				case 4: glTexImage2D(GL_TEXTURE_2D, LodLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LoadedData); break;
+				case 3: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, LoadedData)); break;
+				case 4: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LoadedData)); break;
 				default:
 					printf("Number of color channels couldn't be identified!\n");
 					return false;
 					break;
 				}
-				glGenerateMipmap(GL_TEXTURE_2D);
+				GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 			}
 			else {
-				printf("Failed to load texture from: %s\n", Filepath);
+				printf("Failed to load texture from: %s\n", FilePath);
 				return false;
 			}
 			stbi_image_free(LoadedData);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 			return true;
 		}
 
-		const std::string& GetFilePath() { return m_FilePath; }
-
-		bool LoadTexture(const char* Filepath, bool Flip, uint32 LodLevel, int Layer) {
-			m_TextureLayer = Layer;
-			glGenTextures(1, &m_TextureID);
-			glBindTexture(GL_TEXTURE_2D, m_TextureID);
+		bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer) override {
+			m_Layer = Layer;
+			GLCall(glGenTextures(1, &m_TextureID));
+			GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -74,35 +66,31 @@ namespace Amalgamation {
 
 			stbi_set_flip_vertically_on_load(Flip);
 
-			unsigned char* LoadedData = stbi_load(Filepath, &m_Width, &m_Height, &m_Channels, 0);
+			unsigned char* LoadedData = stbi_load(FilePath.c_str(), &m_Width, &m_Height, &m_Channels, 0);
 
 			if (LoadedData) {
 				switch (m_Channels)
 				{
-				case 3: glTexImage2D(GL_TEXTURE_2D, LodLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, LoadedData); break;
-				case 4: glTexImage2D(GL_TEXTURE_2D, LodLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LoadedData); break;
+				case 3: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, LoadedData)); break;
+				case 4: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LoadedData)); break;
 				default:
 					printf("Number of color channels couldn't be identified!\n");
 					return false;
 					break;
 				}
-				glGenerateMipmap(GL_TEXTURE_2D);
+				GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 			}
 			else {
-				printf("Failed to load texture from: %s\n", Filepath);
+				printf("Failed to load texture from: %s\n", FilePath);
 				return false;
 			}
 			stbi_image_free(LoadedData);
+			GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 			return true;
 		}
 
-		int GetLayer() const { return m_TextureLayer; }
-
-		void Bind() const {
-
-
-			switch (m_TextureLayer) {
-
+		void Bind()   const {
+			switch (m_Layer) {
 			case 0:  GLCall(glActiveTexture(GL_TEXTURE0)); 	break;
 			case 1:  GLCall(glActiveTexture(GL_TEXTURE1));	break;
 			case 2:  GLCall(glActiveTexture(GL_TEXTURE2));	break;
@@ -135,15 +123,14 @@ namespace Amalgamation {
 			case 29: GLCall(glActiveTexture(GL_TEXTURE29)); break;
 			case 30: GLCall(glActiveTexture(GL_TEXTURE30)); break;
 			case 31: GLCall(glActiveTexture(GL_TEXTURE31)); break;
-
 			default: break;
 			}
-
 			GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
 		}
 		void Unbind() const {
 			GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 		}
+
 	};
 
 }
