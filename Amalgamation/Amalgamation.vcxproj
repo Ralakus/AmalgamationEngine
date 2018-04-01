@@ -19,9 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
     <ClInclude Include="Core\Graphics\Mesh.hpp" />
+    <ClInclude Include="Core\Graphics\Renderer.hpp" />
+    <ClInclude Include="Core\Graphics\Texture.hpp" />
+    <ClInclude Include="Core\Graphics\Window.hpp" />
     <ClInclude Include="Core\Input\Input.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
+    <ClInclude Include="Core\Math\Transform.hpp" />
+    <ClInclude Include="Core\Platform\API.hpp" />
     <ClInclude Include="Core\Platform\Platform.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />
     <ClInclude Include="Core\Types\Singleton.hpp" />
@@ -33,6 +39,16 @@
     <ClInclude Include="Core\World\Entity.hpp" />
     <ClInclude Include="Core\World\Object.hpp" />
     <ClInclude Include="Core\World\World.hpp" />
+    <ClInclude Include="Core\World\WorldPlugin.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\GLMesh.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\GLShader.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp" />
     <ClInclude Include="Engine\World\Components\CameraComponent.hpp" />
     <ClInclude Include="Engine\World\Components\TransformComponent.hpp" />
     <ClInclude Include="Engine\World\Entities\BasicEntity.hpp" />
@@ -40,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Graphics\OpenGL\glad.c" />
+    <ClCompile Include="Engine\Graphics\OpenGL\GLShader.cpp" />
+    <ClCompile Include="Engine\Graphics\OpenGL\GLWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Core\Platform\Unincludable.cpp" />
   </ItemGroup>

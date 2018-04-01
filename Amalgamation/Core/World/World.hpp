@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Core/Platform/Platform.hpp>
+#include "WorldPlugin.hpp"
 #include "Entity.hpp"
 
 namespace Amalgamation {
@@ -8,6 +9,8 @@ namespace Amalgamation {
 	class World {
 
 		std::vector<Entity*> m_RegisteredEntities;
+
+		std::vector<WorldPlugin*> m_Plugins;
 
 		bool m_Awoken = false;
 
