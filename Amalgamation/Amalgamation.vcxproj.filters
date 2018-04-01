@@ -123,6 +123,9 @@
     <ClInclude Include="Core\Graphics\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Lua\LuaScript.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Platform\Unincludable.cpp">
@@ -147,5 +150,6 @@
   <ItemGroup>
     <None Include="TexturedShader.glsl" />
     <None Include="UserSettings.aesset" />
+    <None Include="Main.lua" />
   </ItemGroup>
 </Project>

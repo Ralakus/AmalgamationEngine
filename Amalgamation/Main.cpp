@@ -2,6 +2,7 @@
 #include <Core/World/World.hpp>
 #include <Core/Utilities/Time.hpp>
 #include <Core/Utilities/AessetReader.hpp>
+#include <Core/Lua/LuaScript.hpp>
 #include <Engine/World/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/GLTexture.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
@@ -10,36 +11,6 @@
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 
 using namespace Amalgamation;
-
-class TestRenderer : public Renderer {
-
-	DArray<GLMesh*> m_Meshes;
-
-public:
-
-	TestRenderer() : Renderer(API::OpenGL) {}
-	~TestRenderer()                        {}
-
-	void Begin() override {}
-	void Submit(Mesh* Mesh) override {
-		m_Meshes.push_back(static_cast<GLMesh*>(Mesh));
-	}
-	void End() override {}
-	void Flush() override {
-		for (GLMesh* M : m_Meshes) {
-
-			M->GetVertexArray().Bind();
-			M->GetElementBuffer().Bind();
-
-			M->GetShader()->Bind();
-
-			GLCall(glDrawElements(GL_TRIANGLES, M->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
-
-		}
-		m_Meshes.clear();
-	}
-
-};
 
 int main() {
 
