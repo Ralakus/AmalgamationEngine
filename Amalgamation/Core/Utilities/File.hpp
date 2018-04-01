@@ -27,7 +27,7 @@ namespace Amalgamation {
 		}
 
 
-		static void WriteToFile(const std::string& Destination, const std::string& Data) {
+		static void WriteToFile(const std::string& Name, std::string& Destination, const std::string& Data) {
 
 		}
 

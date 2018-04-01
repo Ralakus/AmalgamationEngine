@@ -29,7 +29,7 @@ namespace Amalgamation {
 		inline bool GetKeyState(unsigned int key) const {
 			return key >= MAX_KEYS ? false : m_Keys[key];
 		}
-		
+
 	};
 
 	class Mouse : public Singleton<Mouse> {

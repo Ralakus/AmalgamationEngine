@@ -1,8 +1,8 @@
 #pragma once
 
 #include "TransformComponent.hpp"
-#include <Core/World/Component/Component.hpp>
-#include <Core/World/Entity/Entity.hpp>
+#include <Core/World/Component.hpp>
+#include <Core/World/Entity.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Amalgamation {

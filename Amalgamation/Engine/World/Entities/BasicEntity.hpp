@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/World/Entity/Entity.hpp>
+#include <Core/World/Entity.hpp>
 #include "../Components/TransformComponent.hpp"
 
 namespace Amalgamation {

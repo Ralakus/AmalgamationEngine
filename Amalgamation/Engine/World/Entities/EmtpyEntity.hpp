@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/World/Entity/Entity.hpp>
+#include <Core/World/Entity.hpp>
 
 namespace Amalgamation {
 	/* This is an entity that can be constructed and doesn't have any special functions */

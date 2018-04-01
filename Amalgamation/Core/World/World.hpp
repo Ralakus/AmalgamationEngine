@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Entity/Entity.hpp"
+#include <Core/Platform/Platform.hpp>
+#include "Entity.hpp"
 
 namespace Amalgamation {
 
@@ -32,7 +33,6 @@ namespace Amalgamation {
 			static_assert(std::is_base_of<Entity, T>::value, "The make entity function must take in a class derived from an entity!");
 			T* NewEntity = new T(std::forward<Type>(Args)...);
 			m_RegisteredEntities.push_back(reinterpret_cast<Entity*>(NewEntity));
-			NewEntity->Awake();
 			return NewEntity;
 		}
 

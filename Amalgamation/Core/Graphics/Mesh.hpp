@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
-#include <glm/vec3.hpp>
-#include <glm/vec2.hpp>
-#include "../Types/Macros.hpp"
+#include <Core/Platform/Platform.hpp>
 
-namespace Amalgamation {
+#include <vector>
+#include <glm/glm.hpp>
+
+namespace AmalgamationEngine {
 
 	struct MeshData {
 
@@ -16,11 +16,19 @@ namespace Amalgamation {
 
 	};
 
-	class IMesh {
+	class Mesh {
 
-		IMesh() {}
-		virtual ~IMesh() {}
+	private:
+
+		MeshData m_MeshData;
+
+
+	public:
+
+		Mesh() {}
+		virtual ~Mesh() {}
 
 	};
+
 
 }

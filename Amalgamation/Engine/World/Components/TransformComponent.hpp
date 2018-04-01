@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/World/Component/Component.hpp>
+#include <Core/World/Component.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 

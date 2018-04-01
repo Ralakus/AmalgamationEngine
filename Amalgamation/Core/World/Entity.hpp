@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Object.hpp"
+#include "Object.hpp"
 
 namespace Amalgamation {
 
@@ -11,7 +11,7 @@ namespace Amalgamation {
 		mutable Object* m_BufferObject;
 
 		virtual void UpdateComponents(float Delta) {
-			for (unsigned long long int i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				m_BufferObject = reinterpret_cast<Object*>(m_Components[i]);
 				m_BufferObject->Update(Delta);
 			}
@@ -19,7 +19,7 @@ namespace Amalgamation {
 		}
 
 		virtual void AwakeComponets() {
-			for (unsigned long long int i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				m_BufferObject = reinterpret_cast<Object*>(m_Components[i]);
 				m_BufferObject->Awake();
 			}
@@ -27,7 +27,7 @@ namespace Amalgamation {
 		}
 
 		virtual void DestroyComponents() {
-			for (unsigned long long int i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				m_BufferObject = reinterpret_cast<Object*>(m_Components[i]);
 				m_BufferObject->Destroy();
 			}
@@ -39,11 +39,12 @@ namespace Amalgamation {
 
 		Entity() : Object(), m_Components() { m_Parent = this; }
 		virtual ~Entity() {
-			for (uint64 i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				delete reinterpret_cast<Object*>(m_Components[i]);
 			}
 		}
 
+		/*Creates a component that is attached the to entity, all classes pushed must be derived from Component*/
 		template<typename T, typename... Type>
 		T* AddComponent(Type&&... Args) {
 			static_assert(std::is_base_of<Component, T>::value, "Add component must take in a class derived from Component!");
@@ -53,6 +54,7 @@ namespace Amalgamation {
 			return NewComp;
 		}
 
+		/*Returns the raw array of components in the entity*/
 		virtual const std::vector<Component*>& GetComponents() const {
 			return m_Components;
 		}
@@ -61,7 +63,7 @@ namespace Amalgamation {
 		template<typename ComponentType>
 		ComponentType* GetComponentByType() {
 			ComponentType* Temp;
-			for (unsigned long long int i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				Temp = dynamic_cast<ComponentType*>(m_Components[i]);
 				if (Temp != nullptr) {
 					return Temp;
@@ -73,11 +75,12 @@ namespace Amalgamation {
 			return nullptr;
 		}
 
+		/*Returns array of components of type found*/
 		template<typename ComponentType>
 		std::vector<ComponentType*> GetComponentsByType() {
 			std::vector<ComponentType*> Array;
 			ComponentType* Temp;
-			for (unsigned long long int i = 0; i < m_Components.size(); i++) {
+			for (size_t i = 0; i < m_Components.size(); i++) {
 				Temp = dynamic_cast<ComponentType*>(m_Components[i]);
 				if (Temp != nullptr) {
 					Array.push_back(Temp);
