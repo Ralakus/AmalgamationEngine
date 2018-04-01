@@ -62,7 +62,7 @@ namespace Amalgamation {
 				}
 
 				for (Entity* E : m_RegisteredEntities) {
-					delete E;
+					SafeDelete(E);
 				}
 
 				m_RegisteredEntities.clear();

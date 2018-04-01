@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TexturedShader.glsl" />
+    <None Include="UserSettings.aesset" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

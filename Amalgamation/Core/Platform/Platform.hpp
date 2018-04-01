@@ -4,6 +4,7 @@
 
 #define AMALGAMATION_ENGINE_VERSION "Amalgamation Version: 0.8a Rebuild"
 #define SafeDelete(x) { if(x) { delete x; x = nullptr; } }
+#define DArray std::vector
 
 typedef unsigned long long int uint64;
 typedef unsigned int           uint32;
