@@ -90,7 +90,7 @@ namespace Amalgamation {
 			GLCall(glGenBuffers(1, &m_BufferID));
 		}
 
-		GLArrayBuffer(const void* Data, uint32 Size) {
+		GLArrayBuffer(const void* Data, size_t Size) {
 			GLCall(glGenBuffers(1, &m_BufferID));
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
@@ -109,7 +109,7 @@ namespace Amalgamation {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 		}
 
-		inline void PushData(const void* Data, uint32 Size) {
+		inline void PushData(const void* Data, size_t Size) {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
 		}

@@ -117,6 +117,12 @@
     <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\World\Components\MeshComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Platform\Unincludable.cpp">
@@ -134,5 +140,11 @@
     <ClCompile Include="Engine\Graphics\OpenGL\GLShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TexturedShader.glsl" />
   </ItemGroup>
 </Project>

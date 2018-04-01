@@ -9,13 +9,13 @@ namespace Amalgamation {
 	private:
 
 		uint32 m_BufferID;
-		uint32 m_Count;
+		size_t m_Count;
 
 	public:
 		GLElementBuffer() {
 			GLCall(glGenBuffers(1, &m_BufferID));
 		}
-		GLElementBuffer(const uint32* Data, uint32 Count) : m_Count(Count) {
+		GLElementBuffer(const uint32* Data, size_t Count) : m_Count(Count) {
 			GLCall(glGenBuffers(1, &m_BufferID));
 			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
@@ -25,7 +25,7 @@ namespace Amalgamation {
 			GLCall(glDeleteBuffers(1, &m_BufferID));
 		}
 
-		inline void PushData(const uint32* Data, uint32 Count) {
+		inline void PushData(const uint32* Data, size_t Count) {
 			m_Count = Count;
 			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
@@ -33,7 +33,7 @@ namespace Amalgamation {
 		inline void Bind() const { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID)); }
 		inline void Unbind() const { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)); }
 
-		inline uint32 GetCount() const { return m_Count; }
+		inline size_t GetCount() const { return m_Count; }
 		inline uint32 GetID() const { return m_BufferID; }
 
 	};

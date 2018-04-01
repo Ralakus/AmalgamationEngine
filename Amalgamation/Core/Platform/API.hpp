@@ -6,9 +6,9 @@ namespace Amalgamation {
 		OpenGL, Vulkan, Undefined
 	};
 
-	static API AEGetAPI() {
+	/*static API AEGetAPI() {
 		static API m_API = API::OpenGL;
 		return m_API;
-	}
+	}*/
 
 }

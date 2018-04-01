@@ -17,10 +17,184 @@ namespace Amalgamation {
 		std::vector<uint32> Indices;
 	};
 
-	struct CubeMeshData;
-	struct PlaneMeshData;
+	struct CubeMeshData {
+
+		std::vector<glm::vec3> Vertices = {
+			{ -0.5f, -0.5f, -0.5f },
+		{ 0.5f, -0.5f, -0.5f },
+		{ 0.5f,  0.5f, -0.5f },
+		{ 0.5f,  0.5f, -0.5f },
+		{ -0.5f,  0.5f, -0.5f },
+		{ -0.5f, -0.5f, -0.5f },
+
+		{ -0.5f, -0.5f,  0.5f },
+		{ 0.5f, -0.5f,  0.5f },
+		{ 0.5f,  0.5f,  0.5f },
+		{ 0.5f,  0.5f,  0.5f },
+		{ -0.5f,  0.5f,  0.5f },
+		{ -0.5f, -0.5f,  0.5f },
+
+		{ -0.5f,  0.5f,  0.5f },
+		{ -0.5f,  0.5f, -0.5f },
+		{ -0.5f, -0.5f, -0.5f },
+		{ -0.5f, -0.5f, -0.5f },
+		{ -0.5f, -0.5f,  0.5f },
+		{ -0.5f,  0.5f,  0.5f },
+
+		{ 0.5f,  0.5f,  0.5f },
+		{ 0.5f,  0.5f, -0.5f },
+		{ 0.5f, -0.5f, -0.5f },
+		{ 0.5f, -0.5f, -0.5f },
+		{ 0.5f, -0.5f,  0.5f },
+		{ 0.5f,  0.5f,  0.5f },
+
+		{ -0.5f, -0.5f, -0.5f },
+		{ 0.5f, -0.5f, -0.5f },
+		{ 0.5f, -0.5f,  0.5f },
+		{ 0.5f, -0.5f,  0.5f },
+		{ -0.5f, -0.5f,  0.5f },
+		{ -0.5f, -0.5f, -0.5f },
+
+		{ -0.5f,  0.5f, -0.5f },
+		{ 0.5f,  0.5f, -0.5f },
+		{ 0.5f,  0.5f,  0.5f },
+		{ 0.5f,  0.5f,  0.5f },
+		{ -0.5f,  0.5f,  0.5f },
+		{ -0.5f,  0.5f, -0.5f }
+		};
+		std::vector<glm::vec3> Normals = {
+			{ 0.0f,  0.0f, -1.0f },
+		{ 0.0f,  0.0f, -1.0f },
+		{ 0.0f,  0.0f, -1.0f },
+		{ 0.0f,  0.0f, -1.0f },
+		{ 0.0f,  0.0f, -1.0f },
+		{ 0.0f,  0.0f, -1.0f },
+
+		{ 0.0f,  0.0f, 1.0f },
+		{ 0.0f,  0.0f, 1.0f },
+		{ 0.0f,  0.0f, 1.0f },
+		{ 0.0f,  0.0f, 1.0f },
+		{ 0.0f,  0.0f, 1.0f },
+		{ 0.0f,  0.0f, 1.0f },
+
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+		{ 1.0f,  0.0f,  0.0f },
+
+		{ 0.0f, -1.0f,  0.0f },
+		{ 0.0f, -1.0f,  0.0f },
+		{ 0.0f, -1.0f,  0.0f },
+		{ 0.0f, -1.0f,  0.0f },
+		{ 0.0f, -1.0f,  0.0f },
+		{ 0.0f, -1.0f,  0.0f },
+
+		{ 0.0f,  1.0f,  0.0f },
+		{ 0.0f,  1.0f,  0.0f },
+		{ 0.0f,  1.0f,  0.0f },
+		{ 0.0f,  1.0f,  0.0f },
+		{ 0.0f,  1.0f,  0.0f },
+		{ 0.0f,  1.0f,  0.0f }
+		};
+		std::vector<glm::vec2> TextureCoords = {
+			{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 0.0f },
+
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 0.0f },
+
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+
+		{ 1.0f, 0.0f },
+		{ 1.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 1.0f },
+		{ 0.0f, 0.0f },
+		{ 1.0f, 0.0f },
+
+		{ 0.0f, 1.0f },
+		{ 1.0f, 1.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 0.0f, 0.0f },
+		{ 0.0f, 1.0f },
+
+		{ 0.0f, 1.0f },
+		{ 1.0f, 1.0f },
+		{ 1.0f, 0.0f },
+		{ 1.0f, 0.0f },
+		{ 0.0f, 0.0f },
+		{ 0.0f, 1.0f }
+		};
+		std::vector<uint32> Indices = {
+			0,  1,  2,
+			3,  4,  5,
+			6,  7,  8,
+			9,  10, 11,
+			12, 13, 14,
+			15, 16, 17,
+			18, 19, 20,
+			21, 22, 23,
+			24, 25, 26,
+			27, 28, 29,
+			30, 31, 32,
+			33, 34, 35,
+		};
+
+	};
+
+	struct PlaneMeshData {
+
+		std::vector<glm::vec3> Vertices = {
+			{ -0.5, -0.5, 0 },
+		{ 0.5, -0.5, 0 },
+		{ 0.5,  0.5, 0 },
+		{ -0.5,  0.5, 0 }
+		};
+		std::vector<glm::vec3> Normals = {
+			{ 0,0,1 },
+		{ 0,0,1 },
+		{ 0,0,1 },
+		{ 0,0,1 }
+		};
+		std::vector<glm::vec2> TextureCoords = {
+			{ 0,0 },
+		{ 1,0 },
+		{ 1,1 },
+		{ 0,1 }
+		};
+		std::vector<uint32> Indices = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+	};
 
 	class Mesh : public GraphicsClass {
+
+		friend class MeshComponent;
 
 	protected:
 
@@ -73,11 +247,11 @@ namespace Amalgamation {
 			}
 		}
 
-		MeshData MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices) {
+		static MeshData MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices) {
 			return MeshData({ Verticies, Normals, TextureCoords, Indices });
 		}
 
-		MeshData MakeMeshData(Primitive Shape) {
+		static MeshData MakeMeshData(Primitive Shape) {
 			static CubeMeshData CubeMesh;
 			static PlaneMeshData PlaneMesh;
 			switch (Shape) {
@@ -113,18 +287,18 @@ namespace Amalgamation {
 
 		const std::vector<Texture*>& GetTextures() const { return m_Textures; }
 
-		virtual bool AddTexture(Texture* TextureIn) {
+		virtual bool AddTexture(Texture* TexturePtr) {
 			if (m_Textures.size() <= 0) {
-				m_Textures.push_back(TextureIn);
+				m_Textures.push_back(TexturePtr);
 				return true;
 			}
 			else {
 				for (size_t i = 0; i <= m_Textures.size(); i++) {
-					if (m_Textures[i]->GetFilePath() == TextureIn->GetFilePath()) {
+					if (m_Textures[i]->GetFilePath() == TexturePtr->GetFilePath()) {
 						continue;
 					}
 					else {
-						m_Textures.push_back(TextureIn);
+						m_Textures.push_back(TexturePtr);
 						return true;
 					}
 				}
@@ -132,181 +306,6 @@ namespace Amalgamation {
 			return false;
 		}
 
-
-	};
-
-	struct CubeMeshData {
-
-		std::vector<glm::vec3> Vertices = {
-			{ -0.5f, -0.5f, -0.5f },
-			{  0.5f, -0.5f, -0.5f },
-			{  0.5f,  0.5f, -0.5f },
-			{  0.5f,  0.5f, -0.5f },
-			{ -0.5f,  0.5f, -0.5f },
-			{ -0.5f, -0.5f, -0.5f },
-
-			{ -0.5f, -0.5f,  0.5f },
-			{  0.5f, -0.5f,  0.5f },
-			{  0.5f,  0.5f,  0.5f },
-			{  0.5f,  0.5f,  0.5f },
-			{ -0.5f,  0.5f,  0.5f },
-			{ -0.5f, -0.5f,  0.5f },
-
-			{ -0.5f,  0.5f,  0.5f },
-			{ -0.5f,  0.5f, -0.5f },
-			{ -0.5f, -0.5f, -0.5f },
-			{ -0.5f, -0.5f, -0.5f },
-			{ -0.5f, -0.5f,  0.5f },
-			{ -0.5f,  0.5f,  0.5f },
-
-			{  0.5f,  0.5f,  0.5f },
-			{  0.5f,  0.5f, -0.5f },
-			{  0.5f, -0.5f, -0.5f },
-			{  0.5f, -0.5f, -0.5f },
-			{  0.5f, -0.5f,  0.5f },
-			{  0.5f,  0.5f,  0.5f },
-
-			{ -0.5f, -0.5f, -0.5f },
-			{  0.5f, -0.5f, -0.5f },
-			{  0.5f, -0.5f,  0.5f },
-			{  0.5f, -0.5f,  0.5f },
-			{ -0.5f, -0.5f,  0.5f },
-			{ -0.5f, -0.5f, -0.5f },
-
-			{ -0.5f,  0.5f, -0.5f },
-			{  0.5f,  0.5f, -0.5f },
-			{  0.5f,  0.5f,  0.5f },
-			{  0.5f,  0.5f,  0.5f },
-			{ -0.5f,  0.5f,  0.5f },
-			{ -0.5f,  0.5f, -0.5f }
-		};
-		std::vector<glm::vec3> Normals = {
-			{ 0.0f,  0.0f, -1.0f },
-			{ 0.0f,  0.0f, -1.0f },
-			{ 0.0f,  0.0f, -1.0f },
-			{ 0.0f,  0.0f, -1.0f },
-			{ 0.0f,  0.0f, -1.0f },
-			{ 0.0f,  0.0f, -1.0f },
-
-			{ 0.0f,  0.0f, 1.0f },
-			{ 0.0f,  0.0f, 1.0f },
-			{ 0.0f,  0.0f, 1.0f },
-			{ 0.0f,  0.0f, 1.0f },
-			{ 0.0f,  0.0f, 1.0f },
-			{ 0.0f,  0.0f, 1.0f },
-
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-			{ 1.0f,  0.0f,  0.0f },
-
-			{ 0.0f, -1.0f,  0.0f },
-			{ 0.0f, -1.0f,  0.0f },
-			{ 0.0f, -1.0f,  0.0f },
-			{ 0.0f, -1.0f,  0.0f },
-			{ 0.0f, -1.0f,  0.0f },
-			{ 0.0f, -1.0f,  0.0f },
-
-			{ 0.0f,  1.0f,  0.0f },
-			{ 0.0f,  1.0f,  0.0f },
-			{ 0.0f,  1.0f,  0.0f },
-			{ 0.0f,  1.0f,  0.0f },
-			{ 0.0f,  1.0f,  0.0f },
-			{ 0.0f,  1.0f,  0.0f }
-		};
-		std::vector<glm::vec2> TextureCoords = {
-			{ 0.0f, 0.0f },
-			{ 1.0f, 0.0f },
-			{ 1.0f, 1.0f },
-			{ 1.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 0.0f },
-
-			{ 0.0f, 0.0f },
-			{ 1.0f, 0.0f },
-			{ 1.0f, 1.0f },
-			{ 1.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 0.0f },
-
-			{ 1.0f, 0.0f },
-			{ 1.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 0.0f },
-			{ 1.0f, 0.0f },
-
-			{ 1.0f, 0.0f },
-			{ 1.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 1.0f },
-			{ 0.0f, 0.0f },
-			{ 1.0f, 0.0f },
-
-			{ 0.0f, 1.0f },
-			{ 1.0f, 1.0f },
-			{ 1.0f, 0.0f },
-			{ 1.0f, 0.0f },
-			{ 0.0f, 0.0f },
-			{ 0.0f, 1.0f },
-
-			{ 0.0f, 1.0f },
-			{ 1.0f, 1.0f },
-			{ 1.0f, 0.0f },
-			{ 1.0f, 0.0f },
-			{ 0.0f, 0.0f },
-			{ 0.0f, 1.0f }
-		};
-		std::vector<uint32> Indices = {
-			0,  1,  2,
-			3,  4,  5,
-			6,  7,  8,
-			9,  10, 11,
-			12, 13, 14,
-			15, 16, 17,
-			18, 19, 20,
-			21, 22, 23,
-			24, 25, 26,
-			27, 28, 29,
-			30, 31, 32,
-			33, 34, 35,
-		};
-
-	};
-
-	struct PlaneMeshData {
-
-		std::vector<glm::vec3> Vertices = {
-			{ -0.5, -0.5, 0 },
-			{  0.5, -0.5, 0 },
-			{  0.5,  0.5, 0 },
-			{ -0.5,  0.5, 0 }
-		};
-		std::vector<glm::vec3> Normals = {
-			{ 0,0,1 },
-			{ 0,0,1 },
-			{ 0,0,1 },
-			{ 0,0,1 }
-		};
-		std::vector<glm::vec2> TextureCoords = {
-			{ 0,0 },
-			{ 1,0 },
-			{ 1,1 },
-			{ 0,1 }
-		};
-		std::vector<uint32> Indices = {
-			0, 1, 2,
-			2, 3, 0
-		};
 
 	};
 }

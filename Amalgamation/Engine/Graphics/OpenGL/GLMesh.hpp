@@ -18,7 +18,7 @@ namespace Amalgamation {
 
 	public:
 
-		GLMesh() : Mesh(API::OpenGL)  {}
+		GLMesh(GLShader* ShaderPtr) : Mesh(API::OpenGL), m_ShaderPtr(ShaderPtr)  {}
 		~GLMesh()                     {} 
 
 		bool PushData(const MeshData& Data) override {
@@ -42,19 +42,19 @@ namespace Amalgamation {
 			}
 		}
 
-		bool AddTexture(Texture* TextureIn) override {
-			if (reinterpret_cast<GraphicsClass*>(TextureIn)->GetAPI() == API::OpenGL) {
+		bool AddTexture(Texture* TexturePtr) override {
+			if (reinterpret_cast<GraphicsClass*>(TexturePtr)->GetAPI() == API::OpenGL) {
 				if (m_Textures.size() <= 0) {
-					m_Textures.push_back(TextureIn);
+					m_Textures.push_back(TexturePtr);
 					return true;
 				}
 				else {
 					for (size_t i = 0; i <= m_Textures.size(); i++) {
-						if (m_Textures[i]->GetFilePath() == TextureIn->GetFilePath()) {
+						if (m_Textures[i]->GetFilePath() == TexturePtr->GetFilePath()) {
 							continue;
 						}
 						else {
-							m_Textures.push_back(TextureIn);
+							m_Textures.push_back(TexturePtr);
 							return true;
 						}
 					}
@@ -66,6 +66,9 @@ namespace Amalgamation {
 		const GLArrayBuffer&   GetArrayBuffer()   const { return m_ArrayBuffer;   }
 		const GLElementBuffer& GetElementBuffer() const { return m_ElementBuffer; }
 		const GLVertexArray&   GetVertexArray()   const { return m_VertexArray;   }
+
+		GLShader* GetShader() { return m_ShaderPtr; }
+		const GLShader* GetShader() const { return m_ShaderPtr; }
 
 	};
 

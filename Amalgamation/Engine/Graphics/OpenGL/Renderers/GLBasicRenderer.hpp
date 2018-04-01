@@ -16,8 +16,8 @@ namespace Amalgamation {
 
 	public:
 
-		GLBasicRenderer()  {}
-		~GLBasicRenderer() {}
+		GLBasicRenderer() : Renderer(API::OpenGL)  {}
+		~GLBasicRenderer()                         {}
 
 		void SetCamera(CameraComponent* Cam) { m_Cam = Cam; }
 

@@ -2,7 +2,7 @@
 
 namespace Amalgamation {
 	GLShader::GLShader(const std::string& sourcePath)
-		: m_SourcePath(sourcePath) {
+		: Shader(API::OpenGL), m_SourcePath(sourcePath) {
 		m_ShaderID = Load();
 	}
 
