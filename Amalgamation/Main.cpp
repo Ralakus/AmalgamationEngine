@@ -9,7 +9,6 @@
 #include <Engine/World/Components/CameraComponent.hpp>
 #include <Engine/World/Entities/BasicEntity.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
-#include <Core/Lua/LuaScript.hpp>
 
 using namespace Amalgamation;
 
@@ -41,7 +40,7 @@ int main() {
 
 	GLBasicRenderer Renderer;
 
-	GLShader Shader("TexturedShader.glsl");
+	GLShader Shader(Settings.GetLuaRef("TexturedShaderglsl").cast<std::string>(), true);
 
 	GLTexture T1;
 	if (T1.LoadTexture(
@@ -95,8 +94,6 @@ int main() {
 	Window->LockMouse(true);
 
 	Renderer.SetCamera(Cam);
-
-	//AessetReader::Instance().UnloadAesset();
 
 	while (Window->IsValid()) {
 

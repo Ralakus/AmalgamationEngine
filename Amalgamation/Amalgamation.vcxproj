@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Graphics\OpenGL\glad.c" />
-    <ClCompile Include="Engine\Graphics\OpenGL\GLShader.cpp" />
     <ClCompile Include="Engine\Graphics\OpenGL\GLWindow.cpp" />
     <ClCompile Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.cpp" />
     <ClCompile Include="Main.cpp" />

@@ -8,7 +8,11 @@ namespace Amalgamation {
 
 	class Shader : public GraphicsClass {
 
+	protected:
+
 		std::string m_ShaderCode, m_Filepath;
+
+		virtual void AfterLoad() {};
 
 	public:
 
@@ -18,10 +22,12 @@ namespace Amalgamation {
 		virtual void LoadFile(const std::string& Filepath) {
 			m_ShaderCode = File::ReadFile(Filepath);
 			m_Filepath = Filepath;
+			AfterLoad();
 		}
 
-		virtual void LoadFileFromStr(const std::string& Str) {
+		virtual void LoadFromStr(const std::string& Str) {
 			m_ShaderCode = Str;
+			AfterLoad();
 		}
 
 	};

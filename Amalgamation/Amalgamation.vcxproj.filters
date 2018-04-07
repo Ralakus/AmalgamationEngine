@@ -143,9 +143,6 @@
     <ClCompile Include="Engine\Graphics\OpenGL\GLWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\OpenGL\GLShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
