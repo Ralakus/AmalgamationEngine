@@ -1,5 +1,5 @@
-<Window_Width/2560>
-<Window_Height/1440>
+<Window_Width/1920>
+<Window_Height/1080>
 <Window_Fullscreen/0> [1 = true, 0 = false]
 
 <Mouse_Sensitivity/3.5>

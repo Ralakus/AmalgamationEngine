@@ -41,8 +41,9 @@ namespace Amalgamation {
 			return this;
 		}
 
-		bool AddTexture(Texture* TexturePtr) {
-			return m_Mesh->AddTexture(TexturePtr);
+		MeshComponent* AddTexture(Texture* TexturePtr) {
+			m_Mesh->AddTexture(TexturePtr);
+			return this;
 		}
 
 		virtual void Awake() override {}

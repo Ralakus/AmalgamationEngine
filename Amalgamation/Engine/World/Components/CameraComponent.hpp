@@ -3,6 +3,7 @@
 #include "TransformComponent.hpp"
 #include <Core/World/Component.hpp>
 #include <Core/World/Entity.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Amalgamation {
@@ -23,7 +24,7 @@ namespace Amalgamation {
 		~CameraComponent() {}
 
 		glm::mat4 View() const {
-			return glm::translate(glm::mat4_cast(-m_TransformPtr->Rotation), -m_TransformPtr->Position);
+			return glm::translate(glm::mat4_cast(m_TransformPtr->Rotation), -m_TransformPtr->Position);
 		}
 
 		void Translate(const glm::vec3& Translation) {
@@ -52,9 +53,15 @@ namespace Amalgamation {
 
 		/*Need to fix by finding the correct math*/
 		glm::vec3 GetFront() const {
-			//glm::vec3 Euler = glm::eulerAngles(m_TransformPtr->Rotation);
-			//return glm::vec3(sin(Euler.x), -tan(Euler.y), cos(Euler.z));
-			return glm::normalize(View()[3]);
+			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
+			glm::vec3 CamFront = glm::normalize(glm::vec3(
+
+				cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),
+				sin(glm::radians(CamEuler.y)),
+				sin(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y))
+
+			)) * m_TransformPtr->Rotation;
+			return CamFront;
 		}
 
 		void SetProjection(const glm::mat4 Projection) {

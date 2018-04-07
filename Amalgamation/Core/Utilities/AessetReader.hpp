@@ -32,6 +32,17 @@ namespace Amalgamation {
 
 		}
 
+		bool LoadAessetFromStr(const std::string& Aesset) {
+			m_LoadedFile = Aesset;
+			m_Buffer.clear();
+			if (m_LoadedFile == "") {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+
 		int ScanForProperty(const std::string& Property) const {
 
 			m_Buffer.clear();

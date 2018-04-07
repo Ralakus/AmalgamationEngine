@@ -46,7 +46,7 @@ namespace Amalgamation {
 				GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 			}
 			else {
-				printf("Failed to load texture from: %s\n", FilePath);
+				printf("Failed to load texture from: %s\n", FilePath.c_str());
 				return false;
 			}
 			stbi_image_free(LoadedData);
@@ -81,7 +81,7 @@ namespace Amalgamation {
 				GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 			}
 			else {
-				printf("Failed to load texture from: %s\n", FilePath);
+				printf("Failed to load texture from: %s\n", FilePath.c_str());
 				return false;
 			}
 			stbi_image_free(LoadedData);

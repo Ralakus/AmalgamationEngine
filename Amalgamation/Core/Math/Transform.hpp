@@ -15,7 +15,13 @@ namespace Amalgamation {
 		void SetTransform(const glm::vec3 Position = { 0.f,0.f,0.f }, const glm::quat& Rotation = { 1.f, 0.f, 0.f, 0.f }, const glm::vec3& Scale = { 1.f, 1.f, 1.f }) {
 			this->Position = Position;
 			this->Rotation = Rotation;
-			this->Scale = Scale;
+			this->Scale    = Scale;
+		}
+
+		void SetTransform(const Transform& Other) {
+			this->Position = Other.Position;
+			this->Rotation = Other.Rotation;
+			this->Scale    = Other.Scale;
 		}
 
 		void SetPosition(const glm::vec3 Position) {

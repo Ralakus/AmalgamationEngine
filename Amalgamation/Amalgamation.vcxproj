@@ -27,6 +27,7 @@
     <ClInclude Include="Core\Graphics\Window.hpp" />
     <ClInclude Include="Core\Input\Input.hpp" />
     <ClInclude Include="Core\Lua\LuaScript.hpp" />
+    <ClInclude Include="Core\Lua\LuaState.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
     <ClInclude Include="Core\Math\Transform.hpp" />
     <ClInclude Include="Core\Platform\API.hpp" />
@@ -66,9 +67,9 @@
     <ClCompile Include="Core\Platform\Unincludable.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Main.lua" />
     <None Include="TexturedShader.glsl" />
     <None Include="UserSettings.aesset" />
+    <None Include="UserSettings.lua" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

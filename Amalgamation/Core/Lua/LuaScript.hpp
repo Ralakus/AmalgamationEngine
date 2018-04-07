@@ -1,55 +1,76 @@
 #pragma once
 
-#include <Core/Platform/Platform.hpp>
+#include <Core/Utilities/File.hpp>
 #include <LuaBridge.h>
+#include "LuaState.hpp"
+#include <vector>
 
 namespace Amalgamation {
 
-	class LuaState {
-	public:
-		static luabridge::lua_State* Get() {
-			static luabridge::lua_State* L = []() -> luabridge::lua_State* {
-				auto* L = luabridge::luaL_newstate();
-				luaL_openlibs(L);
-				return L;
-			} ();
-			return L;
-		}
-	};
+	/*TODO:
+	Finish chunk loading and unloading and add failsaves in LuaState
+	*/
 
 	class LuaScript {
 
 		std::string m_FilePath;
 
+		size_t m_ChunkIndex;
+		bool m_RegisteredInChunk;
+
 	public:
 
 		LuaScript()  {}
+		LuaScript(const std::string& Filepath) { LoadFile(Filepath); }
 		~LuaScript() {}
 
 		bool LoadFile(const std::string& File) {
-			if (luaL_loadfile(LuaState::Get(), File.c_str()) || lua_pcall(LuaState::Get(), 0, 0, 0)) {
-				return false;
+			m_ChunkIndex = LuaState::ManageChunk(File);
+			if (m_ChunkIndex != static_cast<size_t>(-1)) {
+				m_RegisteredInChunk = true;
+				return true;
 			}
 			else {
-				return true;
+				return false;
 			}
 		}
 
-		bool ExecFunction(const std::string& Name) {
+		void UnloadFile() {
+			m_FilePath.clear();
+			if (m_RegisteredInChunk) {
+				LuaState::ManageChunk("", true, m_ChunkIndex);
+				m_RegisteredInChunk = false;
+			}
+		}
+
+		luabridge::LuaRef ExecFunction(const std::string& Name) {
 			try {
-				luabridge::LuaRef Function = luabridge::getGlobal(LuaState::Get(), Name.c_str());
-				Function();
-				return true;
+				//luabridge::getGlobal(LuaState::Get(), Name.c_str())();
+				return luabridge::getGlobal(LuaState::Get(), Name.c_str())();
 			}
 			catch (luabridge::LuaException e) {
-				printf("[LUA ERROR]: %s", e.what());
-				return false;
+				printf("[LUA ERROR]: %s\n", e.what());
+				return luabridge::LuaRef(LuaState::Get());
 			}
 		}
 
 		luabridge::LuaRef GetLuaRef(const std::string& Name) {
 			return luabridge::getGlobal(LuaState::Get(), Name.c_str());
 		}
+
+		luabridge::Namespace GetGlobalNamespace() {
+			return luabridge::getGlobalNamespace(LuaState::Get());
+		}
+
+		bool IsRegistered() {
+			return m_RegisteredInChunk;
+		}
+		
+		/*WARNING THIS WILL UNLOAD ALL CURRENT LUA SCRIPTS!*/
+		static bool PurgeLuaState() {
+			return !LuaState::ManageChunk("", false, 0, true);
+		}
+
 	};
 
 }

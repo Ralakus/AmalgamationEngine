@@ -9,21 +9,26 @@
 #include <Engine/World/Components/CameraComponent.hpp>
 #include <Engine/World/Entities/BasicEntity.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
+#include <Core/Lua/LuaScript.hpp>
 
 using namespace Amalgamation;
 
 int main() {
 
-	AessetReader::Instance().LoadAeseet("UserSettings.aesset");
+	LuaScript Settings;
+	Settings.LoadFile("UserSettings.lua");
+	Settings.ExecFunction("CheckUserSettings");
 
-	float MSensitivity = AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity") <= 0 ? 1 : AessetReader::Instance().GetProperty<float>("Mouse_Sensitivity");
-	float MovementSpeed = AessetReader::Instance().GetProperty<float>("Movement_Speed") <= 0 ? 1 : AessetReader::Instance().GetProperty<float>("Movement_Speed");
-	float CamFOV = AessetReader::Instance().GetProperty<float>("Camera_FOV") <= 0 ? 90 : AessetReader::Instance().GetProperty<float>("Camera_FOV");
+	float MSensitivity  = Settings.GetLuaRef("UserSettings")["MouseSensitivity"].cast<float>();
+	float MovementSpeed = Settings.GetLuaRef("UserSettings")["MouseSensitivity"].cast<float>();
+	float CamFOV        = Settings.GetLuaRef("UserSettings")["CameraFOV"].cast<float>();
 
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
-		"Noice", AessetReader::Instance().GetProperty<int>("Window_Width") == 0 ? 800 : AessetReader::Instance().GetProperty<int>("Window_Width"),
-		AessetReader::Instance().GetProperty<int>("Window_Height") == 0 ? 600 : AessetReader::Instance().GetProperty<int>("Window_Height"),
-		AessetReader::Instance().GetProperty<int>("Window_Fullscreen"));
+		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Title"].cast<std::string>(),
+		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Width"].cast<uint32>(),
+		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Height"].cast<uint32>(),
+		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Fullscreen"].cast<bool>()
+	);
 
 	World World;
 
@@ -40,7 +45,7 @@ int main() {
 
 	GLTexture T1;
 	if (T1.LoadTexture(
-		AessetReader::Instance().GetProperty<std::string>("Texture_Variable_0").c_str() == AessetReader::Instance().ReadError ? "NULL" : AessetReader::Instance().GetProperty<std::string>("Texture_Variable_0").c_str(),
+		Settings.GetLuaRef("UserSettings")["TextureVariable0"].cast<std::string>(),
 		true, 0, 0))
 	{
 		std::cout << "Texture load successful" << std::endl;
@@ -51,7 +56,7 @@ int main() {
 
 	GLTexture T2;
 	if (T2.LoadTexture(
-		AessetReader::Instance().GetProperty<std::string>("Texture_Variable_1").c_str() == AessetReader::Instance().ReadError ? "NULL" : AessetReader::Instance().GetProperty<std::string>("Texture_Variable_1").c_str(),
+		Settings.GetLuaRef("UserSettings")["TextureVariable1"].cast<std::string>(),
 		false, 0, 0))
 	{
 		std::cout << "Texture load successful" << std::endl;
@@ -91,7 +96,7 @@ int main() {
 
 	Renderer.SetCamera(Cam);
 
-	AessetReader::Instance().UnloadAesset();
+	//AessetReader::Instance().UnloadAesset();
 
 	while (Window->IsValid()) {
 
@@ -112,18 +117,6 @@ int main() {
 		Cam->Yaw(MouseOffset.x * Time.GetDelta() * MSensitivity);
 		LastMousePos.x = Mouse::Instance().GetX();
 		LastMousePos.y = Mouse::Instance().GetY();
-
-
-		//glm::vec3 CamEuler = glm::eulerAngles(Player->GetTransform()->Rotation);
-		//glm::vec3 CamFront = glm::normalize(glm::vec3(
-		//
-		//	cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),
-		//	sin(glm::radians(CamEuler.y)),
-		//	sin(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y))
-		//
-		//)) * Player->GetTransform()->Rotation;
-
-		//printf("%f, %f, %f    \r", CamFront.x, CamFront.y, CamFront.z);
 
 		if (Keyboard::Instance().GetKeyState(GLFW_KEY_UP)) {
 			Cam->Pitch(-1 * Time.GetDelta());
