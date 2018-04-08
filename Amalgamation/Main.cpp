@@ -14,6 +14,8 @@ using namespace Amalgamation;
 
 int main() {
 
+	Time::RegisterToLuaStack();
+
 	LuaScript Settings;
 	Settings.LoadFile("UserSettings.lua");
 	Settings.ExecFunction("CheckUserSettings");

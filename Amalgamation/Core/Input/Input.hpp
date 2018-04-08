@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Core/Types/Singleton.hpp>
+#include <Core/Lua/LuaState.hpp>
 #include <memory>
 
 namespace Amalgamation {
@@ -21,9 +22,25 @@ namespace Amalgamation {
 			}
 		}
 
+		static bool LuaGetKeyState(unsigned int key){
+			return Keyboard::Instance().GetKeyState(key);
+		}
+
+		void RegisterToLuaStack() {
+
+			luabridge::getGlobalNamespace(LuaState::Get()).
+				beginNamespace("AE").
+					addFunction("IsKeyDown", &Keyboard::LuaGetKeyState).
+				endNamespace()
+			;
+
+			printf("Registered Key\n");
+
+		}
+
 	public:
 
-		Keyboard() { memset(m_Keys, false, sizeof(m_Keys)); }
+		Keyboard() { memset(m_Keys, false, sizeof(m_Keys)); RegisterToLuaStack(); }
 		~Keyboard() {}
 
 		inline bool GetKeyState(unsigned int key) const {
@@ -49,9 +66,33 @@ namespace Amalgamation {
 			}
 		}
 
+		static float LuaGetX() {
+			return Mouse::Instance().GetX();
+		}
+		static float LuaGetY() {
+			return Mouse::Instance().GetY();
+		}
+		static bool LuaGetButtonState(unsigned int button) {
+			return Mouse::Instance().GetButtonState(button);
+		}
+
+		void RegisterToLuaStack() {
+
+			luabridge::getGlobalNamespace(LuaState::Get()).
+				beginNamespace("AE").
+					addFunction("MouseX", &LuaGetX).
+					addFunction("MouseY", &LuaGetY).
+					addFunction("IsButtonDown", &LuaGetButtonState).
+				endNamespace()
+			;
+
+			printf("Registered Mouse\n");
+
+		}
+
 	public:
 
-		Mouse() { memset(m_Buttons, false, sizeof(m_Buttons)); }
+		Mouse() { memset(m_Buttons, false, sizeof(m_Buttons)); RegisterToLuaStack();  }
 		~Mouse() {}
 
 		inline float GetX() const { return X; }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core/Lua/LuaState.hpp>
 #include <chrono>
 
 namespace Amalgamation {
@@ -22,10 +23,10 @@ namespace Amalgamation {
 		float m_FPSIS = 0.f;   //Total frames per second in second
 		float m_AVGFPS = 0.f; //Average FPS
 
-
 	public:
 
 		Time() : m_Start(std::chrono::system_clock::now()), m_TP1(std::chrono::system_clock::now()), m_TP2(std::chrono::system_clock::now()), m_DeltaTime(m_TP2 - m_TP1) {}
+		~Time() {}
 
 		inline void Update() {
 			m_TP2 = std::chrono::system_clock::now();
@@ -57,6 +58,32 @@ namespace Amalgamation {
 		inline float GetAvgFPS()  const { return m_AVGFPS; }
 
 		inline float GetFPS()     const { return 1.f / m_DeltaTime.count(); }
+
+
+
+		static void RegisterToLuaStack() {
+			static bool m_Registered;
+
+			if (!m_Registered) {
+
+				luabridge::getGlobalNamespace(LuaState::Get()).
+					beginNamespace("AE").
+					beginClass<Time>("Time").
+					addConstructor<void(*)()>().
+					addFunction("Update", &Time::Update).
+					addFunction("GetDelta", &Time::GetDelta).
+					addFunction("GetElapsed", &Time::GetElapsed).
+					addFunction("OnSecond", &Time::OnSecond).
+					addFunction("GetAvgFPS", &Time::GetAvgFPS).
+					addFunction("GetFPS", &Time::GetFPS).
+					endClass().
+					endNamespace()
+					;
+
+				m_Registered = true;
+			}
+		}
+
 
 	};
 }

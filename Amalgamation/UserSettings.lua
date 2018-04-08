@@ -45,8 +45,16 @@ function CheckUserSettings()
 	end
 	]]
 
+	--[[io.write("One second timer activated\n")
+	Time = AE.Time()
+	while(true) do
+		Time:Update()
+		if(Time:OnSecond())then
+			io.write("On second\n")
+			break;
+		end
+	end]]
 end
-
 
 
 TexturedShaderglsl = [[
@@ -81,3 +89,8 @@ TexturedShaderglsl = [[
 		FragColor = texture(u_Texture0, o_TextureCoord);
 	}
 ]]
+
+function ToByte(Char)
+	return string.byte(Char)
+end
+
