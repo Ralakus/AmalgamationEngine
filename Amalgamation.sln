@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Amalgamation", "Amalgamation\Amalgamation.vcxproj", "{B54CD1A1-FE14-42C6-A24C-656CA3389662}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet3", "Bullet3\Bullet3.vcxproj", "{8D323F77-1C47-4843-9E14-75CE8B23680B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{B54CD1A1-FE14-42C6-A24C-656CA3389662}.Release|x64.Build.0 = Release|x64
 		{B54CD1A1-FE14-42C6-A24C-656CA3389662}.Release|x86.ActiveCfg = Release|Win32
 		{B54CD1A1-FE14-42C6-A24C-656CA3389662}.Release|x86.Build.0 = Release|Win32
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Debug|x64.ActiveCfg = Debug|x64
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Debug|x64.Build.0 = Debug|x64
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Debug|x86.ActiveCfg = Debug|Win32
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Debug|x86.Build.0 = Debug|Win32
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Release|x64.ActiveCfg = Release|x64
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Release|x64.Build.0 = Release|x64
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Release|x86.ActiveCfg = Release|Win32
+		{8D323F77-1C47-4843-9E14-75CE8B23680B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

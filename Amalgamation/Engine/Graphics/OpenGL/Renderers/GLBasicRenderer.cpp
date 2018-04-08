@@ -52,7 +52,7 @@ namespace Amalgamation {
 				}
 			}
 
-			GLCall(glDrawElements(GL_TRIANGLES, CastMesh->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
+			GLCall(glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(CastMesh->GetElementBuffer().GetCount()), GL_UNSIGNED_INT, nullptr));
 
 			CastMesh->GetShader()->Unbind();
 

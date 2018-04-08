@@ -117,36 +117,23 @@ int main() {
 		LastMousePos.x = Mouse::Instance().GetX();
 		LastMousePos.y = Mouse::Instance().GetY();
 
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_UP)) {
-			Cam->Pitch(-1 * Time.GetDelta());
-		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_DOWN)) {
-			Cam->Pitch(1 * Time.GetDelta());
-		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_LEFT)) {
-			Cam->Yaw(-1 * Time.GetDelta());
-		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_RIGHT)) {
-			Cam->Yaw(1 * Time.GetDelta());
-		}
-
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_W)) {
+		if (Keyboard::Instance().GetKeyState('W')) {
 			Cam->Translate(0, 0, -1 * Time.GetDelta() * MovementSpeed);
 		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_S)) {
+		if (Keyboard::Instance().GetKeyState('S')) {
 			Cam->Translate(0, 0, 1 * Time.GetDelta() * MovementSpeed);
 		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_A)) {
+		if (Keyboard::Instance().GetKeyState('A')) {
 			Cam->Translate(-1 * Time.GetDelta() * MovementSpeed, 0, 0);
 		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_D)) {
+		if (Keyboard::Instance().GetKeyState('D')) {
 			Cam->Translate(1 * Time.GetDelta() * MovementSpeed, 0, 0);
 		}
 
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_Q)) {
+		if (Keyboard::Instance().GetKeyState('Q')) {
 			Cam->Roll(-1 * Time.GetDelta());
 		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_E)) {
+		if (Keyboard::Instance().GetKeyState('E')) {
 			Cam->Roll(1 * Time.GetDelta());
 		}
 

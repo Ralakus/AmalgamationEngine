@@ -43,7 +43,7 @@ namespace Amalgamation {
 			}
 		}
 
-		int ScanForProperty(const std::string& Property) const {
+		size_t ScanForProperty(const std::string& Property) const {
 
 			m_Buffer.clear();
 
@@ -52,7 +52,7 @@ namespace Amalgamation {
 			//bool OnOpeningStatement = false;
 			//bool OnClosingStatement = false;
 
-			for (int i = 0; i < m_LoadedFile.size(); i++) {
+			for (size_t i = 0; i < m_LoadedFile.size(); i++) {
 				if (BufferDone) {
 					m_Buffer.clear();
 					BufferDone = false;
@@ -81,13 +81,13 @@ namespace Amalgamation {
 
 		const std::string& GetPropertyRawString(const std::string& Property) const {
 
-			int PropertyIndex = ScanForProperty(Property);
-			if (PropertyIndex == -1) {
+			size_t PropertyIndex = ScanForProperty(Property);
+			if (PropertyIndex == static_cast<size_t>(-1)) {
 				return ReadError;
 			}
 			m_Buffer.clear();
 
-			for (int i = PropertyIndex; i < m_LoadedFile.size(); i++) {
+			for (size_t i = PropertyIndex; i < m_LoadedFile.size(); i++) {
 				if (m_LoadedFile[i] == '>') {
 					return m_Buffer;
 				}
