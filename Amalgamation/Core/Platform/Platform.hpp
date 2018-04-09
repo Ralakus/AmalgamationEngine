@@ -1,7 +1,5 @@
 #pragma once
 
-#include "API.hpp"
-
 #define AMALGAMATION_ENGINE_VERSION "Amalgamation Version: 0.8a Rebuild"
 #define SafeDelete(x) { if(x) { delete x; x = nullptr; } }
 #define DArray std::vector

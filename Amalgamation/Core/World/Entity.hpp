@@ -4,11 +4,19 @@
 
 namespace Amalgamation {
 
+	class World;
+
 	class Entity : public Object {
+		friend class World;
 	protected:
 
 		std::vector<Component*> m_Components;
 		mutable Object* m_BufferObject;
+		World* m_World;
+
+		virtual void SetWorld(World* World) {
+			m_World = World;
+		}
 
 		virtual void UpdateComponents(float Delta) {
 			for (size_t i = 0; i < m_Components.size(); i++) {
@@ -42,6 +50,14 @@ namespace Amalgamation {
 			for (size_t i = 0; i < m_Components.size(); i++) {
 				delete reinterpret_cast<Object*>(m_Components[i]);
 			}
+		}
+
+		virtual World* GetWorld() {
+			return m_World;
+		}
+
+		virtual const World* GetWorld() const {
+			return m_World;
 		}
 
 		/*Creates a component that is attached the to entity, all classes pushed must be derived from Component*/

@@ -70,20 +70,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/</OutDir>
-    <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Intermediates/</IntDir>
+    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/</OutDir>
+    <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/Intermediates/</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies/Bullet3/src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/</OutDir>
-    <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Intermediates/</IntDir>
+    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/</OutDir>
+    <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/Intermediates/</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies/Bullet3/src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3</OutDir>
+    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/Intermediates/</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies/Bullet3/src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3</OutDir>
+    <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Bullet3/Intermediates/</IntDir>
+    <IncludePath>$(SolutionDir)Dependencies/Bullet3/src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

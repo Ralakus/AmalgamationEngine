@@ -24,24 +24,26 @@ namespace Amalgamation {
 			if (!Remove) {
 				m_Chunks.push_back(File::ReadFile(Filepath));
 				CombineChunks();
-				if (luaL_dostring(Get(), m_Lua.c_str()) || lua_pcall(Get(), 0, 0, 0)) {
+				if (!luaL_dostring(Get(), m_Lua.c_str())) {
 					return m_Chunks.size() - 1;
 				}
 				else {
 					m_Chunks.pop_back();
 					CombineChunks();
 					printf("[LUA ERROR]: Error compiling lua script\n");
+					luaL_dostring(Get(), m_Lua.c_str());
 					return -1;
 				}
 			}
 			else if (Purge) {
 				m_Chunks.clear();
 				CombineChunks();
-				if (luaL_dostring(Get(), m_Lua.c_str()) || lua_pcall(Get(), 0, 0, 0)) {
+				if (!luaL_dostring(Get(), m_Lua.c_str())) {
 					return 0;
 				}
 				else {
 					printf("[LUA ERROR]: Error purging lua chunks\n");
+					luaL_dostring(Get(), m_Lua.c_str());
 					return -1;
 				}
 			}
@@ -50,13 +52,14 @@ namespace Amalgamation {
 					m_ErrorFallBack = m_Chunks[Index];
 					m_Chunks.erase(m_Chunks.begin() + Index);
 					CombineChunks();
-					if (luaL_dostring(Get(), m_Lua.c_str()) || lua_pcall(Get(), 0, 0, 0)) {
+					if (!luaL_dostring(Get(), m_Lua.c_str())) {
 						return 0;
 					}
 					else {
 						m_Chunks.insert(m_Chunks.begin() + Index, m_ErrorFallBack);
 						CombineChunks();
 						printf("[LUA ERROR]: Error removing lua script\n");
+						luaL_dostring(Get(), m_Lua.c_str());
 						return -1;
 					}
 				}

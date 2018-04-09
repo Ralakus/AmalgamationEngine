@@ -1,13 +1,15 @@
 #pragma once
 
-#include <Core/Platform/API.hpp>
-
 namespace Amalgamation {
+
+	enum class API {
+		OpenGL, Vulkan, Undefined
+	};
 
 	class GraphicsClass {
 	protected:
 
-		API m_API;
+		const API m_API;
 
 	public:
 

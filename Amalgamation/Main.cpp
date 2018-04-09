@@ -8,6 +8,7 @@
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
 #include <Engine/World/Components/CameraComponent.hpp>
 #include <Engine/World/Entities/BasicEntity.hpp>
+#include <Engine/World/WorldPlugins/BulletPhysicsPlugin.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 
 using namespace Amalgamation;
@@ -18,6 +19,7 @@ int main() {
 
 	LuaScript Settings;
 	Settings.LoadFile("UserSettings.lua");
+	LuaScript::PurgeLuaState();
 	Settings.ExecFunction("CheckUserSettings");
 
 	float MSensitivity  = Settings.GetLuaRef("UserSettings")["MouseSensitivity"].cast<float>();
