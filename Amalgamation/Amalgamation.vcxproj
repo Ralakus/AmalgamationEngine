@@ -29,7 +29,12 @@
     <ClInclude Include="Core\Lua\LuaScript.hpp" />
     <ClInclude Include="Core\Lua\LuaState.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
+    <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp" />
+    <ClInclude Include="Core\Math\Quaternion\Quaternion.hpp" />
     <ClInclude Include="Core\Math\Transform.hpp" />
+    <ClInclude Include="Core\Math\Vector\Vector2.hpp" />
+    <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
+    <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
     <ClInclude Include="Core\Platform\Platform.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />
     <ClInclude Include="Core\Types\Singleton.hpp" />
@@ -67,8 +72,8 @@
     <ClCompile Include="Core\Platform\Unincludable.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TexturedShader.glsl" />
-    <None Include="UserSettings.aesset" />
+    <None Include="LTest.lua" />
+    <None Include="Path.lua" />
     <None Include="UserSettings.lua" />
   </ItemGroup>
   <ItemGroup>
@@ -130,25 +135,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/Lua Bridge/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/Lua Bridge/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/Lua Bridge/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/Lua Bridge/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

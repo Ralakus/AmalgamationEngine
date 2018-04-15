@@ -15,22 +15,26 @@ using namespace Amalgamation;
 
 int main() {
 
-	Time::RegisterToLuaStack();
+	LuaScript Path;
+	Path.LoadFile("Path.lua");
 
 	LuaScript Settings;
-	Settings.LoadFile("UserSettings.lua");
-	LuaScript::PurgeLuaState();
-	Settings.ExecFunction("CheckUserSettings");
+	Settings.LoadFile(Path.Get["Path"]["UserSettings"]);
+	Settings.Get["CheckUserSettings"]();
 
-	float MSensitivity  = Settings.GetLuaRef("UserSettings")["MouseSensitivity"].cast<float>();
-	float MovementSpeed = Settings.GetLuaRef("UserSettings")["MouseSensitivity"].cast<float>();
-	float CamFOV        = Settings.GetLuaRef("UserSettings")["CameraFOV"].cast<float>();
+	LuaScript LTest;
+	LTest.LoadFile(Path.Get["Path"]["LTest"]);
+
+	float MSensitivity   = Settings.Get["UserSettings"]["MouseSensitivity"];
+	float MovementSpeed  = Settings.Get["UserSettings"]["MouseSensitivity"];
+	float CamFOV         = Settings.Get["UserSettings"]["CameraFOV"];
+	float WMovementSpeed = MovementSpeed;
 
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
-		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Title"].cast<std::string>(),
-		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Width"].cast<uint32>(),
-		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Height"].cast<uint32>(),
-		Settings.GetLuaRef("UserSettings")["Window"].cast<luabridge::LuaRef>()["Fullscreen"].cast<bool>()
+		Settings.Get["UserSettings"]["Window"]["Title"],
+		Settings.Get["UserSettings"]["Window"]["Width"],
+		Settings.Get["UserSettings"]["Window"]["Height"],
+		Settings.Get["UserSettings"]["Window"]["Fullscreen"]
 	);
 
 	World World;
@@ -44,11 +48,11 @@ int main() {
 
 	GLBasicRenderer Renderer;
 
-	GLShader Shader(Settings.GetLuaRef("TexturedShaderglsl").cast<std::string>(), true);
+	GLShader Shader(Settings.Get["TexturedShaderglsl"], true);
 
 	GLTexture T1;
 	if (T1.LoadTexture(
-		Settings.GetLuaRef("UserSettings")["TextureVariable0"].cast<std::string>(),
+		Settings.Get["UserSettings"]["TextureVariable0"],
 		true, 0, 0))
 	{
 		std::cout << "Texture load successful" << std::endl;
@@ -59,7 +63,7 @@ int main() {
 
 	GLTexture T2;
 	if (T2.LoadTexture(
-		Settings.GetLuaRef("UserSettings")["TextureVariable1"].cast<std::string>(),
+		Settings.Get["UserSettings"]["TextureVariable1"],
 		false, 0, 0))
 	{
 		std::cout << "Texture load successful" << std::endl;
@@ -99,6 +103,8 @@ int main() {
 
 	Renderer.SetCamera(Cam);
 
+	LTest.Get["Awake"]();
+
 	while (Window->IsValid()) {
 
 		Time.Update();
@@ -106,6 +112,8 @@ int main() {
 		Window->Update();
 
 		World.Update(Time.GetDelta());
+
+		LTest.Get["Update"]();
 
 		Cube->GetTransform()->Rotation *= glm::angleAxis(Time.GetDelta(), glm::vec3(0, 1, 0));
 
@@ -120,16 +128,23 @@ int main() {
 		LastMousePos.y = Mouse::Instance().GetY();
 
 		if (Keyboard::Instance().GetKeyState('W')) {
-			Cam->Translate(0, 0, -1 * Time.GetDelta() * MovementSpeed);
+			Cam->Translate(0, 0, -1 * Time.GetDelta() * WMovementSpeed);
 		}
 		if (Keyboard::Instance().GetKeyState('S')) {
-			Cam->Translate(0, 0, 1 * Time.GetDelta() * MovementSpeed);
+			Cam->Translate(0, 0, 1 * Time.GetDelta() * WMovementSpeed);
 		}
 		if (Keyboard::Instance().GetKeyState('A')) {
-			Cam->Translate(-1 * Time.GetDelta() * MovementSpeed, 0, 0);
+			Cam->Translate(-1 * Time.GetDelta() * WMovementSpeed, 0, 0);
 		}
 		if (Keyboard::Instance().GetKeyState('D')) {
-			Cam->Translate(1 * Time.GetDelta() * MovementSpeed, 0, 0);
+			Cam->Translate(1 * Time.GetDelta() * WMovementSpeed, 0, 0);
+		}
+
+		if (Keyboard::Instance().GetKeyState(GLFW_KEY_LEFT_SHIFT)) {
+			WMovementSpeed = MovementSpeed * 2;
+		}
+		else {
+			WMovementSpeed = MovementSpeed;
 		}
 
 		if (Keyboard::Instance().GetKeyState('Q')) {
@@ -139,10 +154,10 @@ int main() {
 			Cam->Roll(1 * Time.GetDelta());
 		}
 
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_C)) {
+		if (Keyboard::Instance().GetKeyState('C')) {
 			Cam->Translate(0, -2 * Time.GetDelta(), 0);
 		}
-		if (Keyboard::Instance().GetKeyState(GLFW_KEY_SPACE)) {
+		if (Keyboard::Instance().GetKeyState(' ')) {
 			Cam->Translate(0, 2 * Time.GetDelta(), 0);
 		}
 
@@ -157,6 +172,8 @@ int main() {
 		}
 
 	}
+
+	LTest.Get["Destroy"]();
 
 	World.Destroy();
 

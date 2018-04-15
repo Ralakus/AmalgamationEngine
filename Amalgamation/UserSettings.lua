@@ -54,6 +54,7 @@ function CheckUserSettings()
 			break;
 		end
 	end]]
+
 end
 
 
@@ -89,8 +90,3 @@ TexturedShaderglsl = [[
 		FragColor = texture(u_Texture0, o_TextureCoord);
 	}
 ]]
-
-function ToByte(Char)
-	return string.byte(Char)
-end
-

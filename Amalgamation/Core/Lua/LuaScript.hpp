@@ -1,15 +1,12 @@
 #pragma once
 
 #include <Core/Utilities/File.hpp>
-#include <LuaBridge.h>
+
 #include "LuaState.hpp"
+
 #include <vector>
 
 namespace Amalgamation {
-
-	/*TODO:
-	Finish chunk loading and unloading and add failsaves in LuaState
-	*/
 
 	class LuaScript {
 
@@ -20,12 +17,12 @@ namespace Amalgamation {
 
 	public:
 
-		LuaScript()  {}
+		LuaScript() {}
 		LuaScript(const std::string& Filepath) { LoadFile(Filepath); }
 		~LuaScript() {}
 
 		bool LoadFile(const std::string& File) {
-			m_ChunkIndex = LuaState::ManageChunk(File);
+			m_ChunkIndex = LuaState::ManageChunks(File);
 			if (m_ChunkIndex != static_cast<size_t>(-1)) {
 				m_RegisteredInChunk = true;
 				return true;
@@ -38,37 +35,30 @@ namespace Amalgamation {
 		void UnloadFile() {
 			m_FilePath.clear();
 			if (m_RegisteredInChunk) {
-				LuaState::ManageChunk("", true, m_ChunkIndex);
+				LuaState::ManageChunks("", true, m_ChunkIndex);
 				m_RegisteredInChunk = false;
 			}
 		}
 
-		luabridge::LuaRef ExecFunction(const std::string& Name) {
+		sol::function ExecFunction(const std::string& Name) {
 			try {
-				//luabridge::getGlobal(LuaState::Get(), Name.c_str())();
-				return luabridge::getGlobal(LuaState::Get(), Name.c_str())();
+				return LuaState::Get()[Name]();
 			}
-			catch (luabridge::LuaException e) {
-				printf("[LUA ERROR]: %s\n", e.what());
-				return luabridge::LuaRef(LuaState::Get());
+			catch (sol::error& e) {
+				printf("[Lua Error]: %s\n", e.what());
+				return LuaState::Get()[Name];
 			}
 		}
 
-		luabridge::LuaRef GetLuaRef(const std::string& Name) {
-			return luabridge::getGlobal(LuaState::Get(), Name.c_str());
-		}
-
-		luabridge::Namespace GetGlobalNamespace() {
-			return luabridge::getGlobalNamespace(LuaState::Get());
-		}
+		sol::state& Get = LuaState::Get();
 
 		bool IsRegistered() {
 			return m_RegisteredInChunk;
 		}
-		
+
 		/*WARNING THIS WILL UNLOAD ALL CURRENT LUA SCRIPTS!*/
 		static bool PurgeLuaState() {
-			return !LuaState::ManageChunk("", false, 0, true);
+			return !LuaState::ManageChunks("", false, 0, true);
 		}
 
 	};

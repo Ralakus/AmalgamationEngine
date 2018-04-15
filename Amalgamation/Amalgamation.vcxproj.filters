@@ -132,6 +132,21 @@
     <ClInclude Include="Engine\World\Components\RigidBodyComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Math\Vector\Vector3.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector\Vector2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector\Vector4.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Quaternion\Quaternion.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Platform\Unincludable.cpp">
@@ -151,8 +166,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TexturedShader.glsl" />
-    <None Include="UserSettings.aesset" />
     <None Include="UserSettings.lua" />
+    <None Include="LTest.lua" />
+    <None Include="Path.lua" />
   </ItemGroup>
 </Project>

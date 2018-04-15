@@ -60,30 +60,5 @@ namespace Amalgamation {
 		inline float GetFPS()     const { return 1.f / m_DeltaTime.count(); }
 
 
-
-		static void RegisterToLuaStack() {
-			static bool m_Registered;
-
-			if (!m_Registered) {
-
-				luabridge::getGlobalNamespace(LuaState::Get()).
-					beginNamespace("AE").
-					beginClass<Time>("Time").
-					addConstructor<void(*)()>().
-					addFunction("Update", &Time::Update).
-					addFunction("GetDelta", &Time::GetDelta).
-					addFunction("GetElapsed", &Time::GetElapsed).
-					addFunction("OnSecond", &Time::OnSecond).
-					addFunction("GetAvgFPS", &Time::GetAvgFPS).
-					addFunction("GetFPS", &Time::GetFPS).
-					endClass().
-					endNamespace()
-					;
-
-				m_Registered = true;
-			}
-		}
-
-
 	};
 }
