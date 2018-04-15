@@ -15,6 +15,10 @@ using namespace Amalgamation;
 
 int main() {
 
+	REGISTER_LUA_CLASS(Keyboard);
+	REGISTER_LUA_CLASS(Mouse);
+	REGISTER_LUA_CLASS(Time);
+
 	LuaScript Path;
 	Path.LoadFile("Path.lua");
 

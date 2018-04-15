@@ -60,5 +60,19 @@ namespace Amalgamation {
 		inline float GetFPS()     const { return 1.f / m_DeltaTime.count(); }
 
 
+		REGISTER_TO_LUA_STACK(
+			LuaState::GetAENamespace().new_usertype<Time>( "Time",
+
+				sol::constructors<Time()>(),
+				"Update", &Time::Update,
+				"GetDelta", &Time::GetDelta,
+				"GetElapsed", &Time::GetElapsed,
+				"OnSecond", &Time::OnSecond,
+				"GetAvgFPS", &Time::GetAvgFPS,
+				"GetFPS", &Time::GetFPS
+
+			);
+		);
+
 	};
 }

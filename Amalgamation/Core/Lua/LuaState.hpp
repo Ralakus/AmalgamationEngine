@@ -8,7 +8,11 @@
 
 #include <vector>
 
+#define REGISTER_TO_LUA_STACK(x) static void RegisterToLuaStack(){ static bool m_Registered = false; if(!m_Registered) { x; } };
+#define REGISTER_LUA_CLASS(x)    x::RegisterToLuaStack();
+
 namespace Amalgamation {
+
 
 	class LuaState {
 		friend class LuaScript;
@@ -69,7 +73,7 @@ namespace Amalgamation {
 			return m_State;
 		}
 
-		static sol::table GetAENamespace() {
+		static sol::table& GetAENamespace() {
 			static sol::table m_Namespace = Get().create_named_table("AE");
 			return m_Namespace;
 		}

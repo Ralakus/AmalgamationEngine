@@ -31,6 +31,10 @@ namespace Amalgamation {
 			return key >= MAX_KEYS ? false : m_Keys[key];
 		}
 
+		REGISTER_TO_LUA_STACK(
+			LuaState::GetAENamespace().set_function("IsKeyDown", [](unsigned int Key) -> bool { return Keyboard::Instance().GetKeyState(Key); });
+		)
+
 	};
 
 	class Mouse : public Singleton<Mouse> {
@@ -62,6 +66,11 @@ namespace Amalgamation {
 			return button >= MAX_BUTTONS ? false : m_Buttons[button];
 		}
 
+		REGISTER_TO_LUA_STACK(
+			LuaState::GetAENamespace().set_function("IsButtonDown", [](unsigned int Button) { return Mouse::Instance().GetButtonState(Button); }); 
+			LuaState::GetAENamespace().set_function("MouseX", []() { return Mouse::Instance().GetX(); });
+			LuaState::GetAENamespace().set_function("MouseY", []() { return Mouse::Instance().GetY(); });
+		)
 
 	};
 
