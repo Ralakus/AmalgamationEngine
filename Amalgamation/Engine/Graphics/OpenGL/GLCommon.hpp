@@ -8,7 +8,7 @@
 namespace Amalgamation {
 	class GLErrorManagement {
 	public:
-		static GLenum GLCheckError() { return glGetError(); }
+		static GLenum GLCheckError() { try { return glGetError(); } catch (...) { return 0; } }
 		static bool GLLogCall(const char* function, const char* file, int line) {
 			GLenum error = GLCheckError();
 			if (error != GL_NO_ERROR) {

@@ -3,6 +3,7 @@
 #include <Core/Utilities/File.hpp>
 
 #define SOL_CHECK_ARGUMENTS 1
+#define SOL_PRINT_ERRORS
 #include <sol.hpp>
 
 #include <vector>
@@ -26,12 +27,14 @@ namespace Amalgamation {
 			if (!Remove) {
 				m_Chunks.push_back(File::ReadFile(Filepath));
 				CombineChunks();
+				Get().stack_clear();
 				Get().script(m_Lua);
 				return m_Chunks.size() - 1;
 			}
 			else if (Purge) {
 				m_Chunks.clear();
 				CombineChunks();
+				Get().stack_clear();
 				Get().script(m_Lua);
 				return 0;
 			}
@@ -40,6 +43,7 @@ namespace Amalgamation {
 					m_ErrorFallBack = m_Chunks[Index];
 					m_Chunks.erase(m_Chunks.begin() + Index);
 					CombineChunks();
+					Get().stack_clear();
 					Get().script(m_Lua);
 					return 0;
 				}
@@ -60,7 +64,7 @@ namespace Amalgamation {
 			static sol::state m_State;
 			static bool m_FirstTime = true;
 			if (m_FirstTime) {
-				m_State.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io);
+				m_State.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io, sol::lib::string, sol::lib::math, sol::lib::table, sol::lib::coroutine);
 			}
 			return m_State;
 		}

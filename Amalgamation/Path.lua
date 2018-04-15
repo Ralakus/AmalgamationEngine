@@ -1,4 +1,4 @@
 Path = {
 	UserSettings = "UserSettings.lua",
-	LTest = "LTest.lua"
+	LTest = "LTest.lua",
 }

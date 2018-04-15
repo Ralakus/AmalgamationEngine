@@ -21,8 +21,13 @@ namespace Amalgamation {
 			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
 		}
 		~GLElementBuffer() {
-			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-			GLCall(glDeleteBuffers(1, &m_BufferID));
+			try{
+				GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+				GLCall(glDeleteBuffers(1, &m_BufferID));
+			}
+			catch (...) {
+				return;
+			}
 		}
 
 		inline void PushData(const uint32* Data, size_t Count) {

@@ -97,8 +97,13 @@ namespace Amalgamation {
 		}
 
 		~GLArrayBuffer() {
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-			GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID));
+			try {
+				GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+				GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID));
+			}
+			catch (...) {
+				return;
+			}
 		}
 
 		void Bind() const {

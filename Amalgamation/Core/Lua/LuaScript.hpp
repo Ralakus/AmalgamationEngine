@@ -40,6 +40,14 @@ namespace Amalgamation {
 			}
 		}
 
+		sol::function ExecEntryPoint() {
+			std::string m_EntryPoint = m_FilePath;
+			for (unsigned char i = 0; i < 4; i++) {
+				m_EntryPoint.pop_back();
+			}
+			return LuaState::Get()[m_EntryPoint]();
+		}
+
 		sol::function ExecFunction(const std::string& Name) {
 			try {
 				return LuaState::Get()[Name]();

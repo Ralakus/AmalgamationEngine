@@ -16,7 +16,12 @@ namespace Amalgamation {
 			GLCall(glGenVertexArrays(1, &m_ArrayID));
 		}
 		~GLVertexArray() {
-			GLCall(glDeleteVertexArrays(1, &m_ArrayID));
+			try {
+				GLCall(glDeleteVertexArrays(1, &m_ArrayID));
+			}
+			catch (...) {
+				return;
+			}
 		}
 
 		inline void Bind() const { GLCall(glBindVertexArray(m_ArrayID)); }
