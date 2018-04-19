@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LinearMath/btVector3.h>
+#include <Core/Lua/LuaState.hpp>
 
 namespace Amalgamation {
 
@@ -87,7 +88,17 @@ namespace Amalgamation {
 		void operator++() { m_Data[0]++; m_Data[1]++; m_Data[2]++; }
 		void operator--() { m_Data[0]--; m_Data[1]--; m_Data[2]--; }
 
-		btVector3 TobtVec() const { return btVector3(X, Y, Z); }
+		btVector3 ToBT() const { return btVector3(X, Y, Z); }
+
+		REGISTER_TO_LUA_STACK(
+			LuaState::GetAENamespace().new_usertype<TVector3<float>>("Vector3"
+
+				"X", TVector3<float>::X,
+				"Y", TVector3<float>::Y,
+				"Z", TVector3<float>::Z,
+
+			);
+		);
 
 	};
 

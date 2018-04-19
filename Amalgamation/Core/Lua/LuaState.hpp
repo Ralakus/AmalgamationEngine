@@ -69,12 +69,18 @@ namespace Amalgamation {
 			static bool m_FirstTime = true;
 			if (m_FirstTime) {
 				m_State.open_libraries(sol::lib::base, sol::lib::package, sol::lib::io, sol::lib::string, sol::lib::math, sol::lib::table, sol::lib::coroutine);
+				m_FirstTime = false;
 			}
 			return m_State;
 		}
 
 		static sol::table& GetAENamespace() {
 			static sol::table m_Namespace = Get().create_named_table("AE");
+			static bool m_FirstTime = true;
+			if (m_FirstTime) {
+				m_Namespace.set_function("ReadFile", static_cast<std::string(*)(const std::string&)>(&File::ReadFile));
+				m_FirstTime = false;
+			}
 			return m_Namespace;
 		}
 

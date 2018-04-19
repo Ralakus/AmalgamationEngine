@@ -22,12 +22,31 @@ int main() {
 	LuaScript Path;
 	Path.LoadFile("Path.lua");
 
+	if (!Path.IsValid()) {
+		std::cout << "[READ ERROR]: Error reading file \"Path.lua\"" << std::endl
+			<< "Press enter to close..." << std::endl;
+		std::cin.get();
+		return -1;
+	}
+
 	LuaScript Settings;
 	Settings.LoadFile(Path.Get["Path"]["UserSettings"]);
-	Settings.Get["CheckUserSettings"]();
+	if (!Settings.IsValid()) {
+		std::cout << "[READ ERROR]: Error reading file \"UserSettings.lua\" from path file" << std::endl
+			<< "Press enter to close..." << std::endl;
+		std::cin.get();
+		return -1;
+	}
+	Settings.ExecFunction("CheckUserSettings");
 
 	LuaScript LTest;
 	LTest.LoadFile(Path.Get["Path"]["LTest"]);
+	if (!LTest.IsValid()) {
+		std::cout << "[READ ERROR]: Error reading file \"LTest.lua\" from path file" << std::endl
+			<< "Press enter to close..." << std::endl;
+		std::cin.get();
+		return -1;
+	}
 
 	float MSensitivity   = Settings.Get["UserSettings"]["MouseSensitivity"];
 	float MovementSpeed  = Settings.Get["UserSettings"]["MouseSensitivity"];
@@ -107,7 +126,7 @@ int main() {
 
 	Renderer.SetCamera(Cam);
 
-	LTest.Get["Awake"]();
+	LTest.ExecFunction("Awake");
 
 	while (Window->IsValid()) {
 
@@ -117,7 +136,7 @@ int main() {
 
 		World.Update(Time.GetDelta());
 
-		LTest.Get["Update"]();
+		LTest.ExecFunction("Update", Time.GetDelta());
 
 		Cube->GetTransform()->Rotation *= glm::angleAxis(Time.GetDelta(), glm::vec3(0, 1, 0));
 
@@ -177,8 +196,10 @@ int main() {
 
 	}
 
-	LTest.Get["Destroy"]();
+	LTest.ExecFunction("Destroy");
 
 	World.Destroy();
+
+	return 0;
 
 }

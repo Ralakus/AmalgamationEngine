@@ -1,19 +1,27 @@
 function Awake()
 	
-	local T = AE.Time:new()
+	--[[local T = AE.Time:new()
 
 	while (not T:OnSecond()) do
 
 		T:Update()
 		
+	end]]
+
+	TStr = AE.ReadFile("Path.lua")
+
+	io.write(TStr .. "\n")
+
+	if(TStr == "") then
+		io.write("[READ ERROR]: Failed to read file \"Path.lua\"")
 	end
 
 	io.write("Amalgamation Load Done\n")
 
 end
 
-function Update()
-	if(AE.IsKeyDown(ToByte('W'))) then
+function Update(Delta)
+	--[[if(AE.IsKeyDown(ToByte('W'))) then
 		io.write("W down\n")
 	end
 	if(AE.IsKeyDown(ToByte('A'))) then
@@ -31,7 +39,7 @@ function Update()
 	end
 	if(AE.IsKeyDown(ToByte('E'))) then
 		io.write("E down\n")
-	end
+	end]]
 end
 
 function Destroy()

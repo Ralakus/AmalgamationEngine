@@ -14,6 +14,7 @@ namespace Amalgamation {
 
 		size_t m_ChunkIndex;
 		bool m_RegisteredInChunk;
+		bool m_Valid;
 
 	public:
 
@@ -25,9 +26,11 @@ namespace Amalgamation {
 			m_ChunkIndex = LuaState::ManageChunks(File);
 			if (m_ChunkIndex != static_cast<size_t>(-1)) {
 				m_RegisteredInChunk = true;
+				m_Valid = true;
 				return true;
 			}
 			else {
+				m_Valid = false;
 				return false;
 			}
 		}
@@ -37,6 +40,7 @@ namespace Amalgamation {
 			if (m_RegisteredInChunk) {
 				LuaState::ManageChunks("", true, m_ChunkIndex);
 				m_RegisteredInChunk = false;
+				m_Valid = false;
 			}
 		}
 
@@ -48,20 +52,36 @@ namespace Amalgamation {
 			return LuaState::Get()[m_EntryPoint]();
 		}
 
-		sol::function ExecFunction(const std::string& Name) {
+		template<class RType, class... TArgs>
+		RType ExecFunction(const std::string& Name, TArgs&&... Args) {
 			try {
-				return LuaState::Get()[Name]();
+				return this->Get[Name](std::forward<TArgs>(Args)...);
 			}
 			catch (sol::error& e) {
 				printf("[Lua Error]: %s\n", e.what());
-				return LuaState::Get()[Name];
+				return this->Get[Name];
+			}
+		}
+
+		template<class... TArgs>
+		sol::type ExecFunction(const std::string& Name, TArgs&&... Args) {
+			try {
+				return this->Get[Name](std::forward<TArgs>(Args)...);
+			}
+			catch (sol::error& e) {
+				printf("[Lua Error]: %s\n", e.what());
+				return this->Get[Name];
 			}
 		}
 
 		sol::state& Get = LuaState::Get();
 
-		bool IsRegistered() {
+		bool IsRegistered() const {
 			return m_RegisteredInChunk;
+		}
+
+		bool IsValid() const {
+			return m_Valid;
 		}
 
 		/*WARNING THIS WILL UNLOAD ALL CURRENT LUA SCRIPTS!*/
