@@ -1,20 +1,4 @@
 function Awake()
-	
-	--[[local T = AE.Time:new()
-
-	while (not T:OnSecond()) do
-
-		T:Update()
-		
-	end]]
-
-	TStr = AE.ReadFile("Path.lua")
-
-	io.write(TStr .. "\n")
-
-	if(TStr == "") then
-		io.write("[READ ERROR]: Failed to read file \"Path.lua\"")
-	end
 
 	io.write("Amalgamation Load Done\n")
 

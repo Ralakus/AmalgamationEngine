@@ -24,7 +24,9 @@ namespace Amalgamation {
 			static auto CombineChunks = [&]() {
 				m_Lua.clear();
 				for (const std::string& S : m_Chunks) {
+					m_Lua += '\n';
 					m_Lua += S;
+					m_Lua += '\n';
 				}
 			};
 

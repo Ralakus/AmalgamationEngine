@@ -21,7 +21,6 @@ int main() {
 
 	LuaScript Path;
 	Path.LoadFile("Path.lua");
-
 	if (!Path.IsValid()) {
 		std::cout << "[READ ERROR]: Error reading file \"Path.lua\"" << std::endl
 			<< "Press enter to close..." << std::endl;
@@ -43,6 +42,15 @@ int main() {
 	LTest.LoadFile(Path.Get["Path"]["LTest"]);
 	if (!LTest.IsValid()) {
 		std::cout << "[READ ERROR]: Error reading file \"LTest.lua\" from path file" << std::endl
+			<< "Press enter to close..." << std::endl;
+		std::cin.get();
+		return -1;
+	}
+
+	LuaScript Shaders;
+	Shaders.LoadFile(Path.Get["Path"]["Shaders"]);
+	if (!Shaders.IsValid()) {
+		std::cout << "[READ ERROR]: Error reading file \"Shaders.lua\" from path file" << std::endl
 			<< "Press enter to close..." << std::endl;
 		std::cin.get();
 		return -1;
@@ -71,7 +79,7 @@ int main() {
 
 	GLBasicRenderer Renderer;
 
-	GLShader Shader(Settings.Get["TexturedShaderglsl"], true);
+	GLShader Shader(Shaders.Get["glslShaders"]["Textured"], true);
 
 	GLTexture T1;
 	if (T1.LoadTexture(

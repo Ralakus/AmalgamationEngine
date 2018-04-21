@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
+    <ClInclude Include="Core\Graphics\Light.hpp" />
+    <ClInclude Include="Core\Graphics\Material.hpp" />
     <ClInclude Include="Core\Graphics\Mesh.hpp" />
     <ClInclude Include="Core\Graphics\Renderer.hpp" />
     <ClInclude Include="Core\Graphics\Shader.hpp" />
@@ -49,12 +51,16 @@
     <ClInclude Include="Core\World\WorldPlugin.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLMesh.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLShader.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLDirectionalLight.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLPointLight.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLSpotLight.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp" />
     <ClInclude Include="Engine\World\Components\CameraComponent.hpp" />
     <ClInclude Include="Engine\World\Components\MeshComponent.hpp" />
@@ -72,6 +78,7 @@
     <ClCompile Include="Core\Platform\Unincludable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders.lua" />
     <None Include="LTest.lua" />
     <None Include="Path.lua" />
     <None Include="UserSettings.lua" />
