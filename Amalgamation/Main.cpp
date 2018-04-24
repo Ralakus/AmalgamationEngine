@@ -10,6 +10,7 @@
 #include <Engine/World/Entities/BasicEntity.hpp>
 #include <Engine/World/WorldPlugins/BulletPhysicsPlugin.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
+#include <Core/Lua/LocalLuaScript.hpp>
 
 using namespace Amalgamation;
 

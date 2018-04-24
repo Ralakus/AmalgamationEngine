@@ -24,9 +24,6 @@
     <ClInclude Include="Core\Utilities\Time.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utilities\UniqueID.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Math\MathFunctions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -163,6 +160,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lua\LocalLuaScript.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

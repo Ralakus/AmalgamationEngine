@@ -34,14 +34,30 @@ namespace Amalgamation {
 				m_Chunks.push_back(File::ReadFile(Filepath));
 				CombineChunks();
 				Get().stack_clear();
-				Get().script(m_Lua);
+				Get().collect_garbage();
+				try{ Get().script(m_Lua); }
+				catch (const sol::error& e) {
+					printf("[Lua Error]: %s\n", e.what());
+					m_Chunks.pop_back();
+					CombineChunks();
+					Get().script(m_Lua);
+					return -1;
+				}
 				return m_Chunks.size() - 1;
 			}
 			else if (Purge) {
 				m_Chunks.clear();
 				CombineChunks();
 				Get().stack_clear();
-				Get().script(m_Lua);
+				Get().collect_garbage();
+				try { Get().script(m_Lua); }
+				catch (const sol::error& e) {
+					printf("[Lua Error]: %s\n", e.what());
+					m_Chunks.pop_back();
+					CombineChunks();
+					Get().script(m_Lua);
+					return -1;
+				}
 				return 0;
 			}
 			else if (Remove) {
@@ -50,16 +66,24 @@ namespace Amalgamation {
 					m_Chunks.erase(m_Chunks.begin() + Index);
 					CombineChunks();
 					Get().stack_clear();
-					Get().script(m_Lua);
+					Get().collect_garbage();
+					try { Get().script(m_Lua); }
+					catch (const sol::error& e) {
+						printf("[Lua Error]: %s\n", e.what());
+						m_Chunks.pop_back();
+						CombineChunks();
+						Get().script(m_Lua);
+						return -1;
+					}
 					return 0;
 				}
 				else {
-					printf("[LUA ERROR]: Error lua index out of range\n");
+					printf("[Lua Error]: Error lua index out of range\n");
 					return -1;
 				}
 			}
 			else {
-				printf("[LUA ERROR]: Error\n");
+				printf("[Lua Error]: Error\n");
 				return -1;
 			}
 		}

@@ -26,9 +26,24 @@ namespace Amalgamation {
 	struct IsPointer<Type*> { static const bool Value = true; };
 
 	class Error {
-	public:
 		const char* Message;
+	public:
 		Error(const char* Message) : Message(Message) {}
+		~Error() {}
+		const char* What() const {
+			return Message;
+		}
+	};
+
+	class ID {
+
+	public:
+
+		static uint64 GetUnique() {
+			static uint64 m_ID = 0;
+			return ++m_ID;
+		}
+
 	};
 
 }

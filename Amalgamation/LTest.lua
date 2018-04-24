@@ -1,5 +1,11 @@
 function Awake()
 
+	local Path = AE.ReadFile("Path.lua")
+
+	if(Path ~= "") then
+		io.write('\n' .. Path .. "\n\n")
+	end
+
 	io.write("Amalgamation Load Done\n")
 
 end

@@ -52,19 +52,8 @@ namespace Amalgamation {
 			return LuaState::Get()[m_EntryPoint]();
 		}
 
-		template<class RType, class... TArgs>
+		template<class RType = sol::type, class... TArgs>
 		RType ExecFunction(const std::string& Name, TArgs&&... Args) {
-			try {
-				return this->Get[Name](std::forward<TArgs>(Args)...);
-			}
-			catch (sol::error& e) {
-				printf("[Lua Error]: %s\n", e.what());
-				return this->Get[Name];
-			}
-		}
-
-		template<class... TArgs>
-		sol::type ExecFunction(const std::string& Name, TArgs&&... Args) {
 			try {
 				return this->Get[Name](std::forward<TArgs>(Args)...);
 			}
