@@ -11,6 +11,7 @@ namespace Amalgamation {
 	class GLBasicRenderer : public Renderer {
 
 		std::vector<Mesh*> m_Meshes;
+		std::vector<Light*> m_Lights;
 		glm::mat4 m_BufferedTransform;
 		CameraComponent* m_Cam;
 
@@ -28,6 +29,9 @@ namespace Amalgamation {
 		virtual void End() override;
 
 		virtual void Flush() override;
+
+		virtual bool AddLight(Light* LightPtr) override;
+		virtual bool RemoveLight(Light* LightPtr) override;
 
 
 	};

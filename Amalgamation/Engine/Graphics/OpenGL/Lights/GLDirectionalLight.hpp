@@ -8,7 +8,7 @@ namespace Amalgamation {
 
 	public:
 
-		GLDirectionalLight() : Light(API::OpenGL) {}
+		GLDirectionalLight() : Light(API::OpenGL, Type::Directional) {}
 		~GLDirectionalLight() {}
 
 	};

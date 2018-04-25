@@ -306,6 +306,41 @@ namespace Amalgamation {
 			return false;
 		}
 
+		virtual bool RemoveTexture(Texture* TexturePtr) {
+			if (m_Textures.size() > 0) {
+				for (size_t i = 0; i < m_Textures.size(); i++) {
+					if (TexturePtr == m_Textures[i]) {
+						m_Textures.erase(m_Textures.begin() + i);
+						return true;
+					}
+					else {
+						continue;
+					}
+				}
+				return false;
+			}
+			else {
+				return false;
+			}
+		}
+
+		virtual bool HasTexture(Texture* TexturePtr) {
+			if (m_Textures.size() > 0) {
+				for (size_t i = 0; i < m_Textures.size(); i++) {
+					if (TexturePtr == m_Textures[i]) {
+						return true;
+					}
+					else {
+						continue;
+					}
+				}
+				return false;
+			}
+			else {
+				return false;
+			}
+		}
+
 
 	};
 }

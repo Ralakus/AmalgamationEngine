@@ -14,6 +14,8 @@ namespace Amalgamation {
 
 		virtual void AfterLoad() {};
 
+		bool m_SupportsLighting = true;
+
 	public:
 
 		Shader(API API) : GraphicsClass(API) {}
@@ -28,6 +30,10 @@ namespace Amalgamation {
 		virtual void LoadFromStr(const std::string& Str) {
 			m_ShaderCode = Str;
 			AfterLoad();
+		}
+
+		virtual bool SupportsLighting() const {
+			return m_SupportsLighting;
 		}
 
 	};

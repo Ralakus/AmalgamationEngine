@@ -52,6 +52,10 @@ namespace Amalgamation {
 				}
 			}
 
+			if (CastMesh->GetShader()->SupportsLighting()) {
+				// TODO: Add lighting code to shaders
+			}
+
 			GLCall(glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(CastMesh->GetElementBuffer().GetCount()), GL_UNSIGNED_INT, nullptr));
 
 			CastMesh->GetShader()->Unbind();
@@ -63,6 +67,55 @@ namespace Amalgamation {
 		}
 
 		m_Meshes.clear();
+	}
+
+
+	bool GLBasicRenderer::AddLight(Light* LightPtr) {
+		if (LightPtr->GetAPI() == API::OpenGL) {
+			if (m_Lights.size() > 0) {
+				for (Light* L : m_Lights) {
+					if (L != LightPtr) {
+						continue;
+					}
+					else {
+						m_Lights.emplace_back(LightPtr);
+						return true;
+					}
+				}
+				return false;
+			}
+			else {
+				m_Lights.emplace_back(LightPtr);
+				return true;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+	
+	bool GLBasicRenderer::RemoveLight(Light* LightPtr) {
+		if (m_Lights.size() > 0) {
+			size_t i = 0;
+			bool Found = false;
+			for (Light* L : m_Lights) { i++;
+				if (L != LightPtr) {
+					continue;
+				}
+				else {
+					Found = true;
+					break;
+				}
+			}
+			if (Found) {
+				m_Lights.erase(m_Lights.begin() + i);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return false;
 	}
 
 

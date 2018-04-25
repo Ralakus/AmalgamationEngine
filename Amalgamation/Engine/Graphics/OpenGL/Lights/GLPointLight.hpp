@@ -8,7 +8,7 @@ namespace Amalgamation {
 
 	public:
 
-		GLPointLight() : Light(API::OpenGL) {}
+		GLPointLight() : Light(API::OpenGL, Type::Point) {}
 		~GLPointLight() {}
 
 	};

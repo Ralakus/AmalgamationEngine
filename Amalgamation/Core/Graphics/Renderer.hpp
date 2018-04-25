@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Mesh.hpp"
+#include "Light.hpp"
 
 namespace Amalgamation {
 
@@ -16,6 +17,9 @@ namespace Amalgamation {
 		virtual void End() = 0;
 		virtual void Flush() = 0;
 
-	};
+		virtual bool AddLight(Light* LightPtr) = 0;
+		virtual bool RemoveLight(Light* LightPtr) = 0;
+
+ 	};
 
 }

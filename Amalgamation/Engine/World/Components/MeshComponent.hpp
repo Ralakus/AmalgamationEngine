@@ -18,7 +18,7 @@ namespace Amalgamation {
 	public:
 
 		MeshComponent(Renderer* Renderer) : GraphicsClass(Renderer->GetAPI()), m_Renderer(Renderer) {}
-		virtual ~MeshComponent() { SafeDelete(m_Mesh); }
+		~MeshComponent() { SafeDelete(m_Mesh); }
 
 		MeshComponent* CreateMesh(const MeshData& Data, Shader* Shader) {
 			if (m_API == API::OpenGL && Shader->GetAPI() == API::OpenGL) {
@@ -46,15 +46,19 @@ namespace Amalgamation {
 			return this;
 		}
 
-		virtual void Awake() override {}
+		Mesh* GetMeshPtr() {
+			return m_Mesh;
+		}
 
-		virtual void Update(float Delta) override {
+		void Awake() override {}
+
+		void Update(float Delta) override {
 			if (m_Mesh) {
 				m_Renderer->Submit(m_Mesh);
 			}
 		}
 
-		virtual void Destroy() override {}
+		void Destroy() override {}
 
 	};
 

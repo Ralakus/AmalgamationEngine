@@ -193,6 +193,15 @@ int main() {
 			Cam->Translate(0, 2 * Time.GetDelta(), 0);
 		}
 
+		if (Keyboard::Instance().GetKeyState('F')) {
+			if (Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->HasTexture(&T1)) {
+				Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->RemoveTexture(&T1);
+			}
+			else {
+				Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->AddTexture(&T1);
+			}
+		}
+
 		if (Keyboard::Instance().GetKeyState(GLFW_KEY_ESCAPE)) {
 			Window->Close();
 		}
