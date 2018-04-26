@@ -2,8 +2,7 @@
 
 #include "GraphicsClass.hpp"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
+#include <Core/Math/Transform.hpp>
 
 namespace Amalgamation {
 
@@ -12,12 +11,11 @@ namespace Amalgamation {
 
 	protected:
 
-		glm::vec3 m_Location;
-		glm::quat m_Rotation;
-		glm::vec3 Diffuse;
-		glm::vec3 Specular;
+		Transform* m_TransformPtr = nullptr;
 
-		glm::vec3 m_Coral; //Color
+		void Parent() {
+
+		}
 
 	public:
 
@@ -28,6 +26,16 @@ namespace Amalgamation {
 		Light(API API, Type LightType) : GraphicsClass(API), LightType(LightType) {}
 		virtual ~Light() {}
 
+
+		glm::vec3 Diffuse;
+		glm::vec3 Specular;
+
+		glm::vec3 Coral;
+
+
+		Transform* GetTransform() {
+			return m_TransformPtr;
+		}
 
 	};
 

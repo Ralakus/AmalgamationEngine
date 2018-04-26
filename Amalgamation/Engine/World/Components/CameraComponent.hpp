@@ -8,7 +8,7 @@
 
 namespace Amalgamation {
 
-	/*At 0,0,0 Rotation, camera faces towrard -Z axis*/
+	/*At 0,0,0 Rotation, camera faces towrard Z+ axis*/
 	class CameraComponent : public Component {
 
 		TransformComponent* m_Transform;
@@ -51,9 +51,8 @@ namespace Amalgamation {
 			Rotate(Angle, 0.f, 0.f, 1.f);
 		}
 
-		/*Need to fix by finding the correct math*/
 		glm::vec3 GetFront() const {
-			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
+			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation) * 3.14159f / 180.f;
 			glm::vec3 CamFront = glm::normalize(glm::vec3(
 
 				cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),

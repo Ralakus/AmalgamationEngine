@@ -1,40 +1,41 @@
 #pragma once
 
-namespace Amalgamation {
+namespace Amalgamation { namespace Math {
 
 	template<class MathType>
 	class TVector2 {
 
 		using TVec2 = TVector2<MathType>;
 
-		MathType m_Data[2];
-
 	public:
 
-		TVector2(MathType X, MathType Y) : m_Data{ X, Y},
-			X(m_Data[0]), Y(m_Data[1]){}
+		union {
 
-		TVector2(MathType Scalar) : m_Data{ Scalar, Scalar },
-			X(m_Data[0]), Y(m_Data[1]){}
+			MathType m_Data[2];
+			MathType X, Y;
 
-		TVector2() : m_Data{ 0,0,0 },
-			X(m_Data[0]), Y(m_Data[1]){}
+		};
 
-		TVector2(const TVec2& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1]},
-			X(m_Data[0]), Y(m_Data[1]){}
+		TVector2(MathType X, MathType Y) : m_Data{ X, Y}
+		{}
+
+		TVector2(MathType Scalar) : m_Data{ Scalar, Scalar }
+		{}
+
+		TVector2() : m_Data{ 0,0,0 }
+		{}
+
+		TVector2(const TVec2& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1]}
+		{}
 
 		void operator = (const TVec2& Other) {
 
 			m_Data[0] = Other.m_Data[0];
 			m_Data[1] = Other.m_Data[1];
 
-			X = m_Data[0];
-			Y = m_Data[1];
 		}
 
 		~TVector3() {}
-
-		MathType &X, &Y;
 
 		TVec2& Add(const TVec2& Other) {
 			this->m_Data[0] += Other.m_Data[0];
@@ -84,4 +85,4 @@ namespace Amalgamation {
 	using Vec2 = TVec2<float>;
 	using Vector2 = Vec2;
 
-}
+} }

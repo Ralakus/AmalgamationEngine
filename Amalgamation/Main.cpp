@@ -10,7 +10,7 @@
 #include <Engine/World/Entities/BasicEntity.hpp>
 #include <Engine/World/WorldPlugins/BulletPhysicsPlugin.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
-#include <Core/Lua/LocalLuaScript.hpp>
+#include <Engine/Graphics/OpenGL/Lights/GLPointLight.hpp>
 
 using namespace Amalgamation;
 
@@ -19,6 +19,8 @@ int main() {
 	REGISTER_LUA_CLASS(Keyboard);
 	REGISTER_LUA_CLASS(Mouse);
 	REGISTER_LUA_CLASS(Time);
+
+	std::ios::sync_with_stdio(false);
 
 	LuaScript Path;
 	Path.LoadFile("Path.lua");
@@ -80,7 +82,12 @@ int main() {
 
 	GLBasicRenderer Renderer;
 
+	GLPointLight GLPL;
+	GLPL.Coral = {.1, .1, .1};
+	Renderer.AddLight(&GLPL);
+
 	GLShader Shader(Shaders.Get["glslShaders"]["Textured"], true);
+	Shader.SetSupportLighting(false);
 
 	GLTexture T1;
 	if (T1.LoadTexture(
@@ -115,7 +122,8 @@ int main() {
 
 	Player = World.CreateEntity<BasicEntity>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
-	Player->GetTransform()->Position.z = -5;
+	Player->GetTransform()->Position = { 0, 2, 1.5 };
+	Player->GetTransform()->Rotation = glm::vec3(glm::radians(65.f), glm::radians(0.f), glm::radians(0.f));
 
 
 	FloorPlane = World.CreateEntity<BasicEntity>();
@@ -159,6 +167,8 @@ int main() {
 		LastMousePos.x = Mouse::Instance().GetX();
 		LastMousePos.y = Mouse::Instance().GetY();
 
+		std::cout << "Camera Front: X: " << Cam->GetFront().x << ", Y: " << Cam->GetFront().y << ", Z: " << Cam->GetFront().z << "            \r";
+
 		if (Keyboard::Instance().GetKeyState('W')) {
 			Cam->Translate(0, 0, -1 * Time.GetDelta() * WMovementSpeed);
 		}
@@ -194,12 +204,10 @@ int main() {
 		}
 
 		if (Keyboard::Instance().GetKeyState('F')) {
-			if (Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->HasTexture(&T1)) {
-				Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->RemoveTexture(&T1);
-			}
-			else {
-				Cube->GetComponentByType<MeshComponent>()->GetMeshPtr()->AddTexture(&T1);
-			}
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
 		if (Keyboard::Instance().GetKeyState(GLFW_KEY_ESCAPE)) {

@@ -3,46 +3,45 @@
 #include <LinearMath/btVector3.h>
 #include <Core/Lua/LuaState.hpp>
 
-namespace Amalgamation {
+namespace Amalgamation { namespace Math {
 
 	template<class MathType>
 	class TVector3 {
 
 		using TVec3 = TVector3<MathType>;
 
-		MathType m_Data[3];
-
 	public:
 
-		TVector3(MathType X, MathType Y, MathType Z) : m_Data{ X, Y, Z },
-			X(m_Data[0]), Y(m_Data[1]), Z(m_Data[2]) {}
+		union {
 
-		TVector3(MathType Scalar) : m_Data{ Scalar, Scalar, Scalar },
-			X(m_Data[0]), Y(m_Data[1]), Z(m_Data[2]) {}
+			MathType m_Data[3];
+			MathType X, Y, Z;
 
-		TVector3() : m_Data{ 0,0,0 },
-			X(m_Data[0]), Y(m_Data[1]), Z(m_Data[2]) {}
+		};
 
-		TVector3(const TVec3& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1], Other.m_Data[2] },
-			X(m_Data[0]), Y(m_Data[1]), Z(m_Data[2]) {}
+		TVector3(MathType X, MathType Y, MathType Z) : m_Data{ X, Y, Z }
+		{}
 
-		TVector3(const btVector3& btVec) : m_Data{ btVec.x, btVec.y, btVec.z },
-			X(m_Data[0]), Y(m_Data[1]), Z(m_Data[2]) {}
+		TVector3(MathType Scalar) : m_Data{ Scalar, Scalar, Scalar }
+		{}
+
+		TVector3() : m_Data{ 0,0,0 }
+		{}
+
+		TVector3(const TVec3& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1], Other.m_Data[2] }
+		{}
+
+		TVector3(const btVector3& btVec) : m_Data{ btVec.x, btVec.y, btVec.z }
+		{}
 
 		void operator = (const TVec3& Other) {
 
 			m_Data[0] = Other.m_Data[0];
 			m_Data[1] = Other.m_Data[1];
 			m_Data[2] = Other.m_Data[2];
-
-			X = m_Data[0];
-			Y = m_Data[1];
-			Z = m_Data[2];
 		}
 
 		~TVector3() {}
-
-		MathType &X, &Y, &Z;
 
 		TVec3& Add(const TVec3& Other) {
 			this->m_Data[0] += Other.m_Data[0];
@@ -95,7 +94,7 @@ namespace Amalgamation {
 
 				"X", TVector3<float>::X,
 				"Y", TVector3<float>::Y,
-				"Z", TVector3<float>::Z,
+				"Z", TVector3<float>::Z
 
 			);
 		);
@@ -108,4 +107,4 @@ namespace Amalgamation {
 	using Vec3    = TVec3<float>;
 	using Vector3 =  Vec3;
 
-}
+} }

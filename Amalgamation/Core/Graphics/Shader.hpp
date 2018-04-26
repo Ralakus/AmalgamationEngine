@@ -36,6 +36,10 @@ namespace Amalgamation {
 			return m_SupportsLighting;
 		}
 
+		virtual void SetSupportLighting(bool YoN) {
+			m_SupportsLighting = YoN;
+		}
+
 	};
 
 }

@@ -29,17 +29,18 @@ namespace Amalgamation {
 
 		for (Mesh* MeshPtr : m_Meshes) {
 			GLMesh* CastMesh = static_cast<GLMesh*>(MeshPtr);
+			GLShader* CastShader = static_cast<GLShader*>(CastMesh->GetShader());
 			CastMesh->GetVertexArray().Bind();
 			CastMesh->GetElementBuffer().Bind();
 
 			m_BufferedTransform = glm::translate(m_BufferedTransform, MeshPtr->GetTransform()->Position) * glm::mat4_cast(MeshPtr->GetTransform()->Rotation);
 			m_BufferedTransform = glm::scale(m_BufferedTransform, MeshPtr->GetTransform()->Scale);
 
-			CastMesh->GetShader()->Bind();
-			CastMesh->GetShader()->SetUniform("u_Model", m_BufferedTransform);
+			CastShader->Bind();
+			CastShader->SetUniform("u_Model", m_BufferedTransform);
 			if (m_Cam) {
-				CastMesh->GetShader()->SetUniform("u_View", m_Cam->View());
-				CastMesh->GetShader()->SetUniform("u_Projection", m_Cam->GetProjection());
+				CastShader->SetUniform("u_View", m_Cam->View());
+				CastShader->SetUniform("u_Projection", m_Cam->GetProjection());
 			}
 
 			if (MeshPtr->GetTextures().size() <= 0) {
@@ -48,17 +49,17 @@ namespace Amalgamation {
 			else {
 				for (Texture* TexturePtr : MeshPtr->GetTextures()) {
 					TexturePtr->Bind();
-					CastMesh->GetShader()->SetUniform(("u_Texture" + std::to_string(TexturePtr->GetLayer())).c_str(), TexturePtr->GetLayer());
+					CastShader->SetUniform(("u_Texture" + std::to_string(TexturePtr->GetLayer())).c_str(), TexturePtr->GetLayer());
 				}
 			}
 
-			if (CastMesh->GetShader()->SupportsLighting()) {
+			if (CastShader->SupportsLighting()) {
 				// TODO: Add lighting code to shaders
 			}
 
 			GLCall(glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(CastMesh->GetElementBuffer().GetCount()), GL_UNSIGNED_INT, nullptr));
 
-			CastMesh->GetShader()->Unbind();
+			CastShader->Unbind();
 
 			CastMesh->GetElementBuffer().Unbind();
 			CastMesh->GetVertexArray().Unbind();
