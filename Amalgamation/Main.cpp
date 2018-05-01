@@ -83,7 +83,7 @@ int main() {
 	GLBasicRenderer Renderer;
 
 	GLPointLight GLPL;
-	GLPL.Coral = {.1, .1, .1};
+	GLPL.Diffuse = {.1, .1, .1};
 	Renderer.AddLight(&GLPL);
 
 	GLShader Shader(Shaders.Get["glslShaders"]["Textured"], true);

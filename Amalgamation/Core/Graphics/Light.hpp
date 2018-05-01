@@ -30,8 +30,6 @@ namespace Amalgamation {
 		glm::vec3 Diffuse;
 		glm::vec3 Specular;
 
-		glm::vec3 Coral;
-
 
 		Transform* GetTransform() {
 			return m_TransformPtr;

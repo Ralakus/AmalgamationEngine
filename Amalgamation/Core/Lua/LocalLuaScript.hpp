@@ -83,6 +83,11 @@ namespace Amalgamation {
 			return m_Valid;
 		}
 
+		sol::table& GetAENamespace() {
+			static sol::table m_Namespace = m_State.create_named_table("AE");
+			return m_Namespace;
+		}
+
 	};
 
 }

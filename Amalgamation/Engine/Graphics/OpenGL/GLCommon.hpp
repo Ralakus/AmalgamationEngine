@@ -13,8 +13,6 @@ namespace Amalgamation {
 			GLenum error = GLCheckError();
 			if (error != GL_NO_ERROR) {
 				printf("[OpenGL Error]: (%u): %s , %s : %i", error, function, file, line);
-				//std::string errorStr = "[OpenGL Error]: (" + std::to_string(error) + "): " + function + ", " + file + " : " + std::to_string(line);
-				//LOG_ERROR(errorStr.c_str());
 				return false;
 			}
 			return true;
