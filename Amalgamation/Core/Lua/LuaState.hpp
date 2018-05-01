@@ -9,7 +9,9 @@
 #include <vector>
 
 #define REGISTER_TO_LUA_STACK(x) static void RegisterToLuaStack(){ static bool m_Registered = false; if(!m_Registered) { x; } };
-#define REGISTER_LUA_CLASS(x)    x::RegisterToLuaStack();
+#define REGISTER_TO_LUA_STATE(x) static void RegisterToLuaState(const sol::state& S) { tatic bool m_Registered = false; if(!m_Registered) { x; } }
+#define REGISTER_LUA_CLASS(x)             x::RegisterToLuaStack();
+#define REGISTER_LUA_CLASS_TO_STATE(x, y) x::RegisterToLuaStack(y);
 
 namespace Amalgamation {
 
