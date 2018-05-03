@@ -33,8 +33,6 @@ namespace Amalgamation {
 
 		virtual bool AddLight(Light* LightPtr) override;
 		virtual bool RemoveLight(Light* LightPtr) override;
-
-
 	};
 
 }

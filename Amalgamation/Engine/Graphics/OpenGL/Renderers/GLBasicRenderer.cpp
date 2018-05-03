@@ -77,7 +77,7 @@ namespace Amalgamation {
 					}
 					else if (m_Lights[i]->LightType == Light::Type::Directional) {
 						GLDirectionalLight* DLight = static_cast<GLDirectionalLight*>(m_Lights[i]);
-						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Position").c_str(), DLight->GetTransform()->Position);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), glm::eulerAngles(DLight->GetTransform()->Rotation));
 
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(),  DLight->Ambient);
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(),  DLight->Diffuse);
@@ -86,10 +86,33 @@ namespace Amalgamation {
 					}
 					else if (m_Lights[i]->LightType == Light::Type::Spot) {
 						GLSpotLight* SLight = static_cast<GLSpotLight*>(m_Lights[i]);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Position").c_str(), SLight->GetTransform()->Position);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(), glm::eulerAngles(SLight->GetTransform()->Rotation));
+
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].CutOff").c_str(), SLight->CutOff);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].OuterCutOff").c_str(), SLight->OuterCutOff);
+
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Constant").c_str(), SLight->Constant);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Linear").c_str(), SLight->Linear);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Quadratic").c_str(), SLight->Quadratic);
+
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Ambient").c_str(), SLight->Ambient);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Diffuse").c_str(), SLight->Diffuse);
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Specular").c_str(), SLight->Specular);
+						Si++;
 					}
 					else {
 
 					}
+				}
+				if (Di == 0) {
+					CastShader->SetUniform("u_HasDirLights", 0);
+				}
+				if (Pi == 0) {
+					CastShader->SetUniform("u_HasPointLights", 0);
+				}
+				if (Si == 0) {
+					CastShader->SetUniform("u_HasSpotLights", 0);
 				}
 			}
 

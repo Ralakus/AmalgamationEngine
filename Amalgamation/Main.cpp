@@ -10,7 +10,7 @@
 #include <Engine/World/Entities/BasicEntity.hpp>
 #include <Engine/World/WorldPlugins/BulletPhysicsPlugin.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
-#include <Engine/Graphics/OpenGL/Lights/GLPointLight.hpp>
+#include <Engine/World/Components/LightComponent.hpp>
 
 using namespace Amalgamation;
 
@@ -82,10 +82,6 @@ int main() {
 
 	GLBasicRenderer Renderer;
 
-	GLPointLight GLPL;
-	GLPL.Diffuse = {1.f, 1.f, 1.f};
-	Renderer.AddLight(&GLPL);
-
 	GLShader Shader(Shaders.Get["glslShaders"]["GetLightingShader"](1, 1, 1), true);
 
 	GLTexture T1;
@@ -123,7 +119,7 @@ int main() {
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
 	Player->GetTransform()->Position = { 0, 2, 1.5 };
 	Player->GetTransform()->Rotation = glm::vec3(glm::radians(65.f), glm::radians(0.f), glm::radians(0.f));
-	GLPL.Parent(Player->GetTransform());
+	Player->AddComponent<LightComponent>(&Renderer, Light::Type::Point);
 
 
 	FloorPlane = World.CreateEntity<BasicEntity>();

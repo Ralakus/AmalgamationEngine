@@ -8,16 +8,18 @@ namespace Amalgamation {
 
 	class Light : public GraphicsClass {
 
+		friend class LightComponent;
+
 	protected:
 
 		Transform* m_TransformPtr = nullptr;
 
-
-	public:
-
 		void Parent(Transform* TransformPtr) {
 			m_TransformPtr = TransformPtr;
 		}
+
+	public:
+
 		enum class Type : unsigned char {
 			Directional, Point, Spot
 		} const LightType;
@@ -26,9 +28,9 @@ namespace Amalgamation {
 		virtual ~Light() {}
 
 
-		glm::vec3 Diffuse;
-		glm::vec3 Specular;
-		glm::vec3 Ambient;
+		glm::vec3 Diffuse = { 1.0f, 1.0f, 1.0f };
+		glm::vec3 Specular = { 1.0f, 1.0f, 1.0f };
+		glm::vec3 Ambient = { 0.05f, 0.05f, 0.05f };
 
 
 		Transform* GetTransform() {
