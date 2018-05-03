@@ -83,11 +83,10 @@ int main() {
 	GLBasicRenderer Renderer;
 
 	GLPointLight GLPL;
-	GLPL.Diffuse = {.1, .1, .1};
+	GLPL.Diffuse = {1.f, 1.f, 1.f};
 	Renderer.AddLight(&GLPL);
 
-	GLShader Shader(Shaders.Get["glslShaders"]["Textured"], true);
-	Shader.SetSupportLighting(false);
+	GLShader Shader(Shaders.Get["glslShaders"]["GetLightingShader"](1, 1, 1), true);
 
 	GLTexture T1;
 	if (T1.LoadTexture(
@@ -124,11 +123,12 @@ int main() {
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
 	Player->GetTransform()->Position = { 0, 2, 1.5 };
 	Player->GetTransform()->Rotation = glm::vec3(glm::radians(65.f), glm::radians(0.f), glm::radians(0.f));
+	GLPL.Parent(Player->GetTransform());
 
 
 	FloorPlane = World.CreateEntity<BasicEntity>();
 	FloorPlane->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader)->AddTexture(&T2);
-	FloorPlane->GetTransform()->SetTransform({ 0, -1.25f, 0 }, { glm::vec3(glm::radians(90.f),0 ,0) }, { 5, 5, 1 });
+	FloorPlane->GetTransform()->SetTransform({ 0, -1.25f, 0 }, { glm::vec3(glm::radians(-90.f),0 ,0) }, { 5, 5, 1 });
 
 	World.Awake();
 

@@ -63,6 +63,7 @@
     <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLSpotLight.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp" />
     <ClInclude Include="Engine\World\Components\CameraComponent.hpp" />
+    <ClInclude Include="Engine\World\Components\LightComponent.hpp" />
     <ClInclude Include="Engine\World\Components\MeshComponent.hpp" />
     <ClInclude Include="Engine\World\Components\RigidBodyComponent.hpp" />
     <ClInclude Include="Engine\World\Components\TransformComponent.hpp" />

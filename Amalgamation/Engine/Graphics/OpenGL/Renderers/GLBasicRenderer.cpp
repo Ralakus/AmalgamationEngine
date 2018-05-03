@@ -2,6 +2,9 @@
 #include "../GLMesh.hpp"
 #include "../GLShader.hpp"
 #include "../GLCommon.hpp"
+#include "../Lights/GLDirectionalLight.hpp"
+#include "../Lights/GLPointLight.hpp"
+#include "../Lights/GLSpotLight.hpp"
 #include <Engine/World/Components/CameraComponent.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -49,12 +52,45 @@ namespace Amalgamation {
 			else {
 				for (Texture* TexturePtr : MeshPtr->GetTextures()) {
 					TexturePtr->Bind();
-					CastShader->SetUniform(("u_Texture" + std::to_string(TexturePtr->GetLayer())).c_str(), TexturePtr->GetLayer());
+					CastShader->SetUniform("u_Material.Diffuse", TexturePtr->GetLayer());
+					CastShader->SetUniform("u_Material.Shininess", 1.f);
 				}
 			}
 
 			if (CastShader->SupportsLighting()) {
-				// TODO: Add lighting code to shaders
+				size_t Pi = 0;
+				size_t Si = 0;
+				size_t Di = 0;
+				for (size_t i = 0; i < m_Lights.size(); i++) {
+					if (m_Lights[i]->LightType == Light::Type::Point) {
+						GLPointLight* PLight = static_cast<GLPointLight*>(m_Lights[i]);
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Position").c_str(), PLight->GetTransform()->Position);
+
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Constant").c_str(), PLight->Constant);
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Linear").c_str(), PLight->Linear);
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Quadratic").c_str(), PLight->Quadratic);
+
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Ambient").c_str(), PLight->Ambient);
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Diffuse").c_str(), PLight->Diffuse);
+						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Specular").c_str(), PLight->Specular);
+						Pi++;
+					}
+					else if (m_Lights[i]->LightType == Light::Type::Directional) {
+						GLDirectionalLight* DLight = static_cast<GLDirectionalLight*>(m_Lights[i]);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Position").c_str(), DLight->GetTransform()->Position);
+
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(),  DLight->Ambient);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(),  DLight->Diffuse);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Specular").c_str(), DLight->Specular);
+						Di++;
+					}
+					else if (m_Lights[i]->LightType == Light::Type::Spot) {
+						GLSpotLight* SLight = static_cast<GLSpotLight*>(m_Lights[i]);
+					}
+					else {
+
+					}
+				}
 			}
 
 			GLCall(glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(CastMesh->GetElementBuffer().GetCount()), GL_UNSIGNED_INT, nullptr));
