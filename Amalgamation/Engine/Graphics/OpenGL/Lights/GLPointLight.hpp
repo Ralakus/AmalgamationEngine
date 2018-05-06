@@ -8,6 +8,10 @@ namespace Amalgamation {
 
 	public:
 
+		float Constant = 1.f;
+		float Linear = 0.09f;
+		float Quadratic = 0.032f;
+
 		GLPointLight() : Light(API::OpenGL, Type::Point) {}
 		~GLPointLight() {}
 

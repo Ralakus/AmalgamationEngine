@@ -94,6 +94,7 @@ namespace Amalgamation {
 				GLCall(glGetShaderiv(VertexID, GL_INFO_LOG_LENGTH, &Length));
 				char* CompileError = new char[Length];
 				GLCall(glGetShaderInfoLog(VertexID, Length, NULL, CompileError));
+				printf("[LOG_ERROR]: Failed to compile vertex shader!\n %s \n", CompileError);
 				SafeDelete(CompileError);
 			}
 
@@ -106,6 +107,7 @@ namespace Amalgamation {
 				GLCall(glGetShaderiv(FragmentID, GL_INFO_LOG_LENGTH, &Length));
 				char* CompileError = new char[Length];
 				GLCall(glGetShaderInfoLog(FragmentID, Length, NULL, CompileError));
+				printf("[LOG_ERROR]: Failed to compile fragment shader!\n %s \n", CompileError);
 				SafeDelete(CompileError);
 			}
 
@@ -121,6 +123,7 @@ namespace Amalgamation {
 				GLCall(glGetProgramiv(m_ShaderID, GL_INFO_LOG_LENGTH, &Length));
 				char* LinkError = new char[Length];
 				GLCall(glGetProgramInfoLog(m_ShaderID, Length, NULL, LinkError));
+				printf("[LOG_ERROR]: Failed to link shaders!\n %s \n", LinkError);
 				SafeDelete(LinkError);
 			}
 

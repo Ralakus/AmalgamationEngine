@@ -165,6 +165,9 @@
     <ClInclude Include="Core\Lua\LocalLuaScript.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\World\Components\LightComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Platform\Unincludable.cpp">

@@ -35,10 +35,7 @@ namespace Amalgamation { namespace Math {
 		{}
 
 		void operator = (const TVec3& Other) {
-
-			m_Data[0] = Other.m_Data[0];
-			m_Data[1] = Other.m_Data[1];
-			m_Data[2] = Other.m_Data[2];
+			memcpy(&m_data, &Other.m_Data, sizeof(MathType) * 3);
 		}
 
 		~TVector3() {}
@@ -87,7 +84,7 @@ namespace Amalgamation { namespace Math {
 		void operator++() { m_Data[0]++; m_Data[1]++; m_Data[2]++; }
 		void operator--() { m_Data[0]--; m_Data[1]--; m_Data[2]--; }
 
-		btVector3 ToBT() const { return btVector3(X, Y, Z); }
+		btVector3 BT() const { return btVector3(X, Y, Z); }
 
 		REGISTER_TO_LUA_STACK(
 			LuaState::GetAENamespace().new_usertype<TVector3<float>>("Vector3"

@@ -52,12 +52,12 @@ namespace Amalgamation {
 		}
 
 		glm::vec3 GetFront() const {
-			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation) * 3.14159f / 180.f;
+			glm::vec3 CamEuler = glm::degrees(glm::eulerAngles(m_TransformPtr->Rotation));
 			glm::vec3 CamFront = glm::normalize(glm::vec3(
 
-				cos(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y)),
-				sin(glm::radians(CamEuler.y)),
-				sin(glm::radians(CamEuler.x)) * cos(glm::radians(CamEuler.y))
+				cos(glm::radians(CamEuler.y)) * cos(glm::radians(CamEuler.x)),
+				sin(glm::radians(CamEuler.x)),
+				sin(glm::radians(CamEuler.y)) * cos(glm::radians(CamEuler.x))
 
 			)) * m_TransformPtr->Rotation;
 			return CamFront;
