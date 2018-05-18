@@ -10,8 +10,9 @@ namespace Amalgamation {
 
 	class Material : public GraphicsClass {
 
-		Texture* m_Diffuse  = nullptr;
-		Texture* m_Specular = nullptr;
+		Texture* m_Diffuse   = nullptr;
+		Texture* m_Specular  = nullptr;
+		float    m_Shininess = 0.5f;
 
 	public:
 
@@ -54,6 +55,13 @@ namespace Amalgamation {
 			return m_Specular;
 		}
 
+		float GetShininess() const {
+			return m_Shininess;
+		}
+
+		float SetShininess(float Shininess) {
+			return m_Shininess = Shininess;
+		}
 	};
 
 }

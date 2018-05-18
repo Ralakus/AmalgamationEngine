@@ -10,6 +10,8 @@ namespace Amalgamation {
 
 		uint32 m_ArrayID;
 
+		mutable bool m_Bound;
+
 	public:
 
 		GLVertexArray() {
@@ -24,8 +26,8 @@ namespace Amalgamation {
 			}
 		}
 
-		inline void Bind() const { GLCall(glBindVertexArray(m_ArrayID)); }
-		inline void Unbind() const { GLCall(glBindVertexArray(0)); }
+		inline void Bind() const { if (!m_Bound) { GLCall(glBindVertexArray(m_ArrayID)); } }
+		inline void Unbind() const { if (m_Bound) { GLCall(glBindVertexArray(0)); } }
 		inline uint32 GetID() const { return m_ArrayID; }
 
 		void AddBuffer(const GLArrayBuffer& Buffer) {

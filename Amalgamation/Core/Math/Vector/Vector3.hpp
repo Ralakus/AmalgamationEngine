@@ -16,6 +16,7 @@ namespace Amalgamation { namespace Math {
 
 			MathType m_Data[3];
 			MathType X, Y, Z;
+			MathType Yaw, Pitch, Roll;
 
 		};
 

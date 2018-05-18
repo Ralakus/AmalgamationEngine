@@ -52,15 +52,23 @@ namespace Amalgamation {
 		}
 
 		glm::vec3 GetFront() const {
-			glm::vec3 CamEuler = glm::degrees(glm::eulerAngles(m_TransformPtr->Rotation));
+			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
 			glm::vec3 CamFront = glm::normalize(glm::vec3(
 
-				cos(glm::radians(CamEuler.y)) * cos(glm::radians(CamEuler.x)),
-				sin(glm::radians(CamEuler.x)),
-				sin(glm::radians(CamEuler.y)) * cos(glm::radians(CamEuler.x))
+				cos(CamEuler.y) * cos(CamEuler.x),
+				sin(CamEuler.x),
+				sin(CamEuler.y) * cos(CamEuler.x)
 
 			)) * m_TransformPtr->Rotation;
 			return CamFront;
+		}
+
+		glm::vec3 GetRight() const {
+			return glm::normalize(glm::cross(GetFront(), glm::vec3(0, 1, 0)));
+		}
+
+		glm::vec3 GetUp() const {
+			return glm::normalize(glm::cross(GetRight(), GetFront()));
 		}
 
 		void SetProjection(const glm::mat4 Projection) {

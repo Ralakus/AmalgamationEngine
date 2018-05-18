@@ -84,6 +84,8 @@ namespace Amalgamation {
 
 		ArrayBufferLayout m_Layout;
 
+		mutable bool m_Bound;
+
 	public:
 
 		GLArrayBuffer() {
@@ -107,11 +109,15 @@ namespace Amalgamation {
 		}
 
 		void Bind() const {
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
+			if (!m_Bound) {
+				GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
+			}
 		}
 
 		void Unbind() const {
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+			if (m_Bound) {
+				GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+			}
 		}
 
 		inline void PushData(const void* Data, size_t Size) {

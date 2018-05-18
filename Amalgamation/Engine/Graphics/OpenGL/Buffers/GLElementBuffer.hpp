@@ -11,6 +11,8 @@ namespace Amalgamation {
 		uint32 m_BufferID;
 		size_t m_Count;
 
+		mutable bool m_Bound;
+
 	public:
 		GLElementBuffer() {
 			GLCall(glGenBuffers(1, &m_BufferID));
@@ -35,8 +37,8 @@ namespace Amalgamation {
 			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
 			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
 		}
-		inline void Bind() const { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID)); }
-		inline void Unbind() const { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)); }
+		inline void Bind() const { if (!m_Bound) { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID)); } }
+		inline void Unbind() const { if (m_Bound) { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)); } }
 
 		inline size_t GetCount() const { return m_Count; }
 		inline uint32 GetID() const { return m_BufferID; }

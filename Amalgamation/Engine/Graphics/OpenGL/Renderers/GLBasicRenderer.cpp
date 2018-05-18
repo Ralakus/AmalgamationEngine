@@ -53,7 +53,7 @@ namespace Amalgamation {
 				for (Texture* TexturePtr : MeshPtr->GetTextures()) {
 					TexturePtr->Bind();
 					CastShader->SetUniform("u_Material.Diffuse", TexturePtr->GetLayer());
-					CastShader->SetUniform("u_Material.Shininess", 1.f);
+					CastShader->SetUniform("u_Material.Shininess", 32.f);
 				}
 			}
 
