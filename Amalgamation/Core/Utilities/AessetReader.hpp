@@ -1,12 +1,12 @@
 #pragma once
 
 #include "File.hpp"
-#include <Core/Types/Singleton.hpp>
+#include "../Types/Singleton.hpp"
 #include <string>
 
 namespace Amalgamation {
 
-	class AessetReader : public Singleton<AessetReader> {
+	class AessetReader {
 
 		std::string m_LoadedFile;
 
@@ -16,12 +16,16 @@ namespace Amalgamation {
 
 	public:
 
+		AessetReader()  {}
+		~AessetReader() {}
+		SINGLETON_INSTANCE(AessetReader);
+
 		const std::string ReadError = "AESSET_READ_ERROR";
 
 		bool LoadAeseet(const std::string& Location) {
 
 			m_LoadedFilePath = Location;
-			m_LoadedFile = File::ReadFile(Location);
+			m_LoadedFile = FileIO::ReadFile(Location);
 			m_Buffer.clear();
 			if (m_LoadedFile == "") {
 				return false;

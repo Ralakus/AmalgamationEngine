@@ -19,78 +19,47 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Data\DataMath\DVector2.hpp" />
+    <ClInclude Include="Core\Data\DataMath\DVector3.hpp" />
+    <ClInclude Include="Core\Data\DataMath\DVector4.hpp" />
+    <ClInclude Include="Core\Data\TypeStruct.hpp" />
+    <ClInclude Include="Core\Event\Event.hpp" />
+    <ClInclude Include="Core\Event\EventCallback.hpp" />
+    <ClInclude Include="Core\Event\EventHandler.hpp" />
     <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
-    <ClInclude Include="Core\Graphics\Light.hpp" />
-    <ClInclude Include="Core\Graphics\Material.hpp" />
-    <ClInclude Include="Core\Graphics\Mesh.hpp" />
-    <ClInclude Include="Core\Graphics\Renderer.hpp" />
-    <ClInclude Include="Core\Graphics\Shader.hpp" />
-    <ClInclude Include="Core\Graphics\Texture.hpp" />
-    <ClInclude Include="Core\Graphics\Window.hpp" />
-    <ClInclude Include="Core\Input\Input.hpp" />
-    <ClInclude Include="Core\Lua\LocalLuaScript.hpp" />
-    <ClInclude Include="Core\Lua\LuaScript.hpp" />
-    <ClInclude Include="Core\Lua\LuaState.hpp" />
+    <ClInclude Include="Core\Input\ArchaicInput.hpp" />
+    <ClInclude Include="Core\Input\InputManager.hpp" />
+    <ClInclude Include="Core\Math\MathDefines.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
     <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp" />
     <ClInclude Include="Core\Math\Quaternion\Quaternion.hpp" />
-    <ClInclude Include="Core\Math\Transform.hpp" />
+    <ClInclude Include="Core\Math\SIMD.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector2.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
-    <ClInclude Include="Core\Platform\Platform.hpp" />
+    <ClInclude Include="Core\Platform\Typedef.hpp" />
+    <ClInclude Include="Core\Task\ThreadPool.hpp" />
+    <ClInclude Include="Core\Types\Allocator.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />
+    <ClInclude Include="Core\Types\Optional.hpp" />
     <ClInclude Include="Core\Types\Singleton.hpp" />
     <ClInclude Include="Core\Utilities\AessetReader.hpp" />
     <ClInclude Include="Core\Utilities\File.hpp" />
+    <ClInclude Include="Core\Utilities\Log.hpp" />
+    <ClInclude Include="Core\Utilities\MainArgsParser.hpp" />
+    <ClInclude Include="Core\Utilities\Random.hpp" />
     <ClInclude Include="Core\Utilities\Time.hpp" />
-    <ClInclude Include="Core\World\Component.hpp" />
-    <ClInclude Include="Core\World\Entity.hpp" />
-    <ClInclude Include="Core\World\Object.hpp" />
-    <ClInclude Include="Core\World\World.hpp" />
-    <ClInclude Include="Core\World\WorldPlugin.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.hpp" />
+    <ClInclude Include="Core\Utilities\Timer.hpp" />
+    <ClInclude Include="Core\Graphics\Window.hpp" />
+    <ClInclude Include="Core\Scene\Actor.hpp" />
+    <ClInclude Include="Core\Scene\Component.hpp" />
+    <ClInclude Include="Core\Scene\Scene.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\GLMesh.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\GLShader.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLDirectionalLight.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLPointLight.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLSpotLight.hpp" />
-    <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp" />
-    <ClInclude Include="Engine\World\Components\CameraComponent.hpp" />
-    <ClInclude Include="Engine\World\Components\LightComponent.hpp" />
-    <ClInclude Include="Engine\World\Components\MeshComponent.hpp" />
-    <ClInclude Include="Engine\World\Components\RigidBodyComponent.hpp" />
-    <ClInclude Include="Engine\World\Components\TransformComponent.hpp" />
-    <ClInclude Include="Engine\World\Entities\BasicEntity.hpp" />
-    <ClInclude Include="Engine\World\Entities\EmtpyEntity.hpp" />
-    <ClInclude Include="Engine\World\WorldPlugins\BulletPhysicsPlugin.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Graphics\OpenGL\glad.c" />
-    <ClCompile Include="Engine\Graphics\OpenGL\GLWindow.cpp" />
-    <ClCompile Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.cpp" />
+    <ClCompile Include="Core\Graphics\glad.c" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Core\Platform\Unincludable.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders.lua" />
-    <None Include="LTest.lua" />
-    <None Include="Path.lua" />
-    <None Include="UserSettings.lua" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dependencies\Bullet3\Bullet3.vcxproj">
-      <Project>{8d323f77-1c47-4843-9e14-75ce8b23680b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Dependencies\ImGUI\ImGUI.vcxproj">
-      <Project>{ae85f0b0-4e88-4044-9953-4f6b237dacf2}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

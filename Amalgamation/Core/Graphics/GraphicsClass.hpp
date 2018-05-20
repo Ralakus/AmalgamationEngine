@@ -14,7 +14,7 @@ namespace Amalgamation {
 	public:
 
 		GraphicsClass(API API) : m_API(API) {}
-		virtual ~GraphicsClass()            {}
+		virtual ~GraphicsClass() {}
 
 		API GetAPI() const { return m_API; }
 

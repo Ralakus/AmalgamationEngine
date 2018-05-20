@@ -1,25 +1,26 @@
 #pragma once
 
-#include <Core/Platform/Platform.hpp>
-#include <Core/Input/Input.hpp>
+#include "../Platform/Typedef.hpp"
 #include "GraphicsClass.hpp"
+#include "../Input/ArchaicInput.hpp"
+
 #include <string>
 
 namespace Amalgamation {
 
+
 	class Window : public GraphicsClass {
+
 	protected:
 
-		std::string m_Title;
 		uint32 m_Width, m_Height;
+		std::string m_Title;
 
-		bool m_Valid = false;
-
+		bool m_Valid      = false;
 		bool m_Fullscreen = false;
 
-		virtual bool m_Init() = 0;
+	protected:
 
-	public:
 		static void SetInputKey(unsigned int key, bool state) { Keyboard::Instance().SetKeyState(key, state); }
 		static void SetMouseButton(unsigned int button, bool state) { Mouse::Instance().SetButtonState(button, state); }
 		static void SetMousePos(float x, float y) { Mouse::Instance().SetPos(x, y); }
@@ -30,22 +31,23 @@ namespace Amalgamation {
 		Window(API API) : GraphicsClass(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
 		virtual ~Window() {}
 
-		inline virtual uint32 GetHeight() const { return m_Height; }
-		inline virtual uint32 GetWidth() const { return m_Width; }
+		uint32 GetHeight() const { return m_Height; }
+		uint32 GetWidth()  const { return m_Width;  }
 
-		virtual void SetTitle(const std::string& title) { m_Title = title; }
-		virtual void SetTitle(const char* title) { m_Title = title; }
-		inline virtual const std::string& GetTitle() const { return m_Title; }
+		virtual void SetTitle(const std::string& Title) { m_Title = Title; }
+		virtual void SetTitle(const char* Title)        { m_Title = Title; }
+		const std::string& GetTitle() const     { return m_Title;  }
 
-		virtual void LockMouse(bool set) {}
+		bool IsValid()      const { return m_Valid;      }
+		bool IsFullscreen() const { return m_Fullscreen; }
 
-		virtual void Close() = 0;
-
-		virtual void Update() = 0;
+		virtual void SetFullscreen(bool Set) = 0;
+		virtual void LockMouse(bool Set)     = 0;
+		virtual void Update()    = 0;
+		virtual void Close()     = 0;
 		virtual void Terminate() = 0;
 
-		virtual bool IsValid() { return m_Valid; }
-		virtual bool IsFullscreen() { return m_Fullscreen; }
 	};
+
 
 }

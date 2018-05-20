@@ -4,7 +4,7 @@
 
 namespace Amalgamation {
 
-	class File {
+	class FileIO {
 
 	public:
 
@@ -26,9 +26,19 @@ namespace Amalgamation {
 			return content;
 		}
 
-
-		static void WriteToFile(const std::string& Name, std::string& Destination, const std::string& Data) {
-
+		static void WriteToFile(const std::string& NameAndLocation, const std::string& Data, std::ios_base::openmode Mode = std::ios::app) {
+            static std::ofstream OutputFile;
+            static std::string LastFile = "";
+            static std::ios_base::openmode LastMode = std::ios::app;
+            if(NameAndLocation == LastFile && Mode == LastMode){
+                OutputFile << Data << '\n';
+            }
+            else{
+                OutputFile.close();
+                OutputFile.open(NameAndLocation, Mode);
+            }
+            LastFile = NameAndLocation;
+            LastMode = Mode;
 		}
 
 	};
