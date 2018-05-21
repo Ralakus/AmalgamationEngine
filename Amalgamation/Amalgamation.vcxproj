@@ -27,7 +27,6 @@
     <ClInclude Include="Core\Event\EventCallback.hpp" />
     <ClInclude Include="Core\Event\EventHandler.hpp" />
     <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
-    <ClInclude Include="Core\Input\ArchaicInput.hpp" />
     <ClInclude Include="Core\Input\InputManager.hpp" />
     <ClInclude Include="Core\Math\MathDefines.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
@@ -38,12 +37,14 @@
     <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
     <ClInclude Include="Core\Platform\Typedef.hpp" />
+    <ClInclude Include="Core\Scene\ComponentSystem.hpp" />
+    <ClInclude Include="Core\Scene\Object.hpp" />
     <ClInclude Include="Core\Task\ThreadPool.hpp" />
     <ClInclude Include="Core\Types\Allocator.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />
     <ClInclude Include="Core\Types\Optional.hpp" />
     <ClInclude Include="Core\Types\Singleton.hpp" />
-    <ClInclude Include="Core\Utilities\AessetReader.hpp" />
+    <ClInclude Include="Core\Utilities\Aesset.hpp" />
     <ClInclude Include="Core\Utilities\File.hpp" />
     <ClInclude Include="Core\Utilities\Log.hpp" />
     <ClInclude Include="Core\Utilities\MainArgsParser.hpp" />
@@ -60,6 +61,9 @@
   <ItemGroup>
     <ClCompile Include="Core\Graphics\glad.c" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config.aesset" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

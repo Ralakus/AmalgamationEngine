@@ -2,7 +2,7 @@
 
 #include "../Platform/Typedef.hpp"
 #include "GraphicsClass.hpp"
-#include "../Input/ArchaicInput.hpp"
+#include "../Input/InputManager.hpp"
 
 #include <string>
 
@@ -21,9 +21,15 @@ namespace Amalgamation {
 
 	protected:
 
-		static void SetInputKey(unsigned int key, bool state) { Keyboard::Instance().SetKeyState(key, state); }
-		static void SetMouseButton(unsigned int button, bool state) { Mouse::Instance().SetButtonState(button, state); }
-		static void SetMousePos(float x, float y) { Mouse::Instance().SetPos(x, y); }
+		static void UpdateKeyInput(int KeyCode, int Action) {
+			Input::Instance().UpdateKeys(static_cast<Key>(KeyCode), static_cast<InputAction>(Action));
+		}
+		static void UpdateButtonInput(int ButtonCode, int Action) {
+			Input::Instance().UpdateButtons(static_cast<Button>(ButtonCode), static_cast<InputAction>(Action));
+		}
+		static void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y) {
+			Input::Instance().UpdateMousePos(X, Y);
+		}
 
 	public:
 

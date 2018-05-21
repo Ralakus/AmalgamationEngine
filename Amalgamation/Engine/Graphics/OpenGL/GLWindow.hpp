@@ -36,11 +36,11 @@ namespace Amalgamation {
 
 			glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* Window, int Width, int Height) { GLCall(glViewport(0, 0, Width, Height)); });
 
-			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Window::SetMouseButton(button, action != GLFW_RELEASE); });
+			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Window::UpdateButtonInput(button, action); });
 
-			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::SetInputKey(key, action != GLFW_RELEASE); });
+			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::UpdateKeyInput(key, action); });
 
-			glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::SetMousePos(static_cast<float>(xpos), static_cast<float>(ypos)); });
+			glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<MATH_TYPE>(xpos), static_cast<MATH_TYPE>(ypos)); });
 
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 				AE_LOG_ERROR("Failed to initlize GLAD!");

@@ -1,74 +1,82 @@
 #pragma once
 
 #include "File.hpp"
-#include "../Types/Singleton.hpp"
 #include <string>
 
 namespace Amalgamation {
 
-	class AessetReader {
+	class Aesset {
 
-		std::string m_LoadedFile;
+		/*
 
-		std::string m_LoadedFilePath;
+		======
+		FORMAT
+		======
+
+		<PropertyName/PropertyValue>
+
+		< = Opening statement
+		/ = Value   definition
+		> = Closing statement
+
+		*/
+
+		File m_File;
+		std::string m_Content;
 
 		mutable std::string m_Buffer;
 
 	public:
 
-		AessetReader()  {}
-		~AessetReader() {}
-		SINGLETON_INSTANCE(AessetReader);
+		static std::string ReadError() { return "Aesset_Read_Error"; }
 
-		const std::string ReadError = "AESSET_READ_ERROR";
-
-		bool LoadAeseet(const std::string& Location) {
-
-			m_LoadedFilePath = Location;
-			m_LoadedFile = FileIO::ReadFile(Location);
-			m_Buffer.clear();
-			if (m_LoadedFile == "") {
-				return false;
+		FORCEINLINE Aesset()  {}
+		FORCEINLINE Aesset(const std::string& Data, bool IsFile = true, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+			if (IsFile) {
+				LoadFile(Data, Mode);
 			}
 			else {
-				return true;
-			}
-
-		}
-
-		bool LoadAessetFromStr(const std::string& Aesset) {
-			m_LoadedFile = Aesset;
-			m_Buffer.clear();
-			if (m_LoadedFile == "") {
-				return false;
-			}
-			else {
-				return true;
+				m_Content = Data;
 			}
 		}
+		~Aesset() {}
 
-		size_t ScanForProperty(const std::string& Property) const {
+		FORCEINLINE void LoadFile(const std::string& Name, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+			m_Content = m_File.LoadAndGetContents(Name, Mode);
+		}
 
+		FORCEINLINE void LoadString(const std::string& Data) {
+			m_Content = Data;
+		}
+
+		FORCEINLINE void Unload() {
+			m_File.Close();
+			m_Content.clear();
+		}
+
+		FORCEINLINE void WriteProperty(const std::string& Name, const std::string& Value) {
+			m_File.Write("<" + Name + "/" + Value + ">");
+		}
+
+		FORCEINLINE size_t ScanForProperty(const std::string& Property) const {
 			m_Buffer.clear();
-
 			bool BufferDone = false;
 			bool Buffering = false;
 			//bool OnOpeningStatement = false;
 			//bool OnClosingStatement = false;
-
-			for (size_t i = 0; i < m_LoadedFile.size(); i++) {
+			for (size_t i = 0; i < m_Content.size(); i++) {
 				if (BufferDone) {
 					m_Buffer.clear();
 					BufferDone = false;
 				}
-				if (m_LoadedFile[i] == '<') {
+				if (m_Content[i] == '<') {
 					Buffering = true;
 					i++;
 				}
 				if (Buffering) {
-					m_Buffer += m_LoadedFile[i];
+					m_Buffer += m_Content[i];
 				}
-				if (m_LoadedFile[i] == '/') {
+				if (m_Content[i] == '/') {
 					Buffering = false;
 					BufferDone = true;
 				}
@@ -76,50 +84,36 @@ namespace Amalgamation {
 					return i + 2;
 				}
 			}
-
 			printf("Could not find property %s\n", Property.c_str());
-
 			return -1;
-
 		}
 
-		const std::string& GetPropertyRawString(const std::string& Property) const {
-
+		FORCEINLINE const std::string& GetPropertyRawString(const std::string& Property) const {
 			size_t PropertyIndex = ScanForProperty(Property);
 			if (PropertyIndex == static_cast<size_t>(-1)) {
-				return ReadError;
+				return ReadError();
 			}
 			m_Buffer.clear();
-
-			for (size_t i = PropertyIndex; i < m_LoadedFile.size(); i++) {
-				if (m_LoadedFile[i] == '>') {
+			for (size_t i = PropertyIndex; i < m_Content.size(); i++) {
+				if (m_Content[i] == '>') {
 					return m_Buffer;
 				}
-				m_Buffer += m_LoadedFile[i];
+				m_Buffer += m_Content[i];
 			}
-			return ReadError;
-
+			return ReadError();
 		}
-
-		void UnloadAesset() {
-			m_LoadedFilePath.clear();
-			m_LoadedFile.clear();
-			m_Buffer.clear();
-		}
-
-		const std::string& GetLoadedFile() const { return m_LoadedFilePath; }
 
 		template<typename T>
-		T GetProperty(const std::string& Property) const {
+		FORCEINLINE T Get(const std::string& Property) const {
 			static_assert(false, "Invalid property type");
 		}
 
 		template<>
-		float GetProperty(const std::string& Property) const {
+		FORCEINLINE float Get(const std::string& Property) const {
 			std::string str = GetPropertyRawString(Property);
 			float Value = 0.f;
 			try {
-				if (str != "" && str != ReadError) {
+				if (str != "" && str != ReadError()) {
 					Value = std::stof(str);
 				}
 			}
@@ -131,11 +125,11 @@ namespace Amalgamation {
 		}
 
 		template<>
-		int GetProperty(const std::string& Property) const {
+		FORCEINLINE int Get(const std::string& Property) const {
 			std::string str = GetPropertyRawString(Property);
 			int Value = 0;
 			try {
-				if (str != "" && str != ReadError) {
+				if (str != "" && str != ReadError()) {
 					Value = std::stoi(str);
 				}
 			}
@@ -147,11 +141,11 @@ namespace Amalgamation {
 		}
 
 		template<>
-		double GetProperty(const std::string& Property) const {
+		FORCEINLINE double Get(const std::string& Property) const {
 			std::string str = GetPropertyRawString(Property);
 			double Value = 0.0;
 			try {
-				if (str != "" && str != ReadError) {
+				if (str != "" && str != ReadError()) {
 					Value = std::stod(str);
 				}
 			}
@@ -163,11 +157,11 @@ namespace Amalgamation {
 		}
 
 		template<>
-		long double GetProperty(const std::string& Property) const {
+		FORCEINLINE long double Get(const std::string& Property) const {
 			std::string str = GetPropertyRawString(Property);
 			double Value = 0.0;
 			try {
-				if (str != "" && str != ReadError) {
+				if (str != "" && str != ReadError()) {
 					Value = std::stold(str);
 				}
 			}
@@ -179,11 +173,11 @@ namespace Amalgamation {
 		}
 
 		template<>
-		unsigned int GetProperty(const std::string& Property) const {
+		FORCEINLINE unsigned int Get(const std::string& Property) const {
 			std::string str = GetPropertyRawString(Property);
 			unsigned int Value = 0;
 			try {
-				if (str != "" && str != ReadError) {
+				if (str != "" && str != ReadError()) {
 					Value = std::stol(str);
 				}
 			}
@@ -195,7 +189,7 @@ namespace Amalgamation {
 		}
 
 		template<>
-		std::string GetProperty(const std::string& Property) const {
+		FORCEINLINE std::string Get(const std::string& Property) const {
 			std::string Value = "";
 			try {
 				Value = GetPropertyRawString(Property);
@@ -208,4 +202,5 @@ namespace Amalgamation {
 		}
 
 	};
+
 }

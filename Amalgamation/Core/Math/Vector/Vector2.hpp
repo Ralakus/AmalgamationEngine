@@ -34,7 +34,7 @@ namespace Amalgamation { namespace Math {
 		    memcpy(&m_data, &Other.m_Data, sizeof(MathType) * 2);
 		}
 
-		FORCEINLINE ~TVector3() {}
+		FORCEINLINE ~TVector2() {}
 
 		FORCEINLINE TVec2& Add(const TVec2& Other) {
 			this->X += Other.X;

@@ -11,24 +11,19 @@ namespace Amalgamation {
 		float m_Delta = 0.f;
 
 		float m_AVGFPS = 0.f;
-		uint32 m_FramesInSecond = 0.f;
+		uint32 m_FramesInSecond = 0;
 
 		float m_OnSecondTimer = 0.f;
 
 	public:
 
-		FORCEINLINE  Time() {}
+		FORCEINLINE  Time() { m_Timer.Start(); }
 		FORCEINLINE ~Time() {}
 
 		FORCEINLINE void Update() {
-			if (!m_Timer.IsRunning()) {
-				m_Timer.Start();
-			}
-			else {
-				m_Timer.Stop();
-				m_Delta = m_Timer.GetTimeMilli();
-				m_Timer.Start();
-			}
+			m_Timer.Stop();
+			m_Delta = m_Timer.GetTimeMilli();
+			m_Timer.Start();
 
 			m_OnSecond = false;
 
