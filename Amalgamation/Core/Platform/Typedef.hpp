@@ -61,6 +61,12 @@ namespace Amalgamation {
 	struct IsPointer { static const bool Value = false; };
 	template<class Type>
 	struct IsPointer<Type*> { static const bool Value = true; };
+
+	template<class Type1, class Type2>
+	struct IsEqual { static const bool Value = false; };
+	template<class Type>
+	struct IsEqual<Type, Type> { static const bool Value = true; };
+
 	class Error {
 		const char* Message;
 	public:

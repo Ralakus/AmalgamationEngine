@@ -12,6 +12,7 @@ namespace Amalgamation {
 
 		float m_AVGFPS = 0.f;
 		uint32 m_FramesInSecond = 0;
+		float m_FPSIS = 0.f;
 
 		float m_OnSecondTimer = 0.f;
 
@@ -22,16 +23,17 @@ namespace Amalgamation {
 
 		FORCEINLINE void Update() {
 			m_Timer.Stop();
-			m_Delta = m_Timer.GetTimeMilli();
+			m_Delta = m_Timer.GetTimeSec();
 			m_Timer.Start();
 
 			m_OnSecond = false;
 
 			m_OnSecondTimer += m_Delta;
+			m_FPSIS += 1.f / m_Delta;
 			m_FramesInSecond++;
 
 			if (m_OnSecondTimer > 1.f) {
-				m_AVGFPS = (1.f / static_cast<float>(m_FramesInSecond)) / static_cast<float>(m_FramesInSecond);
+				m_AVGFPS = m_FPSIS / static_cast<float>(m_FramesInSecond);
 				m_OnSecondTimer = 0.f;
 				m_OnSecond = true;
 			}

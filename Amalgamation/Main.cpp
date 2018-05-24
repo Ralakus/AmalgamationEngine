@@ -15,8 +15,33 @@ public:
 		Input::Instance().RegisterKeyAction("TComp", Key::E, InputAction::Pressed);
 		Input::Instance().RegisterCallback("TComp", &m_Callback);
 	}
+	~TComp() {
+		Input::Input().DeregisterCallback(&m_Callback);
+	}
 	void Print() {
 		AE_LOG_SUCCESS("Scene works");
+	}
+};
+
+class TCompSys : public TComponentSystem < TComp > {
+public:
+
+	void Update() override {
+
+		for (size_t i = 0; i < m_RegisteredComponents.size(); i++) {
+			if (m_RegisteredComponents[i] == nullptr) {
+				DeregisterComponent(m_RegisteredComponents[i]);
+			}
+		}
+
+		for (size_t i = 0; i < m_RegisteredComponents.size(); i++) {
+			glBegin(GL_TRIANGLES);
+			glVertex2f(0.0, 0.5);   //Top
+			glVertex2f(-0.5, -0.5); //Bottom Left
+			glVertex2f(0.5, -0.5);  //Bottom Right
+			glEnd();
+		}
+
 	}
 };
 
@@ -41,7 +66,12 @@ int main(int argc, char* args[]) {
 
 	Scene  S;
 	Actor* Player = S.CreateActor<Actor>();
+	TCompSys* TCS = S.AddSystem<TCompSys>();
 	TComp* TC = S.AddComponent<TComp>(Player);
+
+	EventLambdaCallback DelAct([&]() -> void { S.DeleteActor(Player); });
+	Input::Instance().RegisterKeyAction("DelAct", Key::Q, InputAction::Pressed);
+	Input::Instance().RegisterCallback("DelAct", &DelAct);
 
 	S.Awake();
 
@@ -49,12 +79,10 @@ int main(int argc, char* args[]) {
 		S.Update();
 		Window->Update();
 		T.Update();
-		Window->SetTitle(std::to_string(T.GetAvgFPS()));
-		glBegin(GL_TRIANGLES);
-		glVertex2f(0.0, 0.5);   //Top
-		glVertex2f(-0.5, -0.5); //Bottom Left
-		glVertex2f(0.5, -0.5);  //Bottom Right
-		glEnd();
+
+		if (T.OnSecond()) {
+			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
+		}
 	}
 
 	S.Destroy();

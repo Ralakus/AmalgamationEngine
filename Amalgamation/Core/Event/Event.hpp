@@ -35,7 +35,7 @@ namespace Amalgamation{
         }
         void Trigger() {
             for(auto& Function : m_Callbacks){
-                (*Function)();
+				(*Function)();
             }
         }
     };

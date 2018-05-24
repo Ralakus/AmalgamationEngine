@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Types/Noncopyable.hpp"
+#include "../Platform/Typedef.hpp"
 
 #include <memory>
 #include <functional>
@@ -8,6 +9,9 @@
 namespace Amalgamation{
 
     class IEventCallback : public Noncopyable {
+		friend class EventHandler;
+	protected:
+		std::string m_EventName;
     public:
 
         IEventCallback() : Noncopyable() {};
@@ -15,6 +19,9 @@ namespace Amalgamation{
 
         virtual void operator()() = 0;
         virtual bool operator == (IEventCallback* Other) = 0;
+		virtual bool IsValid() = 0;
+
+		FORCEINLINE const std::string& GetRegisteredEvent() const { return m_EventName; }
     };
 
     template<class T>
@@ -28,7 +35,9 @@ namespace Amalgamation{
         EventCallback(T* Instance, void (T::*Function)()) : IEventCallback(), m_Instance(Instance), m_Function(Function) {}
         ~EventCallback (){}
 
-        virtual void operator()() override { (m_Instance->*m_Function)(); };
+		virtual void operator()() override { if (m_Function) { (m_Instance->*m_Function)(); } };
+
+		virtual bool IsValid() { return (m_Function != nullptr); }
 
         virtual bool operator == (IEventCallback* Other) override {
             EventCallback<T>* OtherEC = dynamic_cast<EventCallback<T>*>(Other);
@@ -51,7 +60,9 @@ namespace Amalgamation{
         EventFunctionCallback(void (*Function)()) : IEventCallback(), m_Function(Function) {}
         ~EventFunctionCallback (){}
 
-        virtual void operator()() override { (*m_Function)(); };
+		virtual void operator()() override { if (m_Function) { (*m_Function)(); } };
+
+		virtual bool IsValid() { return (m_Function != nullptr); }
 
         virtual bool operator == (IEventCallback* Other) override {
             EventFunctionCallback* OtherEC = dynamic_cast<EventFunctionCallback*>(Other);
@@ -77,6 +88,8 @@ namespace Amalgamation{
 		~EventLambdaCallback() {}
 
 		virtual void operator()() override { m_Function(); };
+
+		virtual bool IsValid() { return (m_Function != nullptr); }
 
 		virtual bool operator == (IEventCallback* Other) override {
 			/*EventLambdaCallback* OtherEC = dynamic_cast<EventLambdaCallback*>(Other);

@@ -15,13 +15,18 @@ namespace Amalgamation{
     public:
 
         EventHandler() {}
-        virtual ~EventHandler() {}
+        virtual ~EventHandler() {
+			for (auto E : m_Events) {
+				SafeDelete(E.second);
+			}
+		}
 
         void RegisterCallback(const std::string& Name, IEventCallback* Callback) {
             if(m_Events.count(Name) < 1){
                 return;
             }
             else{
+				Callback->m_EventName = Name;
                 m_Events[Name]->AddListener(Callback);
             }
         }
@@ -35,5 +40,10 @@ namespace Amalgamation{
                 m_Events[Name]->Trigger();
             }
         }
+		void DeregisterCallback(IEventCallback* Callback) {
+			if (m_Events.count(Callback->m_EventName) > 0) {
+				m_Events[Callback->m_EventName]->RemoveListener(Callback);
+			}
+		}
     };
 }

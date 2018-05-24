@@ -40,4 +40,10 @@ namespace Amalgamation {
 
 	};
 
+	template<class ComponentType>
+	class TComponentSystem : public ComponentSystem{
+	public:
+		typedef ComponentType Type;
+	};
+
 }
