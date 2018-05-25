@@ -203,6 +203,28 @@ namespace Amalgamation {
 			return Value;
 		}
 
+		template<>
+		FORCEINLINE bool Get(const std::string& Property) const {
+			std::string Value;
+			try {
+				Value = GetPropertyRawString(Property);
+				if (Value == "True" || Value == "true" || Value == "TRUE") {
+					return true;
+				}
+				else if (Value == "False" || Value == "false" || Value == "FALSE") {
+					return false;
+				}
+				else {
+					throw Error("Property not bool!");
+				}
+			}
+			catch (...) {
+				printf("%s", ("[LOG_ERROR]: Failed to parse " + Property + " into a bool!\n").c_str());
+				return false;
+			}
+			return false;
+		}
+
 	};
 
 }

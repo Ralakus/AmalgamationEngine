@@ -1,7 +1,7 @@
 <WindowName/Aesset>
 <WindowWidth/1280>
 <WindowHeight/720>
-<WindowFullscreen/0>
+<WindowFullscreen/False>
 <CloseWindowKey/Escape>
 
 <InteractKey/E>

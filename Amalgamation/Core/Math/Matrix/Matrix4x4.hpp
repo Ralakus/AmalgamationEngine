@@ -33,7 +33,7 @@ namespace Amalgamation { namespace Math {
         }
         FORCEINLINE ~TMatrix4x4() {}
 
-        FORCEINLINE TMatrix4x4(const TMatrix4x4& Other) : m_Data(Other.m_Data)
+		FORCEINLINE TMatrix4x4(const TMatrix4x4& Other) : m_Data{ Other.m_Data }
         {}
         FORCEINLINE void operator = (const TMatrix4x4& Other){
             memcpy(&m_Data, &Other.m_Data, sizeof(TVector4<MathType>) * 4);

@@ -33,6 +33,7 @@
     <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp" />
     <ClInclude Include="Core\Math\Quaternion\Quaternion.hpp" />
     <ClInclude Include="Core\Math\SIMD.hpp" />
+    <ClInclude Include="Core\Math\Transform.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector2.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="Core\Scene\Scene.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp" />
+    <ClInclude Include="Engine\Scene\Components\TransformComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Graphics\glad.c" />

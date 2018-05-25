@@ -1,10 +1,9 @@
-//#define AE_FORCE_TIMER_CHRONO
-
 #include <Core/Event/EventHandler.hpp>
 #include <Core/Utilities/Time.hpp>
 #include <Core/Utilities/Aesset.hpp>
 #include <Core/Scene/Scene.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
+#include <Engine/Scene/Components/TransformComponent.hpp>
 
 using namespace Amalgamation;
 
@@ -54,7 +53,7 @@ int main(int argc, char* args[]) {
 		Config.Get<std::string>("WindowName"), 
 		Config.Get<unsigned int>("WindowWidth"), 
 		Config.Get<unsigned int>("WindowHeight"),
-		Config.Get<int>("WindowFullscreen")
+		Config.Get<bool>("WindowFullscreen")
 	);
 
 	Time T;
@@ -66,7 +65,12 @@ int main(int argc, char* args[]) {
 	Scene  S;
 	Actor* Player = S.CreateActor<Actor>();
 	TCompSys* TCS = S.AddSystem<TCompSys>();
-	TComp* TC = S.AddComponent<TComp>(Player, Input::Instance().KeyFromAesset(Config, "InteractKey"));
+	TComp*    TC  = S.AddComponent<TComp>(Player, Input::Instance().KeyFromAesset(Config, "InteractKey"));
+
+	TransformComponent* PlayerTransform = S.AddComponent<TransformComponent>(Player);
+	TransformSystem* TransformationSystem = S.AddSystem<TransformSystem>();
+
+	TransformationSystem->GetTransform(PlayerTransform).Position = { 1, 3, 5 };
 
 	EventLambdaCallback DelAct([&]() -> void { S.DeleteActor(Player); });
 	Input::Instance().RegisterKeyAction("DelAct", Input::Instance().KeyFromAesset(Config, "TestKey"), InputAction::Pressed);
@@ -78,8 +82,6 @@ int main(int argc, char* args[]) {
 		S.Update();
 		Window->Update();
 		T.Update();
-
-		//printf("X: %i, Y: %i                  \r", static_cast<unsigned int>(Input::Instance().GetMousePos().X), static_cast<unsigned int>(Input::Instance().GetMousePos().Y));
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
