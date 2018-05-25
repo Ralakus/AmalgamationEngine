@@ -47,6 +47,14 @@ using Byte = uint8;
 	#define FORCEINLINE inline
 #endif
 
+#ifdef AE_COMPILER_MSVC
+	#define FORCENOINLINE __declspec(noinline)
+#elif defined(AE_COMPILER_GCC) || defined(AE_COMPILER_CLANG)
+	#define FORCENOINLINE __attribute__(( noinline ))
+#else
+	#define FORCENOINLINE
+#endif
+
 #define AE_LOG_NOTE_STR    "[LOG_NOTE]:"
 #define AE_LOG_ERROR_STR   "[LOG_ERROR]:"
 #define AE_LOG_WARNING_STR "[LOG_WARNING]:"

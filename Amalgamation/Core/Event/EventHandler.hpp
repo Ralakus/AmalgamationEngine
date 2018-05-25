@@ -21,7 +21,7 @@ namespace Amalgamation{
 			}
 		}
 
-        void RegisterCallback(const std::string& Name, IEventCallback* Callback) {
+		FORCEINLINE void RegisterCallback(const std::string& Name, IEventCallback* Callback) {
             if(m_Events.count(Name) < 1){
                 return;
             }
@@ -30,17 +30,17 @@ namespace Amalgamation{
                 m_Events[Name]->AddListener(Callback);
             }
         }
-        void RegisterEvent(const std::string& Name, Event* EventPtr){
+		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr){
             if(m_Events.count(Name) < 1){
                 m_Events[Name] = EventPtr;
             }
         }
-        void TriggerEvent(const std::string& Name){
+        FORCEINLINE void TriggerEvent(const std::string& Name){
             if(m_Events.count(Name) > 0){
                 m_Events[Name]->Trigger();
             }
         }
-		void DeregisterCallback(IEventCallback* Callback) {
+		FORCEINLINE void DeregisterCallback(IEventCallback* Callback) {
 			if (m_Events.count(Callback->m_EventName) > 0) {
 				m_Events[Callback->m_EventName]->RemoveListener(Callback);
 			}

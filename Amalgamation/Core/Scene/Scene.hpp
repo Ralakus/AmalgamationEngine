@@ -15,20 +15,7 @@ namespace Amalgamation {
 	public:
 
 		Scene()  {}
-		~Scene() {
-			for (auto* A : m_Actors) {
-				SafeDelete(A);
-			}
-			m_Actors.clear();
-			for (auto* C : m_Components) {
-				SafeDelete(C);
-			}
-			m_Components.clear();
-			for (auto* CS : m_CSystems) {
-				SafeDelete(CS);
-			}
-			m_CSystems.clear();
-		}
+		~Scene() { CleanUp(); }
 
 		FORCEINLINE void Awake()   {
 			for (auto* CS : m_CSystems) {
@@ -44,6 +31,21 @@ namespace Amalgamation {
 			for (auto* CS : m_CSystems) {
 				CS->Destroy();
 			}
+		}
+
+		FORCEINLINE void CleanUp() {
+			for (auto* A : m_Actors) {
+				SafeDelete(A);
+			}
+			m_Actors.clear();
+			for (auto* C : m_Components) {
+				SafeDelete(C);
+			}
+			m_Components.clear();
+			for (auto* CS : m_CSystems) {
+				SafeDelete(CS);
+			}
+			m_CSystems.clear();
 		}
 
 		template<class TComponent, class TActor, class... TCArgs>

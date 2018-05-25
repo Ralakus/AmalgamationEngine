@@ -33,10 +33,12 @@ namespace Amalgamation{
                 m_Callbacks.erase(Index);
             }
         }
-        void Trigger() {
-            for(auto& Function : m_Callbacks){
-				(*Function)();
-            }
+        FORCEINLINE void Trigger() {
+			if (m_Callbacks.size() > 0) {
+				for (auto Function : m_Callbacks) {
+					(*Function)();
+				}
+			}
         }
     };
 

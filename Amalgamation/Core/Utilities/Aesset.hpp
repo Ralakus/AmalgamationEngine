@@ -91,7 +91,8 @@ namespace Amalgamation {
 		FORCEINLINE const std::string& GetPropertyRawString(const std::string& Property) const {
 			size_t PropertyIndex = ScanForProperty(Property);
 			if (PropertyIndex == static_cast<size_t>(-1)) {
-				return ReadError();
+				m_Buffer = ReadError();
+				return m_Buffer;
 			}
 			m_Buffer.clear();
 			for (size_t i = PropertyIndex; i < m_Content.size(); i++) {
@@ -100,7 +101,8 @@ namespace Amalgamation {
 				}
 				m_Buffer += m_Content[i];
 			}
-			return ReadError();
+			m_Buffer = ReadError();
+			return m_Buffer;
 		}
 
 		template<typename T>
@@ -190,13 +192,13 @@ namespace Amalgamation {
 
 		template<>
 		FORCEINLINE std::string Get(const std::string& Property) const {
-			std::string Value = "";
+			std::string Value;
 			try {
 				Value = GetPropertyRawString(Property);
 			}
 			catch (...) {
 				printf("%s", ("[LOG_ERROR]: Failed to parse " + Property + " into a string!\n").c_str());
-				return 0;
+				return "";
 			}
 			return Value;
 		}
