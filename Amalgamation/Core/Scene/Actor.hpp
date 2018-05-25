@@ -10,8 +10,18 @@ namespace Amalgamation {
 
 	protected:
 
-		void AddComponent(Component* Comp) {
+		FORCEINLINE void AddComponent(Component* Comp) {
 			m_Components.emplace_back(Comp);
+		}
+
+		FORCEINLINE void RemoveComponent(Component* Comp) {
+			std::vector<Component*>::iterator Index = std::find(m_Components.begin(), m_Components.end(), Comp);
+			if (Index == m_Components.end()) {
+				return;
+			}
+			else {
+				m_Components.erase(Index);
+			}
 		}
 
 		std::vector<Component*> m_Components;

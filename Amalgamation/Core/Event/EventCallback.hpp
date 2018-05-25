@@ -14,7 +14,7 @@ namespace Amalgamation{
 		std::string m_EventName;
     public:
 
-		NON_COPYABLE_CONSTRUCTOR(IEventCallback)
+		NON_COPYABLE(IEventCallback)
 
 		IEventCallback()          {};
 		virtual ~IEventCallback() {};

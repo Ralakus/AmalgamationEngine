@@ -21,12 +21,12 @@ namespace Amalgamation {
 
 		Object* m_Parent = this;
 
-		FORCEINLINE virtual void Parent(Object* Parent) { this->m_Parent = Parent; }
+		FORCEINLINE void Parent(Object* Parent) { this->m_Parent = Parent; }
 
 	public:
 
-		FORCEINLINE Object() = default;
-		FORCEINLINE virtual ~Object() {}
+		Object() = default;
+		virtual ~Object() {}
 
 		FORCEINLINE const std::vector<std::string>& GetTags() const {
 			return m_Tags;

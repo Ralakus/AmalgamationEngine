@@ -31,7 +31,7 @@ namespace Amalgamation {
 		static std::string ReadError() { return "Aesset_Read_Error"; }
 
 		FORCEINLINE Aesset()  {}
-		FORCEINLINE Aesset(const std::string& Data, bool IsFile = true, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+		FORCEINLINE Aesset(const std::string& Data, bool IsFile = true, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app) {
 			if (IsFile) {
 				LoadFile(Data, Mode);
 			}
@@ -41,17 +41,21 @@ namespace Amalgamation {
 		}
 		~Aesset() {}
 
-		FORCEINLINE void LoadFile(const std::string& Name, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+		FORCEINLINE void LoadFile(const std::string& Name, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app) {
 			m_Content = m_File.LoadAndGetContents(Name, Mode);
 		}
 
-		FORCEINLINE void LoadString(const std::string& Data) {
+		FORCEINLINE void LoadDataString(const std::string& Data) {
 			m_Content = Data;
 		}
 
 		FORCEINLINE void Unload() {
 			m_File.Close();
 			m_Content.clear();
+		}
+
+		FORCEINLINE const std::string& GetData() const {
+			return m_Content;
 		}
 
 		FORCEINLINE void WriteProperty(const std::string& Name, const std::string& Value) {

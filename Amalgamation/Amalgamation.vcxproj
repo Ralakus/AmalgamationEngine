@@ -41,9 +41,7 @@
     <ClInclude Include="Core\Scene\ComponentSystem.hpp" />
     <ClInclude Include="Core\Scene\Object.hpp" />
     <ClInclude Include="Core\Task\ThreadPool.hpp" />
-    <ClInclude Include="Core\Types\Allocator.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />
-    <ClInclude Include="Core\Types\Optional.hpp" />
     <ClInclude Include="Core\Types\Singleton.hpp" />
     <ClInclude Include="Core\Utilities\Aesset.hpp" />
     <ClInclude Include="Core\Utilities\File.hpp" />

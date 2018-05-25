@@ -49,11 +49,13 @@ int main(int argc, char* args[]) {
 	Aesset Config;
 	Config.LoadFile("Config.aesset");
 
+	AE_LOG_NOTE(("TODO:" + Config.Get<std::string>("TODO")).c_str());
+
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
-		Config.Get<std::string>("WindowName"), 
+		Config.Get<std::string> ("WindowName"), 
 		Config.Get<unsigned int>("WindowWidth"), 
 		Config.Get<unsigned int>("WindowHeight"),
-		Config.Get<bool>("WindowFullscreen")
+		Config.Get<bool>        ("WindowFullscreen")
 	);
 
 	Time T;
@@ -62,24 +64,29 @@ int main(int argc, char* args[]) {
 	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
 	Input::Instance().RegisterCallback ("CloseWindow", &CloseWindow);
 
-	Scene  S;
-	Actor* Player = S.CreateActor<Actor>();
-	TCompSys* TCS = S.AddSystem<TCompSys>();
-	TComp*    TC  = S.AddComponent<TComp>(Player, Input::Instance().KeyFromAesset(Config, "InteractKey"));
+	Scene  Level;
+	Actor* Player = Level.CreateActor<Actor>();
+	TCompSys* TCS = Level.AddSystem<TCompSys>();
+	TComp*    TC  = Level.AddComponent<TComp>(Player, Input::Instance().KeyFromAesset(Config, "InteractKey"));
 
-	TransformComponent* PlayerTransform = S.AddComponent<TransformComponent>(Player);
-	TransformSystem* TransformationSystem = S.AddSystem<TransformSystem>();
+	TransformComponent* PlayerTransform      = Level.AddComponent<TransformComponent>(Player);
 
-	TransformationSystem->GetTransform(PlayerTransform).Position = { 1, 3, 5 };
+	PlayerTransform->Transform.Position = { 1, 3, 5 };
 
-	EventLambdaCallback DelAct([&]() -> void { S.DeleteActor(Player); });
+	EventLambdaCallback DelAct([&]() -> void { Level.DeleteComponent(TC); });
 	Input::Instance().RegisterKeyAction("DelAct", Input::Instance().KeyFromAesset(Config, "TestKey"), InputAction::Pressed);
 	Input::Instance().RegisterCallback("DelAct", &DelAct);
 
-	S.Awake();
+	//Aesset TestOut("TestOut.aesset", true, std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+	//TestOut.WriteProperty("X", std::to_string(PlayerTransform->Transform.Position.X));
+	//TestOut.WriteProperty("Y", std::to_string(PlayerTransform->Transform.Position.Y));
+	//TestOut.WriteProperty("Z", std::to_string(PlayerTransform->Transform.Position.Z));
+
+	Level.Awake();
 
 	while (Window->IsValid()) {
-		S.Update();
+		Level.Update();
 		Window->Update();
 		T.Update();
 
@@ -88,7 +95,7 @@ int main(int argc, char* args[]) {
 		}
 	}
 
-	S.Destroy();
+	Level.Destroy();
 
 	return 0;
 

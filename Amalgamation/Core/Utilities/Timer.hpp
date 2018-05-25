@@ -84,7 +84,7 @@ namespace Amalgamation{
                 {
                     m_End = std::chrono::high_resolution_clock::now();
                 }
-                return std::chrono::duration_cast<std::chrono::nanoseconds>(m_End - m_Start).count() * 1000.f;
+                return std::chrono::duration_cast<std::chrono::nanoseconds>(m_End - m_Start).count() / 1000.f;
             #endif
         }
 

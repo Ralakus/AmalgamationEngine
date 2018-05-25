@@ -77,6 +77,7 @@ namespace Amalgamation {
 						m_CSystems[i]->DeregisterComponent(m_Components[I]);
 					}
 				}
+				static_cast<Actor*>(m_Components[I]->m_Parent)->RemoveComponent(m_Components[I]);
 				SafeDelete(m_Components[I]);
 				m_Components.erase(Index);
 				Comp = nullptr;
@@ -86,6 +87,7 @@ namespace Amalgamation {
 
 		template<class TCSystem, class TCType = TCSystem::Type, class... TCSArgs>
 		FORCEINLINE TCSystem* AddSystem(TCSArgs&&... Args) {
+			static_assert(std::is_base_of<TComponentSystem<TCType>, TCSystem>::value, "Create system must take in a class derived from TComponentSystem!");
 			m_CSystems.emplace_back(new TCSystem(std::forward<TCSArgs>(Args)...));
 			for (size_t i = 0; i < m_Components.size(); i++) {
 				if (dynamic_cast<TCType*>(m_Components[i])) {
@@ -131,6 +133,22 @@ namespace Amalgamation {
 				Act = nullptr;
 				return true;
 			}
+		}
+
+		template<typename TActorType>
+		FORCEINLINE std::vector<TActorType*> GetActorsByType() {
+			std::vector<TActorType*> Array;
+			TActorType* Temp;
+			for (size_t i = 0; i < m_Actors.size(); i++) {
+				Temp = dynamic_cast<TActorType*>(m_Actors[i]);
+				if (Temp != nullptr) {
+					Array.push_back(Temp);
+				}
+				else {
+					continue;
+				}
+			}
+			return Array;
 		}
 
 	};

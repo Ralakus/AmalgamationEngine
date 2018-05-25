@@ -1,6 +1,6 @@
 #pragma once
 
-#define NON_COPYABLE_CONSTRUCTOR(Class) Class(const Class& Other) = delete; 
+#define NON_COPYABLE(Class) Class(const Class& Other) = delete; 
 
 namespace Amalgamation {
 

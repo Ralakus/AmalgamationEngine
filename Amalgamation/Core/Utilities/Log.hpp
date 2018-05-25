@@ -33,7 +33,7 @@
     #include <windows.h>
 
     #define WIN_CON_COL(color) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-    #define WIN_CON_RES        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+    #define WIN_CON_RES        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 
     #define AE_LOG(x)         WIN_CON_RES;     printf("%s %s\n", AE_LOG_STR,         x); WIN_CON_RES
     #define AE_LOG_NOTE(x)    WIN_CON_COL(11); printf("%s %s\n", AE_LOG_NOTE_STR,    x); WIN_CON_RES

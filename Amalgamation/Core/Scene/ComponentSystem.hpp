@@ -21,9 +21,9 @@ namespace Amalgamation {
 		ComponentSystem()          {}
 		virtual ~ComponentSystem() {}
 
-		FORCEINLINE virtual void Awake()   {}
-		FORCEINLINE virtual void Update()  {}
-		FORCEINLINE virtual void Destroy() {}
+		virtual void Awake()   {}
+		virtual void Update()  {}
+		virtual void Destroy() {}
 
 		FORCEINLINE void RegisterComponent(Component* Comp) {
 			m_RegisteredComponents.emplace_back(Comp);

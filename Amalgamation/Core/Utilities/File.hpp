@@ -16,10 +16,10 @@ namespace Amalgamation {
 	public:
 
 		FORCEINLINE File()  {}
-		FORCEINLINE File(const std::string& FilePath, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) { LoadFile(FilePath, Mode); }
+		FORCEINLINE File(const std::string& FilePath, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app) { LoadFile(FilePath, Mode); }
 		FORCEINLINE ~File() {}
 
-		FORCEINLINE void LoadFile(const std::string& FileName, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+		FORCEINLINE void LoadFile(const std::string& FileName, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app) {
 			m_File = FileName;
 			m_Stream.open(FileName, static_cast<std::ios_base::openmode>(Mode));
 			m_LoadedContent = std::string(
@@ -32,7 +32,7 @@ namespace Amalgamation {
 			return m_LoadedContent;
 		}
 
-		FORCEINLINE const std::string& LoadAndGetContents(const std::string& FileName, unsigned int Mode = std::ios::in | std::ios::in | std::ios::app) {
+		FORCEINLINE const std::string& LoadAndGetContents(const std::string& FileName, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app) {
 			LoadFile(FileName, Mode);
 			return m_LoadedContent;
 		}
