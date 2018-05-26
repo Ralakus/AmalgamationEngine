@@ -1,7 +1,7 @@
-# AmalgamationEngine
+# AmalgamationEngine :video_game:
 A C++/OpenGL game engine that I work on as a hobby project
 
-# Naming:
+## Naming: :blue_book:
 * Everything PascalCase
 * C++ headers use .hpp
 * Macros use SCREAMING_SNAKE_CASE
