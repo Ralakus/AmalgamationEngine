@@ -7,7 +7,7 @@
 <InteractKey/E>
 <RandomNameKey/Q>
 
-<TODO/ Update the aesset file format to allow tables like the example below in the Config.aesset file>
+<TODO/ Update the aesset file format to allow tables like the example below in the Config.aesset file and finish seperating the .hpp files into .inl files>
 
 <Window/
   <Name/Aesset>
