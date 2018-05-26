@@ -84,6 +84,10 @@ namespace Amalgamation { namespace Math {
 	{ return this->Multiply(Other); }
 
 	template<class MathType>
+	FORCEINLINE TVector4<MathType>& TVector4<MathType>::operator/=(const TVector4<MathType>& Other)
+	{ return this->Divide(Other); }
+
+	template<class MathType>
 	FORCEINLINE bool TVector4<MathType>::operator==(const TVector4<MathType> & Other) {
 		return (this->m_Data[0] == Other.m_Data[0]
 			&& this->m_Data[1] == Other.m_Data[1]

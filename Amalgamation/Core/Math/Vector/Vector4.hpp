@@ -40,7 +40,7 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector4<MathType>& operator+=(const TVector4<MathType>& Other);
 		FORCEINLINE TVector4<MathType>& operator-=(const TVector4<MathType>& Other);
 		FORCEINLINE TVector4<MathType>& operator*=(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& operator/=(const TVector4<MathType>& Other) { return this->Divide(Other); }
+		FORCEINLINE TVector4<MathType>& operator/=(const TVector4<MathType>& Other);
 
 		FORCEINLINE bool operator==(const TVector4<MathType>& Other);
 		FORCEINLINE bool operator!=(const TVector4<MathType>& Other);

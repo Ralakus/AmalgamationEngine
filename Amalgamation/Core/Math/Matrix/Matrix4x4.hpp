@@ -24,7 +24,7 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TMatrix4x4(MathType Diagonal);
 		FORCEINLINE TMatrix4x4();
 		FORCEINLINE TMatrix4x4(const TMatrix4x4& Other);
-		FORCEINLINE ~TMatrix4x4() {}
+		FORCEINLINE ~TMatrix4x4();
 
 		FORCEINLINE TMatrix4x4<MathType>& Multiply(const TMatrix4x4<MathType>& Other);
 		FORCEINLINE TMatrix4x4<MathType>& Multiply(const TQuaternion<MathType>& Other);

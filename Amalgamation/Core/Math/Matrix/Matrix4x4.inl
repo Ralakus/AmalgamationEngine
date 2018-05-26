@@ -22,6 +22,10 @@ namespace Amalgamation { namespace Math {
 	}
 
 	template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType>::~TMatrix4x4()
+	{}
+
+	template<class MathType>
 	FORCEINLINE TMatrix4x4<MathType> & TMatrix4x4<MathType>::Multiply(const TMatrix4x4<MathType> & Other) {
 		for (unsigned int i = 0; i < 4; i++) {
 			for (unsigned int j = 0; i < 4; j++) {
