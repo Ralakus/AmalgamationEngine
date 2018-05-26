@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 #include "GraphicsClass.hpp"
 #include "../Input/InputManager.hpp"
 

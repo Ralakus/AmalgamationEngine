@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 #include "MathDefines.hpp"
 
 namespace Amalgamation { namespace Math {

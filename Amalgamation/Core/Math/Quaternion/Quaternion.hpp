@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../Platform/Typedef.hpp"
+#include "../../Platform/Platform.hpp"
+#include "../MathFunctions.hpp"
 #include "../Vector/Vector3.hpp"
 
 namespace Amalgamation { namespace Math {
@@ -39,9 +40,23 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TQuaternion(const TQuat& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1], Other.m_Data[2], Other.m_Data[3] }
 		{}
 
-		FORCEINLINE void operator = (const TQuat& Other) {
-		    memcpy(&m_Data, &Other.m_Data, sizeof(MathType) * 4);
+		FORCEINLINE TQuaternion(const TVector3<MathType>& Euler) {
+			TVector3<MathType> C = {
+				cos(Euler.X * 0.5f), cos(Euler.Y * 0.5f), cos(Euler.Z * 0.5f)
+			};
+			TVector3<MathType> S = {
+				sin(Euler.X * 0.5f), sin(Euler.Y * 0.5f), sin(Euler.Z * 0.5f)
+			};
+
+			this->W = C.X * C.Y * C.Z + S.X * S.Y * S.Z;
+			this->X = S.X * C.Y * C.Z - C.X * S.Y * S.Z;
+			this->Y = C.X * S.Y * C.Z + S.X * C.Y * S.Z;
+			this->Z = C.X * C.Y * S.Z - S.X * S.Y * C.Z;
 		}
+
+		/*FORCEINLINE void operator = (const TQuat& Other) {
+		    memcpy(&m_Data, &Other.m_Data, sizeof(MathType) * 4);
+		}*/
 
 		FORCEINLINE ~TQuaternion() {}
 
@@ -88,9 +103,21 @@ namespace Amalgamation { namespace Math {
             return ((*this) /= this->Length());
         }
 
-        FORCEINLINE TQuat Conjugate() const{
+        FORCEINLINE TQuat Conjugate() const {
             return TQuat(-this->X, -this->Y, -this->Z, this->W);
         }
+
+		FORCEINLINE TVector3<MathType> Euler() const {
+			MathType SQX = this->X * this->X;
+			MathType SQY = this->Y * this->Y;
+			MathType SQZ = this->Z * this->Z;
+			MathType SQW = this->W * this->W;
+			return TVector3<MathType>(
+				Math::Degrees( atan2(2.0  * (this->Y * this->Z + this->X * this->W) , (-SQX - SQY + SQZ + SQW))),
+				Math::Degrees( asin (-2.0 * (this->X * this->Z - this->Y * this->W)) ),
+				Math::Degrees( atan2(2.0  * (this->X * this->Y + this->Z * this->W), (SQX - SQY - SQZ + SQW)) )
+			);
+		}
 
     };
 

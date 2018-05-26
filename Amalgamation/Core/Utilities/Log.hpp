@@ -1,4 +1,4 @@
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 
 #if   defined(AE_LINUX)
 

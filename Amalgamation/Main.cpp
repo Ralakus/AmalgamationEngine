@@ -1,48 +1,11 @@
 #include <Core/Event/EventHandler.hpp>
 #include <Core/Utilities/Time.hpp>
 #include <Core/Utilities/Aesset.hpp>
-#include <Core/Scene/Scene.hpp>
+#include <Core/Level/Level.hpp>
+#include <Core/Graphics/Mesh.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
-#include <Engine/Scene/Components/TransformComponent.hpp>
 
 using namespace Amalgamation;
-
-class TComp : public Component {
-	friend class TCompSys;
-	EventCallback<TComp> m_Callback;
-	Math::Vec2 m_Pos[3];
-public:
-	TComp(Key InteractKey) : m_Callback(this, &TComp::Print), 
-		m_Pos{
-			{ 0.0f, 0.5f }, { -0.5f, -0.5f }, { 0.5f, -0.5f }
-		} {
-		Input::Instance().RegisterKeyAction("TComp", InteractKey, InputAction::Pressed);
-		Input::Instance().RegisterCallback("TComp", &m_Callback);
-	}
-	~TComp() {
-		AE_LOG_SUCCESS("Deletion works!");
-		Input::Instance().DeregisterCallback(&m_Callback);
-	}
-	void Print() {
-		AE_LOG_SUCCESS("Scene works");
-	}
-};
-
-class TCompSys : public TComponentSystem < TComp > {
-public:
-
-	void Update() override {
-
-		for (size_t i = 0; i < m_RegisteredComponents.size(); i++) {
-			GLCall(glBegin(GL_TRIANGLES));
-			GLCall(glVertex2f(static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[0][0], static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[0][1])); //Top
-			GLCall(glVertex2f(static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[1][0], static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[1][1])); //Bottom Left
-			GLCall(glVertex2f(static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[2][0], static_cast<TComp*>(m_RegisteredComponents[i])->m_Pos[2][1])); //Bottom Right
-			glEnd();
-		}
-
-	}
-};
 
 int main(int argc, char* args[]) {
 
@@ -64,31 +27,53 @@ int main(int argc, char* args[]) {
 	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
 	Input::Instance().RegisterCallback ("CloseWindow", &CloseWindow);
 
-	Scene  Level;
-	Actor* Player = Level.CreateActor<Actor>();
-	TCompSys* TCS = Level.AddSystem<TCompSys>();
-	TComp*    TC  = Level.AddComponent<TComp>(Player, Input::Instance().KeyFromAesset(Config, "InteractKey"));
+	EventFunctionCallback WriteCube([]()-> void {
+		Aesset Cube("Cube.aesset", true, std::ios::in | std::ios::out | std::ios::trunc);
+		MeshData SphereMD = Mesh::MakeMeshData(Mesh::Primitive::Cube);
+		Cube.WriteProperty("Vertices Size", std::to_string(SphereMD.Vertices.size() - 1));
+		Cube.NewLine();
+		Cube.NewLine();
+		for (size_t i = 0; i < SphereMD.Vertices.size(); i++) {
+			Cube.WriteProperty("VX" + std::to_string(i), std::to_string((SphereMD.Vertices[i].X)));
+			Cube.WriteProperty("VY" + std::to_string(i), std::to_string((SphereMD.Vertices[i].Y)));
+			Cube.WriteProperty("VZ" + std::to_string(i), std::to_string((SphereMD.Vertices[i].Z)));
 
-	TransformComponent* PlayerTransform      = Level.AddComponent<TransformComponent>(Player);
+			Cube.NewLine();
 
-	PlayerTransform->Transform.Position = { 1, 3, 5 };
+			Cube.WriteProperty("NX" + std::to_string(i), std::to_string((SphereMD.Normals[i].X)));
+			Cube.WriteProperty("NY" + std::to_string(i), std::to_string((SphereMD.Normals[i].Y)));
+			Cube.WriteProperty("NZ" + std::to_string(i), std::to_string((SphereMD.Normals[i].Z)));
 
-	EventLambdaCallback DelAct([&]() -> void { Level.DeleteComponent(TC); });
-	Input::Instance().RegisterKeyAction("DelAct", Input::Instance().KeyFromAesset(Config, "TestKey"), InputAction::Pressed);
-	Input::Instance().RegisterCallback("DelAct", &DelAct);
+			Cube.NewLine();
 
-	//Aesset TestOut("TestOut.aesset", true, std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+			Cube.WriteProperty("TCX" + std::to_string(i), std::to_string((SphereMD.TextureCoords[i].X)));
+			Cube.WriteProperty("TCY" + std::to_string(i), std::to_string((SphereMD.TextureCoords[i].Y)));
 
-	//TestOut.WriteProperty("X", std::to_string(PlayerTransform->Transform.Position.X));
-	//TestOut.WriteProperty("Y", std::to_string(PlayerTransform->Transform.Position.Y));
-	//TestOut.WriteProperty("Z", std::to_string(PlayerTransform->Transform.Position.Z));
+			Cube.NewLine();
+		}
+		Cube.NewLine();
+		Cube.WriteProperty("Indices Count", std::to_string(SphereMD.Indices.size() - 1));
+		Cube.NewLine();
+		Cube.NewLine();
+		for (size_t i = 0; i < SphereMD.Indices.size(); i++) {
+			Cube.WriteProperty("I" + std::to_string(i), std::to_string(SphereMD.Indices[i]));
+			if (i % 4 == 0) {
+				Cube.NewLine();
+			}
+		}
+		AE_LOG_SUCCESS("Cube.aesset written");
+	});
+	Input::Instance().RegisterKeyAction("WriteCube", Input::Instance().KeyFromAesset(Config, "InteractKey"), InputAction::Pressed);
+	Input::Instance().RegisterCallback("WriteCube", &WriteCube);
+
+	Level Level;
 
 	Level.Awake();
 
 	while (Window->IsValid()) {
-		Level.Update();
-		Window->Update();
 		T.Update();
+		Level.Update(T.GetDelta());
+		Window->Update();
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));

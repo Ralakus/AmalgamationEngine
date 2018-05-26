@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event.hpp"
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 #include <string>
 #include <unordered_map>
 

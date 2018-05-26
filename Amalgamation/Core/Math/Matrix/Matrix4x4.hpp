@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../../Platform/Typedef.hpp"
+#include "../../Platform/Platform.hpp"
 #include "../Vector/Vector3.hpp"
 #include "../Vector/Vector4.hpp"
+#include "../Quaternion/Quaternion.hpp"
 #include "../MathFunctions.hpp"
 #include <cmath>
 #include <cstring>
@@ -19,6 +20,7 @@ namespace Amalgamation { namespace Math {
         union{
             TVector4<MathType> m_Data[4];
             MathType Elements [4][4];
+			MathType Arr[16];
         };
 
         FORCEINLINE TMatrix4x4(MathType Diagonal)  {
@@ -50,6 +52,33 @@ namespace Amalgamation { namespace Math {
             }
             return *this;
         }
+
+		FORCEINLINE TMat& Multiply(const TQuaternion<MathType>& Other) {
+
+			MathType QXX(Other.X * Other.X);
+			MathType QYY(Other.Y * Other.Y);
+			MathType QZZ(Other.Z * Other.Z);
+			MathType QXZ(Other.X * Other.Z);
+			MathType QXY(Other.X * Other.Y);
+			MathType QYZ(Other.Y * Other.Z);
+			MathType QWX(Other.W * Other.X);
+			MathType QWY(Other.W * Other.Y);
+			MathType QWZ(Other.W * Other.Z);
+
+			Elements[0][0] = 1 - 2 * (QYY + QZZ);
+			Elements[0][1] = 2 * (QXY + QWZ);
+			Elements[0][2] = 2 * (QXZ - QWY);
+
+			Elements[1][0] = 2 * (QXY - QWZ);
+			Elements[1][1] = 1 - 2 * (QXX + QZZ);
+			Elements[1][2] = 2 * (QYZ + QWX);
+
+			Elements[2][0] = 2 * (QXZ + QWY);
+			Elements[2][1] = 2 * (QYZ - QWX);
+			Elements[2][2] = 1 - 2 * (QXX + QYY);
+
+			return *this;
+		}
 
         FORCEINLINE TVector4<MathType> Multiply(const TVector4<MathType>& Other) const {
             return TVector4<MathType>(
@@ -153,7 +182,10 @@ namespace Amalgamation { namespace Math {
         FORCEINLINE friend TVector4<MathType> operator*(TMat Left, const TVector4<MathType>& Right) { return Left.Multiply(Right); }
         FORCEINLINE friend TVector4<MathType> operator*(const TVector4<MathType>& Left, TMat Right) { return Right.Multiply(Left); }
 
+		FORCEINLINE friend TMat operator*(TMat Left, const TQuaternion<MathType>& Right) { return Left.Multiply(Right); }
+
         FORCEINLINE TMat& operator*=(const TMat& Other) { return this->Multiply(Other); }
+		FORCEINLINE TMat& operator*=(const TQuaternion<MathType>& Other) { return this->Multiply(Other); }
 
         FORCEINLINE TVector4<MathType> operator[](size_t Index) { return m_Data[Index]; }
 

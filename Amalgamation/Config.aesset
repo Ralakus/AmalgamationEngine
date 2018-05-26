@@ -5,7 +5,6 @@
 <CloseWindowKey/Escape>
 
 <InteractKey/E>
-<TestKey/Q>
 
 <TODO/ Update the aesset file format to allow tables like the example below in the Config.aesset file>
 

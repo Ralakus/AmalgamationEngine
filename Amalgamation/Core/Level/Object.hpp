@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 #include <vector>
 #include <algorithm>
 
@@ -27,6 +27,10 @@ namespace Amalgamation {
 
 		Object() = default;
 		virtual ~Object() {}
+
+		virtual void Awake()              {}
+		virtual void Update(float Delta)  {}
+		virtual void Destroy()            {}
 
 		FORCEINLINE const std::vector<std::string>& GetTags() const {
 			return m_Tags;

@@ -62,6 +62,10 @@ namespace Amalgamation {
 			m_File.Write("<" + Name + "/" + Value + ">");
 		}
 
+		FORCEINLINE void NewLine() {
+			m_File.Write("\n");
+		}
+
 		FORCEINLINE size_t ScanForProperty(const std::string& Property) const {
 			m_Buffer.clear();
 			bool BufferDone = false;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Types/Noncopyable.hpp"
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 
 #include <memory>
 #include <functional>

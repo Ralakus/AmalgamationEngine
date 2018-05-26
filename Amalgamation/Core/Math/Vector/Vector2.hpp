@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Platform/Typedef.hpp"
+#include "../../Platform/Platform.hpp"
 #include <cmath>
 #include "../MathDefines.hpp"
 
@@ -30,9 +30,9 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector2(const TVec2& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1]}
 		{}
 
-		FORCEINLINE void operator = (const TVec2& Other) {
+		/*FORCEINLINE void operator = (const TVec2& Other) {
 		    memcpy(&m_data, &Other.m_Data, sizeof(MathType) * 2);
-		}
+		}*/
 
 		FORCEINLINE ~TVector2() {}
 

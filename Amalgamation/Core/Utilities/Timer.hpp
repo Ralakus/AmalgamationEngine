@@ -1,4 +1,4 @@
-#include "../Platform/Typedef.hpp"
+#include "../Platform/Platform.hpp"
 
 #if defined(AE_WINDOWS) && !defined(AE_FORCE_TIMER_CHRONO)
     #define AE_TIMER_USE_WINDOWS
