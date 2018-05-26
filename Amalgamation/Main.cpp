@@ -3,6 +3,7 @@
 #include <Core/Utilities/Aesset.hpp>
 #include <Core/Level/Level.hpp>
 #include <Core/Graphics/Mesh.hpp>
+#include <Core/Utilities/Random.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 
 using namespace Amalgamation;
@@ -65,6 +66,12 @@ int main(int argc, char* args[]) {
 	});
 	Input::Instance().RegisterKeyAction("WriteCube", Input::Instance().KeyFromAesset(Config, "InteractKey"), InputAction::Pressed);
 	Input::Instance().RegisterCallback("WriteCube", &WriteCube);
+
+	EventFunctionCallback RandomName([]() -> void {
+		AE_LOG(("Random Name: " + Random::Name(3, 8)).c_str());
+	});
+	Input::Instance().RegisterKeyAction("RandomName", Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Pressed);
+	Input::Instance().RegisterCallback("RandomName", &RandomName);
 
 	Level Level;
 

@@ -201,6 +201,9 @@
     <ClInclude Include="Core\Level\LevelPlugin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Math\Math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -216,6 +219,45 @@
   <ItemGroup>
     <None Include="Config.aesset" />
     <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Event\Event.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Event\EventCallback.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Event\EventHandler.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector2.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Quaternion\Quaternion.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Matrix\Matrix4x4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Aesset.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\File.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Timer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Time.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Random.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

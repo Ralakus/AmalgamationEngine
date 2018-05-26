@@ -34,6 +34,7 @@
     <ClInclude Include="Core\Graphics\Shader.hpp" />
     <ClInclude Include="Core\Graphics\Texture.hpp" />
     <ClInclude Include="Core\Input\InputManager.hpp" />
+    <ClInclude Include="Core\Math\Math.hpp" />
     <ClInclude Include="Core\Math\MathDefines.hpp" />
     <ClInclude Include="Core\Math\MathFunctions.hpp" />
     <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp" />
@@ -89,6 +90,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config.aesset" />
+    <None Include="Core\Event\Event.inl" />
+    <None Include="Core\Event\EventCallback.inl" />
+    <None Include="Core\Event\EventHandler.inl" />
+    <None Include="Core\Math\Matrix\Matrix4x4.inl" />
+    <None Include="Core\Math\Quaternion\Quaternion.inl" />
+    <None Include="Core\Math\Vector\Vector2.inl" />
+    <None Include="Core\Math\Vector\Vector3.inl" />
+    <None Include="Core\Math\Vector\Vector4.inl" />
+    <None Include="Core\Utilities\Aesset.inl" />
+    <None Include="Core\Utilities\File.inl" />
+    <None Include="Core\Utilities\Random.inl" />
+    <None Include="Core\Utilities\Time.inl" />
+    <None Include="Core\Utilities\Timer.inl" />
     <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

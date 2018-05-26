@@ -9,8 +9,6 @@ namespace Amalgamation { namespace Math {
 	template<class MathType>
 	class TVector2 {
 
-		using TVec2 = TVector2<MathType>;
-
 	public:
 
 		union {
@@ -18,84 +16,43 @@ namespace Amalgamation { namespace Math {
 			struct { MathType X, Y; };
 		};
 
-		FORCEINLINE TVector2(MathType X, MathType Y) : m_Data{ X, Y}
-		{}
+		FORCEINLINE TVector2(MathType X, MathType Y);
+		FORCEINLINE TVector2(MathType Scalar);
+		FORCEINLINE TVector2();
+		FORCEINLINE TVector2(const TVector2<MathType>& Other);
 
-		FORCEINLINE TVector2(MathType Scalar) : m_Data{ Scalar, Scalar }
-		{}
+		FORCEINLINE ~TVector2();
 
-		FORCEINLINE TVector2() : m_Data{ 0, 0 }
-		{}
+		FORCEINLINE TVector2<MathType>& Add(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& Subtract(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& Multiply(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& Divide(const TVector2<MathType>& Other);
 
-		FORCEINLINE TVector2(const TVec2& Other) : m_Data{ Other.m_Data[0], Other.m_Data[1]}
-		{}
+		FORCEINLINE friend TVector2<MathType> operator+(TVector2<MathType> Left, const TVector2<MathType>& Right);
+		FORCEINLINE friend TVector2<MathType> operator-(TVector2<MathType> Left, const TVector2<MathType>& Right);
+		FORCEINLINE friend TVector2<MathType> operator*(TVector2<MathType> Left, const TVector2<MathType>& Right);
+		FORCEINLINE friend TVector2<MathType> operator/(TVector2<MathType> Left, const TVector2<MathType>& Right);
 
-		/*FORCEINLINE void operator = (const TVec2& Other) {
-		    memcpy(&m_data, &Other.m_Data, sizeof(MathType) * 2);
-		}*/
+		FORCEINLINE TVector2<MathType>& operator+=(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& operator-=(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& operator*=(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& operator/=(const TVector2<MathType>& Other);
 
-		FORCEINLINE ~TVector2() {}
+		FORCEINLINE bool operator==(const TVector2<MathType>& Other);
+		FORCEINLINE bool operator!=(const TVector2<MathType>& Other);
 
-		FORCEINLINE TVec2& Add(const TVec2& Other) {
-			this->X += Other.X;
-			this->Y += Other.Y;
-			return *this;
-		}
+		FORCEINLINE void operator++();
+		FORCEINLINE void operator--();
 
-		FORCEINLINE TVec2& Subtract(const TVec2& Other) {
-			this->X -= Other.X;
-			this->Y -= Other.Y;
-			return *this;
-		}
+		FORCEINLINE TVector2<MathType>& operator++(int);
+		FORCEINLINE TVector2<MathType>& operator--(int) { TVector2<MathType> T = *this; --*this; return T; }
 
-		FORCEINLINE TVec2& Multiply(const TVec2& Other) {
-			this->X *= Other.X;
-			this->Y *= Other.Y;
-			return *this;
-		}
+		FORCEINLINE MathType operator[](size_t Index);
 
-		FORCEINLINE TVec2& Divide(const TVec2& Other) {
-			this->X /= Other.X;
-			this->Y /= Other.Y;
-			return *this;
-		}
-
-		FORCEINLINE friend TVec2 operator+(TVec2 Left, const TVec2& Right) { return Left.Add(Right); }
-		FORCEINLINE friend TVec2 operator-(TVec2 Left, const TVec2& Right) { return Left.Subtract(Right); }
-		FORCEINLINE friend TVec2 operator*(TVec2 Left, const TVec2& Right) { return Left.Multiply(Right); }
-		FORCEINLINE friend TVec2 operator/(TVec2 Left, const TVec2& Right) { return Left.Divide(Right); }
-
-		FORCEINLINE TVec2& operator+=(const TVec2& Other) { return this->Add(Other); }
-		FORCEINLINE TVec2& operator-=(const TVec2& Other) { return this->Subtract(Other); }
-		FORCEINLINE TVec2& operator*=(const TVec2& Other) { return this->Multiply(Other); }
-		FORCEINLINE TVec2& operator/=(const TVec2& Other) { return this->Divide(Other); }
-
-		FORCEINLINE bool operator==(const TVec2& Other) { return (this->X == Other.X && this->Y == Other.Y); }
-		FORCEINLINE bool operator!=(const TVec2& Other) { return !(*this == Other); }
-
-		FORCEINLINE void operator++() { X++; Y++; }
-		FORCEINLINE void operator--() { X--; Y--; }
-
-        FORCEINLINE TVec2& operator++(int) { TVec2 T = *this; ++*this; return T; }
-		FORCEINLINE TVec2& operator--(int) { TVec2 T = *this; --*this; return T; }
-
-		FORCEINLINE MathType operator[](size_t Index) { return m_Data[Index]; }
-
-		FORCEINLINE MathType Length() {
-		    return sqrt(X * X + Y * Y);
-		}
-
-        FORCEINLINE TVec2& Normalize(){
-            return ((*this) /= this->Length());
-        }
-
-        FORCEINLINE MathType Dot(const TVec2& Other){
-            return (X * Other.X + Y * Other. Y);
-        }
-
-        FORCEINLINE TVec2& Rotate(MathType Angle){
-            return *this;
-        }
+		FORCEINLINE MathType Length();
+		FORCEINLINE TVector2<MathType>& Normalize();
+		FORCEINLINE MathType Dot(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<MathType>& Rotate(MathType Angle);
 
 	};
 
@@ -106,3 +63,5 @@ namespace Amalgamation { namespace Math {
 	using Vector2 = Vec2;
 
 } }
+
+#include "Vector2.inl"
