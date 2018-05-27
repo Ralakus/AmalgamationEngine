@@ -21,31 +21,25 @@ namespace Amalgamation {
 
 	protected:
 
-		static void UpdateKeyInput(int KeyCode, int Action) {
-			Input::Instance().UpdateKeys(static_cast<Key>(KeyCode), static_cast<InputAction>(Action));
-		}
-		static void UpdateButtonInput(int ButtonCode, int Action) {
-			Input::Instance().UpdateButtons(static_cast<Button>(ButtonCode), static_cast<InputAction>(Action));
-		}
-		static void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y) {
-			Input::Instance().UpdateMousePos(X, Y);
-		}
+		static void UpdateKeyInput(int KeyCode, int Action);
+		static void UpdateButtonInput(int ButtonCode, int Action);
+		static void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y);
 
 	public:
 
-		Window(const std::string& title, uint32 width, uint32 height, bool Fullscreen, API API) : GraphicsClass(API), m_Title(title), m_Width(width), m_Height(height), m_Fullscreen(Fullscreen) {}
-		Window(API API) : GraphicsClass(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
-		virtual ~Window() {}
+		Window(const std::string& title, uint32 width, uint32 height, bool Fullscreen, API API);
+		Window(API API);
+		virtual ~Window();
 
-		uint32 GetHeight() const { return m_Height; }
-		uint32 GetWidth()  const { return m_Width;  }
+		uint32 GetHeight() const;
+		uint32 GetWidth()  const;
 
-		virtual void SetTitle(const std::string& Title) { m_Title = Title; }
-		virtual void SetTitle(const char* Title)        { m_Title = Title; }
-		const std::string& GetTitle() const     { return m_Title;  }
+		virtual void SetTitle(const std::string& Title);
+		virtual void SetTitle(const char* Title);
+		const std::string& GetTitle() const;
 
-		bool IsValid()      const { return m_Valid;      }
-		bool IsFullscreen() const { return m_Fullscreen; }
+		bool IsValid()      const;
+		bool IsFullscreen() const;
 
 		virtual void SetFullscreen(bool Set) = 0;
 		virtual void LockMouse(bool Set)     = 0;
@@ -57,3 +51,5 @@ namespace Amalgamation {
 
 
 }
+
+#include "Window.inl"

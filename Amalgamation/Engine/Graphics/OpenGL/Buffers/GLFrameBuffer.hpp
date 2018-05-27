@@ -11,3 +11,5 @@ namespace Amalgamation {
 	};
 
 }
+
+#include "GLFrameBuffer.inl"

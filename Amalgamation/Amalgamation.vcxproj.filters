@@ -260,5 +260,56 @@
     <None Include="Core\Utilities\Random.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Core\Input\InputManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Task\ThreadPool.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Mesh.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Material.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Shader.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Window.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Object.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Entity.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Level.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLMesh.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLShader.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLTexture.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLWindow.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

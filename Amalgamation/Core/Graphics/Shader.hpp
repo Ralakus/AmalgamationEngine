@@ -11,36 +11,24 @@ namespace Amalgamation {
 	protected:
 
 		std::string m_ShaderCode;
-
 		File m_File;
-
-		virtual void AfterLoad() {};
-
 		bool m_SupportsLighting = true;
+
+		virtual void AfterLoad();
 
 	public:
 
-		Shader(API API) : GraphicsClass(API) {}
-		virtual ~Shader()                    {}
+		Shader(API API);
+		virtual ~Shader();
 
-		virtual void LoadFile(const std::string& Filepath) {
-			m_ShaderCode = m_File.LoadAndGetContents(Filepath);
-			AfterLoad();
-		}
+		virtual void LoadFile(const std::string& Filepath);
+		virtual void LoadFromStr(const std::string& Str);
 
-		virtual void LoadFromStr(const std::string& Str) {
-			m_ShaderCode = Str;
-			AfterLoad();
-		}
-
-		virtual bool SupportsLighting() const {
-			return m_SupportsLighting;
-		}
-
-		virtual void SetSupportLighting(bool YoN) {
-			m_SupportsLighting = YoN;
-		}
+		virtual bool SupportsLighting() const;
+		virtual void SetSupportLighting(bool YoN);
 
 	};
 
 }
+
+#include "Shader.inl"

@@ -38,103 +38,34 @@ namespace Amalgamation {
 		std::vector<std::tuple<Key,    InputAction, std::string>> m_RKeys;
 		std::vector<std::tuple<Button, InputAction, std::string>> m_RButtons;
 
-		FORCEINLINE void UpdateKeys(Key KeyCode, InputAction Action) {
-			for (auto K : m_RKeys) {
-				if (std::get<0>(K) != KeyCode || std::get<1>(K) != Action) {
-					continue;
-				}
-				else {
-					TriggerEvent(std::get<2>(K));
-				}
-			}
-		}
+		FORCEINLINE void UpdateKeys(Key KeyCode, InputAction Action);
 
-		FORCEINLINE void UpdateButtons(Button ButtonCode, InputAction Action) {
-			for (auto K : m_RButtons) {
-				if (std::get<0>(K) != ButtonCode || std::get<1>(K) != Action) {
-					continue;
-				}
-				else {
-					TriggerEvent(std::get<2>(K));
-				}
-			}
-		}
+		FORCEINLINE void UpdateButtons(Button ButtonCode, InputAction Action);
 
-		FORCEINLINE void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y) {
-			m_MousePos.X = X;
-			m_MousePos.Y = Y;
-		}
+		FORCEINLINE void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y);
 
-		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr) {
-			if (m_Events.count(Name) < 1) {
-				m_Events[Name] = EventPtr;
-			}
-		}
+		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr);
 
-		FORCEINLINE void TriggerEvent(const std::string& Name) {
-			if (m_Events.count(Name) > 0) {
-				m_Events[Name]->Trigger();
-			}
-		}
+		FORCEINLINE void TriggerEvent(const std::string& Name);
 
 		Math::Vec2 m_MousePos;
 
 	public:
 
-		 Input() {}
-		~Input() {}
+		Input();
+		~Input();
 
 		SINGLETON_INSTANCE(Input)
 
-		FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action) {
-			RegisterEvent(Name, new Event);
-			m_RKeys.emplace_back(KeyCode, Action, Name);
-		}
-		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action) {
-			RegisterEvent(Name, new Event);
-			m_RButtons.emplace_back(ButtonCode, Action, Name);
-		}
+			FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action);
+		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 
-		FORCEINLINE const Math::Vec2& GetMousePos() const {
-			return m_MousePos;
-		}
+		FORCEINLINE const Math::Vec2& GetMousePos() const;
 
-		Key KeyFromAesset(const Aesset& File, const std::string& Name) {
-			std::string KeyStr = File.Get<std::string>(Name);
-			if (KeyStr == "Escape") {
-				return Key::Escape;
-			}
-			else if (KeyStr == "Ctrl") {
-				return Key::Ctrl;
-			}
-			else if (KeyStr == "Alt") {
-				return Key::Alt;
-			}
-			else if (KeyStr == "LShift") {
-				return Key::LShift;
-			}
-			else if (KeyStr == "RShift") {
-				return Key::RShift;
-			}
-			else if (KeyStr == "RAlt") {
-				return Key::RAlt;
-			}
-			else if (KeyStr == "RCtrl") {
-				return Key::RCtrl;
-			}
-			else if (KeyStr == "Tab") {
-				return Key::Tab;
-			}
-			else if (KeyStr == "Enter") {
-				return Key::RAlt;
-			}
-			else {
-				return static_cast<Key>(KeyStr.c_str()[0]);
-			}
-		}
+		Key KeyFromAesset(const Aesset& File, const std::string& Name);
 
 	};
 
-
-
 }
+
+#include "InputManager.inl"

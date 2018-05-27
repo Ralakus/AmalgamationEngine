@@ -16,52 +16,22 @@ namespace Amalgamation {
 
 	public:
 
-		Material(API API) : GraphicsClass(API) {}
-		virtual ~Material() {}
+		Material(API API);
+		virtual ~Material();
 
-		bool SetDiffuse(Texture* Diffuse) {
-			if (Diffuse->GetAPI() == this->GetAPI()) {
-				m_Diffuse = Diffuse;
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
+		bool SetDiffuse(Texture* Diffuse);
+		bool SetSpecular(Texture* Specular);
 
-		bool SetSpecular(Texture* Specular) {
-			if (Specular->GetAPI() == this->GetAPI()) {
-				m_Specular = Specular;
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
+		bool HasDiffuse() const;
+		bool HasSpecular() const;
 
-		bool HasDiffuse() const {
-			return m_Diffuse != nullptr;
-		}
+		Texture* GetDiffuse();
+		Texture* GetSpecular();
 
-		bool HasSpecular() const {
-			return m_Specular != nullptr;
-		}
-
-		Texture* GetDiffuse() {
-			return m_Diffuse;
-		}
-
-		Texture* GetSpecular() {
-			return m_Specular;
-		}
-
-		float GetShininess() const {
-			return m_Shininess;
-		}
-
-		float SetShininess(float Shininess) {
-			return m_Shininess = Shininess;
-		}
+		float GetShininess() const;
+		float SetShininess(float Shininess);
 	};
 
 }
+
+#include "Material.inl"

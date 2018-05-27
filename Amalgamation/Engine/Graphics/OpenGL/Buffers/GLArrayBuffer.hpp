@@ -7,73 +7,45 @@ namespace Amalgamation {
 
 	class GLArrayElement {
 	public:
-		GLArrayElement(uint32 Type, uint32 Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
+		GLArrayElement(uint32 Type, uint32 Count, int8 Normalized);
 		uint32 Type;
 		uint32 Count;
 		int8 Normalized;
 	};
 
-	//using VertexElement = ArrayElement;
-	typedef GLArrayElement VertexElement;
+	using GLVertexElement = GLArrayElement;
+	//typedef GLArrayElement VertexElement;
 
 
-	class ArrayBufferLayout {
+	class GLArrayBufferLayout {
 	public:
-		static uint32 GetSizeOfType(uint32 Type) {
-			switch (Type) {
-			case GL_FLOAT:         return sizeof(GLfloat);
-			case GL_INT:           return sizeof(GLint);
-			case GL_UNSIGNED_INT:  return sizeof(GLuint);
-			case GL_UNSIGNED_BYTE: return sizeof(GLbyte);
-			default: return 0;
-			}
-			return 0;
-		}
+		static uint32 GetSizeOfType(uint32 Type);
 
 	private:
 		std::vector<GLArrayElement> m_Elements;
 		uint32 m_Stride;
 	public:
 
-		ArrayBufferLayout() : m_Stride(0) {}
+		GLArrayBufferLayout();
 
 		template<typename Type>
-		void Push(int Count) {
-			static_assert(false, "Element push type is not supported!");
-		}
-
+		void Push(int Count);
 		template<>
-		void Push<float>(int Count) {
-			m_Elements.emplace_back(GL_FLOAT, Count, GL_FALSE);
-			m_Stride += Count * GetSizeOfType(GL_FLOAT);
-		}
-
+		void Push<float>(int Count);
 		template<>
-		void Push<int>(int Count) {
-			m_Elements.emplace_back(GL_FLOAT, Count, GL_FALSE);
-			m_Stride += Count * GetSizeOfType(GL_INT);
-		}
-
+		void Push<int>(int Count);
 		template<>
-		void Push<uint32>(int Count) {
-			m_Elements.emplace_back(GL_UNSIGNED_INT, Count, GL_FALSE);
-			m_Stride += Count * GetSizeOfType(GL_UNSIGNED_INT);
-		}
-
+		void Push<uint32>(int Count);
 		template<>
-		void Push<uint8>(int Count) {
-			m_Elements.emplace_back(GL_UNSIGNED_BYTE, Count, GL_TRUE);
-			m_Stride += Count * GetSizeOfType(GL_UNSIGNED_BYTE);
-		}
+		void Push<uint8>(int Count);
 
-		inline const std::vector<GLArrayElement>& GetElements() const { return m_Elements; }
-
-		inline uint32 GetStride() const { return m_Stride; }
+		inline const std::vector<GLArrayElement>& GetElements() const;
+		inline uint32 GetStride() const;
 
 	};
 
-	//using VertexBufferLayout = ArrayBufferLayout;
-	typedef ArrayBufferLayout VertexBufferLayout;
+	using GLVertexBufferLayout = GLArrayBufferLayout;
+	//typedef ArrayBufferLayout VertexBufferLayout;
 
 	/*
 	ARRAY BUFFER LAYOUT MUST BE INTERLACED!
@@ -82,57 +54,31 @@ namespace Amalgamation {
 
 		uint32 m_BufferID;
 
-		ArrayBufferLayout m_Layout;
+		GLArrayBufferLayout m_Layout;
 
 		mutable bool m_Bound;
 
 	public:
 
-		GLArrayBuffer() {
-			GLCall(glGenBuffers(1, &m_BufferID));
-		}
+		GLArrayBuffer();
+		GLArrayBuffer(const void* Data, size_t Size);
+		~GLArrayBuffer();
 
-		GLArrayBuffer(const void* Data, size_t Size) {
-			GLCall(glGenBuffers(1, &m_BufferID));
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
-			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
-		}
+		void Bind() const;
+		void Unbind() const;
 
-		~GLArrayBuffer() {
-			try {
-				GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-				GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID));
-			}
-			catch (...) {
-				return;
-			}
-		}
+		inline void PushData(const void* Data, size_t Size);
 
-		void Bind() const {
-			if (!m_Bound) {
-				GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
-			}
-		}
+		GLArrayBufferLayout& GetLayout();
+		const GLArrayBufferLayout& GetLayout() const;
 
-		void Unbind() const {
-			if (m_Bound) {
-				GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-			}
-		}
-
-		inline void PushData(const void* Data, size_t Size) {
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
-			GLCall(glBufferData(GL_ARRAY_BUFFER, Size, Data, GL_STATIC_DRAW));
-		}
-
-		ArrayBufferLayout& GetLayout() { return m_Layout; }
-		const ArrayBufferLayout& GetLayout() const { return m_Layout; }
-
-		uint32 GetID() const { return m_BufferID; }
+		uint32 GetID() const;
 
 	};
 
-	//using VertexBuffer = ArrayBuffer;
-	typedef GLArrayBuffer VertexBuffer;
+	using GLVertexBuffer = GLArrayBuffer;
+	//typedef GLArrayBuffer VertexBuffer;
 
 }
+
+#include "GLArrayBuffer.inl"
