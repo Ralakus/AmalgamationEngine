@@ -59,10 +59,6 @@
     <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Data\DataMath\DVector2.hpp" />
-    <ClInclude Include="Core\Data\DataMath\DVector3.hpp" />
-    <ClInclude Include="Core\Data\DataMath\DVector4.hpp" />
-    <ClInclude Include="Core\Data\TypeStruct.hpp" />
     <ClInclude Include="Core\Event\Event.hpp" />
     <ClInclude Include="Core\Event\EventCallback.hpp" />
     <ClInclude Include="Core\Event\EventHandler.hpp" />

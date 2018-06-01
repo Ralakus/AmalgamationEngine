@@ -125,18 +125,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Data\DataMath\DVector2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Data\DataMath\DVector3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Data\DataMath\DVector4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Data\TypeStruct.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Event\Event.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

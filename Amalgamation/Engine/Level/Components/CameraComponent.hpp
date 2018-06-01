@@ -28,14 +28,13 @@ namespace Amalgamation {
 			Math::Mat4 View(1);
 			View *= m_TransformPtr->Rotation;
 			return View.Multiply(Math::Matrix4::Translate((m_TransformPtr->Position * -1.f)));
-			//return Math::Mat4(1);
 		}
 
 		void Translate(const Math::Vec3& Translation) {
-			//m_TransformPtr->Position += (m_TransformPtr->Rotation.Multiply(Translation));
+			//m_TransformPtr->Position += m_TransformPtr->Rotation * Translation;
 		}
 		void Translate(float X, float Y, float Z) {
-			//m_TransformPtr->Position += glm::vec3(X, Y, Z) * m_TransformPtr->Rotation;
+			//m_TransformPtr->Position += Math::Vec3(X, Y, Z) * m_TransformPtr->Rotation;
 		}
 
 		void Rotate(float Angle, const Math::Vec3& Axis) {

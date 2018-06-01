@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet3", "Dependencies\Bul
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGUI", "Dependencies\ImGUI\ImGUI.vcxproj", "{AE85F0B0-4E88-4044-9953-4F6B237DACF2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{B8E1F52B-421C-40ED-876C-212B098E92DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -44,6 +46,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8D323F77-1C47-4843-9E14-75CE8B23680B} = {B8E1F52B-421C-40ED-876C-212B098E92DB}
+		{AE85F0B0-4E88-4044-9953-4F6B237DACF2} = {B8E1F52B-421C-40ED-876C-212B098E92DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3D0E5A3-1C22-4B07-B328-6AAFF75C2E26}
