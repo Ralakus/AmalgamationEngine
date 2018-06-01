@@ -30,6 +30,7 @@ namespace Amalgamation {
 
 		virtual Level* GetWorld();
 
+		/*Returns the level this Entity is registered to*/
 		virtual const Level* GetWorld() const;
 
 		/*Creates a component that is attached the to entity, all classes pushed must be derived from Component*/
@@ -46,6 +47,10 @@ namespace Amalgamation {
 		/*Returns array of components of type found*/
 		template<typename ComponentType>
 		std::vector<ComponentType*> GetComponentsByType();
+
+		void Awake() override;
+		void Update(float Delta) override;
+		void Destroy() override;
 
 	};
 

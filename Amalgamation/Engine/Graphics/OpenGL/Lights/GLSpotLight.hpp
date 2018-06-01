@@ -8,8 +8,11 @@ namespace Amalgamation {
 
 	public:
 
-		float CutOff      = glm::cos(glm::radians(12.5f));
-		float OuterCutOff = glm::cos(glm::radians(25.f));
+		//float CutOff      = glm::cos(glm::radians(12.5f));
+		//float OuterCutOff = glm::cos(glm::radians(25.f));
+
+		float CutOff = cos(Math::Radians(12.5f));
+		float OuterCutOff = cos(Math::Radians(25.f));
 
 		float Constant = 1.0f;
 		float Linear = 0.09f;

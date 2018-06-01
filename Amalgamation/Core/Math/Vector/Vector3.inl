@@ -64,6 +64,38 @@ namespace Amalgamation { namespace Math {
 	}
 
 	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Add(MathType Scalar) {
+		this->X += Scalar;
+		this->Y += Scalar;
+		this->Z += Scalar;
+		return *this;
+	}
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Subtract(MathType Scalar) {
+		this->X -= Scalar;
+		this->Y -= Scalar;
+		this->Z -= Scalar;
+		return *this;
+	}
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Multiply(MathType Scalar) {
+		this->X *= Scalar;
+		this->Y *= Scalar;
+		this->Z *= Scalar;
+		return *this;
+	}
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Divide(MathType Scalar) {
+		this->X /= Scalar;
+		this->Y /= Scalar;
+		this->Z /= Scalar;
+		return *this;
+	}
+
+	template<class MathType>
 	FORCEINLINE TVector3<MathType> operator+(TVector3<MathType> Left, const TVector3<MathType>& Right)
 	{ return Left.Add(Right); }
 
@@ -78,6 +110,22 @@ namespace Amalgamation { namespace Math {
 	template<class MathType>
 	FORCEINLINE TVector3<MathType> operator/(TVector3<MathType> Left, const TVector3<MathType>& Right)
 	{ return Left.Divide(Right); }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> operator+(TVector3<MathType> Left, MathType Scalar)
+	{ return Left.Multiply(Scalar); }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> operator-(TVector3<MathType> Left, MathType Scalar) 
+	{ return Left.Subtract(Scalar); }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> operator*(TVector3<MathType> Left, MathType Scalar) 
+	{ return Left.Multiply(Right); }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> operator/(TVector3<MathType> Left, MathType Scalar) 
+	{ return Left.Divide(Scalar); }
 
 	template<class MathType>
 	FORCEINLINE TVector3<MathType>& TVector3<MathType>::operator+=(const TVector3<MathType>& Other)

@@ -28,11 +28,11 @@ namespace Amalgamation { namespace Math {
 	template<class MathType>
 	FORCEINLINE TMatrix4x4<MathType> & TMatrix4x4<MathType>::Multiply(const TMatrix4x4<MathType> & Other) {
 		for (unsigned int i = 0; i < 4; i++) {
-			for (unsigned int j = 0; i < 4; j++) {
-				(*this)[i][j] = Elements[i][0] * Other[0][j] +
-					Elements[i][1] * Other[1][j] +
-					Elements[i][2] * Other[2][j] +
-					Elements[i][3] * Other[3][j];
+			for (unsigned int j = 0; j < 4; j++) {
+				(*this)[i][j] = (Elements[i][0]) * (Other[0][j]) +
+								(Elements[i][1]) * (Other[1][j]) +
+								(Elements[i][2]) * (Other[2][j]) +
+								(Elements[i][3]) * (Other[3][j]);
 			}
 		}
 		return *this;
@@ -109,7 +109,7 @@ namespace Amalgamation { namespace Math {
 
 	template<class MathType>
 	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Identity() {
-		return TMat(static_cast<MathType>(1));
+		return TMatrix4x4<MathType>(static_cast<MathType>(1));
 	}
 
 	template<class MathType>
@@ -176,14 +176,13 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE TMatrix4x4<MathType>& TMatrix4x4<MathType>::operator*=(const TQuaternion<MathType>& Other)
 	{ return this->Multiply(Other); }
 
-	template<class MathType>
+	/*template<class MathType>
 	FORCEINLINE TVector4<MathType> TMatrix4x4<MathType>::operator[](size_t Index)
-	{ return m_Data[Index]; }
+	{ return m_Data[Index]; }*/
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType> & Right) {
-		return Left.Multiply(Right);
-	}
+	/*template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType> & Right) 
+	{ return Left.Multiply(Right); }
 	
 	template<class MathType>
 	FORCEINLINE TVector3<MathType> operator*(TMatrix4x4<MathType> Left, const TVector3<MathType>& Right)
@@ -203,6 +202,6 @@ namespace Amalgamation { namespace Math {
 
 	template<class MathType>
 	FORCEINLINE TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TQuaternion<MathType>& Right)
-	{ return Left.Multiply(Right); }
+	{ return Left.Multiply(Right); }*/
 
 } }

@@ -27,7 +27,7 @@ namespace Amalgamation {
 		Left = 0, Middle = 2, Right = 1, WheelUp = 3, WheelDown = 4
 	};
 
-	enum class InputAction {
+	enum class InputAction : unsigned char {
 		Pressed = 1, Released = 0, Held = 2
 	};
 

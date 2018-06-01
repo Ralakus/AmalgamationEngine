@@ -27,7 +27,8 @@ namespace Amalgamation {
 		Math::Mat4 View() const {
 			Math::Mat4 View(1);
 			View *= m_TransformPtr->Rotation;
-			return View * Math::Matrix4::Translate((m_TransformPtr->Position * -1.f));
+			return View.Multiply(Math::Matrix4::Translate((m_TransformPtr->Position * -1.f)));
+			//return Math::Mat4(1);
 		}
 
 		void Translate(const Math::Vec3& Translation) {

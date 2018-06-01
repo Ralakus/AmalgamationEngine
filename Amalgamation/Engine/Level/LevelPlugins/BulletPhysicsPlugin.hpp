@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Core/Level/WorldPlugin.hpp>
+#include <Core/Level/LevelPlugin.hpp>
 #include <Core/Platform/Platform.hpp>
 #include <btBulletDynamicsCommon.h>
 
 namespace Amalgamation {
 
-	class BulletPhysicsPlugin : public WorldPlugin {
+	class BulletPhysicsPlugin : public LevelPlugin {
 
 	private:
 

@@ -80,7 +80,7 @@ namespace Amalgamation {
 		T* = NewPlugin = new T(std::forward<Type>(Args)...);
 		m_Plugins.push_back(reinterpret_cast<LevelPlugin*>(NewPlugin));
 		NewPlugin->SetWorld(this);
-		return NewPlugin
+		return NewPlugin;
 	}
 
 	template<typename PluginType>

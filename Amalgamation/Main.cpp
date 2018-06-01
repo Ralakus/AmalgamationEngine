@@ -4,7 +4,10 @@
 #include <Core/Level/Level.hpp>
 #include <Core/Graphics/Mesh.hpp>
 #include <Core/Utilities/Random.hpp>
+#include <Core/Input/InputControl.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
+#include <Engine/Level/Components/MeshComponent.hpp>
+#include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
 
 using namespace Amalgamation;
 
@@ -24,10 +27,10 @@ int main(int argc, char* args[]) {
 
 	Time T;
 
-	EventLambdaCallback CloseWindow([&]() -> void { Window->Close(); });
-	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
-	Input::Instance().RegisterCallback ("CloseWindow", &CloseWindow);
-
+	//EventLambdaCallback CloseWindow([&]() -> void { Window->Close(); });
+	//Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
+	//Input::Instance().RegisterCallback ("CloseWindow", &CloseWindow);
+		
 	EventFunctionCallback WriteCube([]()-> void {
 		Aesset Cube("Cube.aesset", true, std::ios::in | std::ios::out | std::ios::trunc);
 		MeshData SphereMD = Mesh::MakeMeshData(Mesh::Primitive::Cube);
@@ -73,7 +76,19 @@ int main(int argc, char* args[]) {
 	Input::Instance().RegisterKeyAction("RandomName", Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Pressed);
 	Input::Instance().RegisterCallback("RandomName", &RandomName);
 
+	GLBasicRenderer Renderer;
+	GLShader Shader;
+	Shader.LoadFromStr(Config.Get<std::string>("Shader"));
+	Shader.SupportsLighting = false;
+
 	Level Level;
+
+	Entity* Player = Level.CreateEntity<Entity>();
+	MeshComponent* PMC = Player->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader);
+
+	InputControl ICCloseWindow;
+	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held, 1.f);
+	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Released, 0.f);
 
 	Level.Awake();
 
@@ -81,6 +96,12 @@ int main(int argc, char* args[]) {
 		T.Update();
 		Level.Update(T.GetDelta());
 		Window->Update();
+
+		Renderer.Flush();
+
+		if (ICCloseWindow.Value() > 0.5f) {
+			Window->Close();
+		}
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));

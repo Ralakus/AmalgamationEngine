@@ -51,7 +51,8 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector4<MathType>& operator++(int);
 		FORCEINLINE TVector4<MathType>& operator--(int);
 
-		FORCEINLINE MathType operator[](size_t Index);
+		FORCEINLINE MathType& operator[](size_t Index);
+		FORCEINLINE const MathType& operator[](size_t Index) const;
 
 		FORCEINLINE MathType Length();
 		FORCEINLINE TVector4<MathType>& Normalize();

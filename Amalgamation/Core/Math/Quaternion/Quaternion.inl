@@ -99,8 +99,8 @@ namespace Amalgamation { namespace Math {
 	}
 
 	template<class MathType>
-	FORCEINLINE TQuaternion<MathType>TQuaternion<MathType>::Conjugate() const {
-		return TQuat(-this->X, -this->Y, -this->Z, this->W);
+	FORCEINLINE TQuaternion<MathType> TQuaternion<MathType>::Conjugate() const {
+		return TQuaternion<MathType>(-this->X, -this->Y, -this->Z, this->W);
 	}
 
 	template<class MathType>

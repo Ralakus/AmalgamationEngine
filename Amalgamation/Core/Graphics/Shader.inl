@@ -17,13 +17,5 @@ namespace Amalgamation {
 		AfterLoad();
 	}
 
-	FORCEINLINE bool Shader::SupportsLighting() const {
-		return m_SupportsLighting;
-	}
-
-	FORCEINLINE void Shader::SetSupportLighting(bool YoN) {
-		m_SupportsLighting = YoN;
-	}
-
 
 }

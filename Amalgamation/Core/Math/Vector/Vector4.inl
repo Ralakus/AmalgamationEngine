@@ -117,7 +117,11 @@ namespace Amalgamation { namespace Math {
 	{ TVector4<MathType> T = *this; --*this; return T; }
 
 	template<class MathType>
-	FORCEINLINE MathType TVector4<MathType>::operator[](size_t Index)
+	FORCEINLINE MathType& TVector4<MathType>::operator[](size_t Index)
+	{ return m_Data[Index]; }
+
+	template<class MathType>
+	FORCEINLINE const MathType& TVector4<MathType>::operator[](size_t Index) const
 	{ return m_Data[Index]; }
 
 	template<class MathType>

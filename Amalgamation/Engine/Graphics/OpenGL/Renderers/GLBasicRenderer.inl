@@ -25,7 +25,7 @@ namespace Amalgamation {
 
 	void Amalgamation::GLBasicRenderer::Flush()
 	{
-		m_BufferedTransform = Math::Mat4(1);
+		m_BufferedTransform = Math::Mat4::Identity();
 
 		for (Mesh* MeshPtr : m_Meshes) {
 			GLMesh* CastMesh = static_cast<GLMesh*>(MeshPtr);
@@ -54,7 +54,7 @@ namespace Amalgamation {
 				}
 			}
 
-			if (CastShader->SupportsLighting()) {
+			if (CastShader->SupportsLighting) {
 				size_t Pi = 0;
 				size_t Si = 0;
 				size_t Di = 0;

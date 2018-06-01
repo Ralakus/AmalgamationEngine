@@ -1,3 +1,4 @@
+#include "Entity.hpp"
 
 namespace Amalgamation {
 
@@ -48,6 +49,18 @@ namespace Amalgamation {
 	/*Returns the raw array of components in the entity*/
 	FORCEINLINE const std::vector<Component*>& Entity::GetComponents() const {
 		return m_Components;
+	}
+
+	FORCEINLINE void Entity::Awake() {
+		AwakeComponets();
+	}
+
+	FORCEINLINE void Entity::Update(float Delta) {
+		UpdateComponents(Delta);
+	}
+
+	FORCEINLINE void Entity::Destroy() {
+		DestroyComponents();
 	}
 
 	/*Creates a component that is attached the to entity, all classes pushed must be derived from Component*/

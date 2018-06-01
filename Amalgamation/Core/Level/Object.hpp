@@ -7,12 +7,12 @@
 namespace Amalgamation {
 
 	class Component;
-	class Actor;
+	class Entity;
 
 	class Object {
 
 		friend class Component;
-		friend class Actor;
+		friend class Entity;
 		friend class Scene;
 
 	protected:

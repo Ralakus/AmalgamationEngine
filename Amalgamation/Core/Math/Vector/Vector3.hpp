@@ -32,15 +32,30 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector3<MathType>& Multiply(const TVector3<MathType>& Other);
 		FORCEINLINE TVector3<MathType>& Divide(const TVector3<MathType>& Other);
 
-		FORCEINLINE friend TVector3<MathType> operator+(TVector3<MathType> Left, const TVector3<MathType>& Right);
-		FORCEINLINE friend TVector3<MathType> operator-(TVector3<MathType> Left, const TVector3<MathType>& Right);
-		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, const TVector3<MathType>& Right);
-		FORCEINLINE friend TVector3<MathType> operator/(TVector3<MathType> Left, const TVector3<MathType>& Right);
+		FORCEINLINE TVector3<MathType>& Add     (MathType Scalar);
+		FORCEINLINE TVector3<MathType>& Subtract(MathType Scalar);
+		FORCEINLINE TVector3<MathType>& Multiply(MathType Scalar);
+		FORCEINLINE TVector3<MathType>& Divide  (MathType Scalar);
+
+		FORCEINLINE friend TVector3<MathType> operator+(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Add(Right); }
+		FORCEINLINE friend TVector3<MathType> operator-(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Subtract(Right); }
+		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Multiply(Right); }
+		FORCEINLINE friend TVector3<MathType> operator/(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Divide(Right); }
+
+		FORCEINLINE friend TVector3<MathType> operator+(TVector3<MathType> Left, MathType Scalar) { return Left.Add(Scalar); }
+		FORCEINLINE friend TVector3<MathType> operator-(TVector3<MathType> Left, MathType Scalar) { return Left.Subtract(Scalar); }
+		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, MathType Scalar) { return Left.Multiply(Scalar); }
+		FORCEINLINE friend TVector3<MathType> operator/(TVector3<MathType> Left, MathType Scalar) { return Left.Divide(Scalar); }
 
 		FORCEINLINE TVector3<MathType>& operator+=(const TVector3<MathType>& Other);
 		FORCEINLINE TVector3<MathType>& operator-=(const TVector3<MathType>& Other);
 		FORCEINLINE TVector3<MathType>& operator*=(const TVector3<MathType>& Other);
 		FORCEINLINE TVector3<MathType>& operator/=(const TVector3<MathType>& Other);
+
+		FORCEINLINE TVector3<MathType>& operator-=(MathType Scalar) { return this->Subtract(Scalar); }
+		FORCEINLINE TVector3<MathType>& operator*=(MathType Scalar) { return this->Multiply(Scalar); }
+		FORCEINLINE TVector3<MathType>& operator/=(MathType Scalar) { return this->Divide(Scalar); }
+		FORCEINLINE TVector3<MathType>& operator+=(MathType Scalar) { return this->Add(Scalar); } 
 
 		FORCEINLINE bool operator==(const TVector3<MathType>& Other);
 		FORCEINLINE bool operator!=(const TVector3<MathType>& Other);

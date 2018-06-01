@@ -15,9 +15,116 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Graphics\Window.hpp">
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Graphics\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Platform\Unincludable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config.aesset" />
+    <None Include="Core\Event\Event.inl">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </None>
+    <None Include="Core\Event\EventCallback.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Event\EventHandler.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Material.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Mesh.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Shader.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Window.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Input\InputManager.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Entity.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Level.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Level\Object.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Matrix\Matrix4x4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Quaternion\Quaternion.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector2.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Math\Vector\Vector4.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Task\ThreadPool.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Aesset.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\File.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Random.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Time.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Utilities\Timer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLMesh.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLShader.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLTexture.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\GLWindow.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Input\InputControl.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Core\Data\DataMath\DVector2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,6 +146,48 @@
     <ClInclude Include="Core\Event\EventHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Graphics\GraphicsClass.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Light.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Texture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Graphics\Window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\InputManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Level\Component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Level\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Level\Level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Level\LevelPlugin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Level\Object.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Math\Matrix\Matrix4x4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +203,9 @@
     <ClInclude Include="Core\Math\Vector\Vector4.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Math\Math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Math\MathDefines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,6 +215,12 @@
     <ClInclude Include="Core\Math\SIMD.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Math\Transform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Platform\Platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,6 +228,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Types\Singleton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utilities\Aesset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\File.hpp">
@@ -88,66 +249,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\Timer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\GraphicsClass.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Input\InputManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Utilities\Aesset.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Math\Transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Texture.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Light.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Material.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Mesh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Renderer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Graphics\Shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Platform\Platform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Level\Component.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Level\Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Level\Level.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Level\Object.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\OpenGL\GLMesh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\OpenGL\GLShader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp">
@@ -174,6 +275,21 @@
     <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\GLCommon.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\GLMesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\GLShader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\GLTexture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\GLWindow.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Level\Components\CameraComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -198,118 +314,8 @@
     <ClInclude Include="Engine\Level\LevelPlugins\BulletPhysicsPlugin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Level\LevelPlugin.hpp">
+    <ClInclude Include="Core\Input\InputControl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Math.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Graphics\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Platform\Unincludable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Config.aesset" />
-    <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Event\Event.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Event\EventCallback.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Event\EventHandler.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Math\Vector\Vector2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Math\Vector\Vector3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Math\Vector\Vector4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Math\Quaternion\Quaternion.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Math\Matrix\Matrix4x4.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Utilities\Aesset.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Utilities\File.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Utilities\Timer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Utilities\Time.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Utilities\Random.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Input\InputManager.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Task\ThreadPool.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Graphics\Mesh.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Graphics\Material.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Graphics\Shader.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Graphics\Window.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Level\Object.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Level\Entity.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Core\Level\Level.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\Buffers\GLVertexArray.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\GLMesh.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\GLShader.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\GLTexture.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\GLWindow.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.inl">
-      <Filter>Header Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

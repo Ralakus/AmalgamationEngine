@@ -41,18 +41,18 @@ namespace Amalgamation { namespace Math {
 
 		FORCEINLINE static TMatrix4x4<MathType> Rotate(float Angle, const TVector3<MathType>& Axis);
 
-		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType>& Right);
-		FORCEINLINE friend TVector3<MathType> operator*(TMatrix4x4<MathType> Left, const TVector3<MathType>& Right);
-		FORCEINLINE friend TVector3<MathType> operator*(const TVector3<MathType>& Left, TMatrix4x4<MathType> Right);
-		FORCEINLINE friend TVector4<MathType> operator*(TMatrix4x4<MathType> Left, const TVector4<MathType>& Right);
-		FORCEINLINE friend TVector4<MathType> operator*(const TVector4<MathType>& Left, TMatrix4x4<MathType> Right);
-		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TQuaternion<MathType>& Right);
+		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType>& Right)  { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector3<MathType> operator*(TMatrix4x4<MathType> Left, const TVector3<MathType>& Right)      { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector3<MathType> operator*(const TVector3<MathType>& Left, TMatrix4x4<MathType> Right)      { return Right.Multiply(Left); }
+		FORCEINLINE friend TVector4<MathType> operator*(TMatrix4x4<MathType> Left, const TVector4<MathType>& Right)      { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector4<MathType> operator*(const TVector4<MathType>& Left, TMatrix4x4<MathType> Right)      { return Right.Multiply(Left); }
+		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TQuaternion<MathType>& Right) { return Left.Multiply(Right); }
 
 		FORCEINLINE TMatrix4x4<MathType>& operator*=(const TMatrix4x4<MathType>& Other);
 		FORCEINLINE TMatrix4x4<MathType>& operator*=(const TQuaternion<MathType>& Other);
 
-		FORCEINLINE TVector4<MathType> operator[](size_t Index);
-
+		FORCEINLINE TVector4<MathType>& operator[](size_t Index) { return m_Data[Index]; }
+		FORCEINLINE const TVector4<MathType>& operator[](size_t Index) const { return m_Data[Index]; }
 	};
 
     template<class MathType>
@@ -63,7 +63,6 @@ namespace Amalgamation { namespace Math {
 
     using Mat4    = Mat4x4;
 	using Matrix4 = Matrix4x4;
-
 
 } }
 
