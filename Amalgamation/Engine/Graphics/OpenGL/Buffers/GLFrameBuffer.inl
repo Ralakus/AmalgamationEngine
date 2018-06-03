@@ -1,4 +1,3 @@
-#include "GLFrameBuffer.hpp"
 
 namespace Amalgamation {
 

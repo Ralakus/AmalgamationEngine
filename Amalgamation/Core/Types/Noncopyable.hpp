@@ -4,13 +4,13 @@
 
 namespace Amalgamation {
 
-	class Noncopyable {
+	/*class Noncopyable {
 	private:
 		Noncopyable(const Noncopyable& Other) = delete;
 	public:
 		Noncopyable() {}
 		virtual ~Noncopyable() {}
 
-	};
+	};*/
 
 }

@@ -27,11 +27,15 @@ int main(int argc, char* args[]) {
 
 	Time T;
 
-	//EventLambdaCallback CloseWindow([&]() -> void { Window->Close(); });
-	//Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
-	//Input::Instance().RegisterCallback ("CloseWindow", &CloseWindow);
-		
-	EventFunctionCallback WriteCube([]()-> void {
+	InputControl ICCloseWindow;
+	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held, 1.f);
+	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Released, 0.f);
+
+	InputControl ICRandomName;
+	ICRandomName.AddInput(Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Pressed, 1.f);
+	ICRandomName.AddInput(Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Held, 1.f);
+
+	EventFunctionCallback ECWriteCube([]()-> void {
 		Aesset Cube("Cube.aesset", true, std::ios::in | std::ios::out | std::ios::trunc);
 		MeshData SphereMD = Mesh::MakeMeshData(Mesh::Primitive::Cube);
 		Cube.WriteProperty("Vertices Size", std::to_string(SphereMD.Vertices.size() - 1));
@@ -68,13 +72,7 @@ int main(int argc, char* args[]) {
 		AE_LOG_SUCCESS("Cube.aesset written");
 	});
 	Input::Instance().RegisterKeyAction("WriteCube", Input::Instance().KeyFromAesset(Config, "InteractKey"), InputAction::Pressed);
-	Input::Instance().RegisterCallback("WriteCube", &WriteCube);
-
-	EventFunctionCallback RandomName([]() -> void {
-		AE_LOG(("Random Name: " + Random::Name(3, 8)).c_str());
-	});
-	Input::Instance().RegisterKeyAction("RandomName", Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Pressed);
-	Input::Instance().RegisterCallback("RandomName", &RandomName);
+	Input::Instance().RegisterCallback("WriteCube", &ECWriteCube);
 
 	GLBasicRenderer Renderer;
 	GLShader Shader;
@@ -85,10 +83,6 @@ int main(int argc, char* args[]) {
 
 	Entity* Player = Level.CreateEntity<Entity>();
 	MeshComponent* PMC = Player->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader);
-
-	InputControl ICCloseWindow;
-	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held, 1.f);
-	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Released, 0.f);
 
 	Level.Awake();
 
@@ -101,6 +95,9 @@ int main(int argc, char* args[]) {
 
 		if (ICCloseWindow.Value() > 0.5f) {
 			Window->Close();
+		}
+		if (ICRandomName.Value() > 0.5f) {
+			AE_LOG(("Random Name: " + Random::Name(3, 8)).c_str());
 		}
 
 		if (T.OnSecond()) {

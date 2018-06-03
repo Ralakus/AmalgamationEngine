@@ -1,4 +1,3 @@
-#include "Quaternion.hpp"
 
 namespace Amalgamation { namespace Math {
 

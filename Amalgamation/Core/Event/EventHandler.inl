@@ -1,4 +1,3 @@
-#include "EventHandler.hpp"
 
 namespace Amalgamation {
 

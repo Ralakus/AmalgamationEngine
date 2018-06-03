@@ -1,4 +1,3 @@
-//#include "GLBasicRenderer.hpp"
 #include "../GLMesh.hpp"
 #include "../GLShader.hpp"
 #include "../GLCommon.hpp"

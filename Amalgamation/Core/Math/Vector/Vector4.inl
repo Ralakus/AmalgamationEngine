@@ -1,4 +1,3 @@
-#include "Vector4.hpp"
 
 namespace Amalgamation { namespace Math {
 

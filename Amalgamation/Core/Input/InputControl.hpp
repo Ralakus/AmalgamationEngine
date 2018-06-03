@@ -4,7 +4,7 @@ namespace Amalgamation {
 
 	class InputControl {
 
-		float m_Value = 0.f;
+		mutable float m_Value = 0.f;
 		std::string m_InstanceStr;
 		std::vector<EventLambdaCallback*> m_Callbacks;
 

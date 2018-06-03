@@ -6,7 +6,7 @@
 
 namespace Amalgamation {
 
-	template<class DerivedClass>
+	/*template<class DerivedClass>
 	class Singleton : public Noncopyable {
 	protected:
 
@@ -21,6 +21,6 @@ namespace Amalgamation {
 			return m_Instance;
 
 		}
-	};
+	};*/
 
 }

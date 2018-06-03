@@ -1,4 +1,3 @@
-#include "Entity.hpp"
 
 namespace Amalgamation {
 

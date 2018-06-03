@@ -1,4 +1,3 @@
-#include "EventCallback.hpp"
 
 namespace Amalgamation {
 
