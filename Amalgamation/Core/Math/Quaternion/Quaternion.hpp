@@ -30,6 +30,7 @@ namespace Amalgamation { namespace Math {
 
 		FORCEINLINE TQuaternion<MathType>& Multiply(const TQuaternion<MathType>& Other);
 		FORCEINLINE TQuaternion<MathType>& Multiply(const TVec3<MathType>& Other);
+		//FORCEINLINE TVector3<MathType> Multiply(const TVector3<MathType>& Other);
 
 		//FORCEINLINE TVector4<MathType> Multiply(const TQuaternion<MathType>& Other);
 

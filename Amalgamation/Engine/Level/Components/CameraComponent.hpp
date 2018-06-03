@@ -7,6 +7,9 @@
 #include <Core/Math/Quaternion/Quaternion.hpp>
 #include <Core/Math/Matrix/Matrix4x4.hpp>
 
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 namespace Amalgamation {
 
 	/*At 0,0,0 Rotation, camera faces towrard Z+ axis*/
@@ -31,6 +34,7 @@ namespace Amalgamation {
 		}
 
 		void Translate(const Math::Vec3& Translation) {
+			//glm::quat() * glm::vec3();
 			//m_TransformPtr->Position += m_TransformPtr->Rotation * Translation;
 		}
 		void Translate(float X, float Y, float Z) {

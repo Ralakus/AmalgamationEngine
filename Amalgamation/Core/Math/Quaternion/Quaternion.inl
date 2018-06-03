@@ -1,3 +1,4 @@
+#include "Quaternion.hpp"
 
 namespace Amalgamation { namespace Math {
 
@@ -58,13 +59,30 @@ namespace Amalgamation { namespace Math {
 	}
 
 	template<class MathType>
-	inline TQuaternion<MathType>& TQuaternion<MathType>::Multiply(const TVec3<MathType>& Other) {
+	FORCEINLINE TQuaternion<MathType>& TQuaternion<MathType>::Multiply(const TVec3<MathType>& Other) {
 		this->X = W * Other.X + Y * Other.Z - Z * Other.Y;
 		this->Y = W * Other.Y + Z * Other.X - X * Other.Z;
 		this->Z = W * Other.Z + X * Other.Y - Y * Other.X;
 		this->W = -X * Other.X - Y * Other.Y - Z * Other.Z;
 		return *this;
 	}
+
+	/*template<class MathType>
+	FORCEINLINE TVector3<MathType> TQuaternion<MathType>::Multiply(const TVector3<MathType>& Other) {
+
+		tvec3<T, P> const QuatVector(q.x, q.y, q.z);
+		tvec3<T, P> const uv(glm::cross(QuatVector, v));
+		tvec3<T, P> const uuv(glm::cross(QuatVector, uv));
+
+		return v + ((uv * q.w) + uuv) * static_cast<T>(2);
+
+		TVector3<MathType> QuatVector(this->X, this->Y, this->Z);
+		TVector3<MathType> UV(TVector3<MathType>(QuatVector).Cross(Other));
+		TVector3<MathType> UUV(TVector3<MathType>(QuatVector).Cross(UV));
+
+		return Other + ((UV * this->W) + UUV) * static_cast<MathType>(2);
+
+	}*/
 
 	template<class MathType>
 	FORCEINLINE TQuaternion<MathType>& TQuaternion<MathType>::operator*=(const TQuaternion<MathType>& Other)

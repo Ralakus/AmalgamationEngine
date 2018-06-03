@@ -56,6 +56,15 @@ namespace Amalgamation { namespace Math {
 
 	};
 
+	/*template<class MathType>
+	FORCEINLINE TVector2<MathType> operator+(TVector2<MathType> Left, const TVector2<MathType>& Right);
+	template<class MathType>
+	FORCEINLINE TVector2<MathType> operator-(TVector2<MathType> Left, const TVector2<MathType>& Right);
+	template<class MathType>
+	FORCEINLINE TVector2<MathType> operator*(TVector2<MathType> Left, const TVector2<MathType>& Right);
+	template<class MathType>
+	FORCEINLINE TVector2<MathType> operator/(TVector2<MathType> Left, const TVector2<MathType>& Right);*/
+
 	template<class MathType>
 	using TVec2 = TVector2<MathType>;
 

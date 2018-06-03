@@ -78,7 +78,7 @@ int main(int argc, char* args[]) {
 	GLShader Shader;
 	Shader.LoadFromStr(Config.Get<std::string>("Shader"));
 	Shader.SupportsLighting = false;
-
+		
 	Level Level;
 
 	Entity* Player = Level.CreateEntity<Entity>();
