@@ -53,12 +53,19 @@ namespace Amalgamation { namespace Math {
 
 		FORCEINLINE MathType& operator[](size_t Index);
 		FORCEINLINE const MathType& operator[](size_t Index) const;
-
-		FORCEINLINE MathType Length();
-		FORCEINLINE TVector4<MathType>& Normalize();
-		FORCEINLINE MathType Dot(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& Rotate(MathType Angle);
 	};
+
+	template<class MathType>
+	FORCEINLINE MathType Length(const TVector4<MathType>& Vec);
+
+	template<class MathType>
+	FORCEINLINE TVector4<MathType> Normalize(const TVector4<MathType>& Vec);
+
+	template<class MathType>
+	FORCEINLINE MathType Dot(const TVector4<MathType>& Vec1, const TVector4<MathType>& Vec2);
+
+	template<class MathType>
+	FORCEINLINE TVector4<MathType> Rotate(const TVector4<MathType>& Vec, MathType Angle);
 
 	template<class MathType>
 	using TVec4 = TVector4<MathType>;

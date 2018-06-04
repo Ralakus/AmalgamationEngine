@@ -34,18 +34,17 @@ namespace Amalgamation {
 		}
 
 		void Translate(const Math::Vec3& Translation) {
-			//glm::quat() * glm::vec3();
-			//m_TransformPtr->Position += m_TransformPtr->Rotation * Translation;
+			m_TransformPtr->Position += m_TransformPtr->Rotation.RotateVec(Translation);
 		}
 		void Translate(float X, float Y, float Z) {
-			//m_TransformPtr->Position += Math::Vec3(X, Y, Z) * m_TransformPtr->Rotation;
+			m_TransformPtr->Position += m_TransformPtr->Rotation.RotateVec(Math::Vec3(X, Y, Z));
 		}
 
 		void Rotate(float Angle, const Math::Vec3& Axis) {
-			//m_TransformPtr->Rotation *= glm::angleAxis(Angle, Axis * m_TransformPtr->Rotation);
+			m_TransformPtr->Rotation *= Math::AngleAxis(Angle, m_TransformPtr->Rotation.RotateVec(Axis));
 		}
 		void Rotate(float Angle, float X, float Y, float Z) {
-			//m_TransformPtr->Rotation *= glm::angleAxis(Angle, glm::vec3(X, Y, Z) * m_TransformPtr->Rotation);
+			m_TransformPtr->Rotation *= Math::AngleAxis(Angle, m_TransformPtr->Rotation.RotateVec(Math::Vec3(X, Y, Z)));
 		}
 
 		void Yaw(float Angle) {
@@ -59,23 +58,15 @@ namespace Amalgamation {
 		}
 
 		Math::Vec3 GetFront() const {
-			/*glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
-			glm::vec3 CamFront = glm::normalize(glm::vec3(
-
-				cos(CamEuler.y) * cos(CamEuler.x),
-				sin(CamEuler.x),
-				sin(CamEuler.y) * cos(CamEuler.x)
-
-			)) * m_TransformPtr->Rotation;*/
-			return m_TransformPtr->Rotation.Euler();
+			return Math::Euler(m_TransformPtr->Rotation);
 		}
 
 		Math::Vec3 GetRight() const {
-			return GetFront().Cross(Math::Vec3(0, 1, 0)).Normalize();
+			return Math::Normalize(Math::Cross(GetFront(), Math::Vec3(0, 1, 0)));
 		}
 
 		Math::Vec3 GetUp() const {
-			return GetRight().Cross(GetFront()).Normalize();
+			return Math::Normalize(Math::Cross(GetRight(), GetUp()));
 		}
 
 		void SetProjection(const Math::Mat4 Projection) {

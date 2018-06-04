@@ -30,7 +30,7 @@ namespace Amalgamation { namespace Math {
 
 		FORCEINLINE TQuaternion<MathType>& Multiply(const TQuaternion<MathType>& Other);
 		FORCEINLINE TQuaternion<MathType>& Multiply(const TVec3<MathType>& Other);
-		//FORCEINLINE TVector3<MathType> Multiply(const TVector3<MathType>& Other);
+		FORCEINLINE TVector3<MathType> RotateVec(const TVector3<MathType>& Other) const;
 
 		//FORCEINLINE TVector4<MathType> Multiply(const TQuaternion<MathType>& Other);
 
@@ -39,18 +39,30 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE friend TQuaternion<MathType> operator*(TQuaternion<MathType> Left, const TVec3<MathType>& Right);
 		FORCEINLINE friend TQuaternion<MathType> operator*(const TVec3<MathType>& Left, TQuaternion<MathType> Right);
 
+		FORCEINLINE friend TVector3<MathType> operator*(const TQuaternion<MathType>& Left, const TVec3<MathType>& Right);
+
 		FORCEINLINE TQuaternion<MathType>& operator*=(const TQuaternion<MathType>& Other);
 		FORCEINLINE TQuaternion<MathType>& operator*=(const TVec3<MathType>& Other);
 
 		FORCEINLINE bool operator==(const TQuaternion<MathType>& Other);
 		FORCEINLINE bool operator!=(const TQuaternion<MathType>& Other);
 
-		FORCEINLINE MathType Length();
-		FORCEINLINE TQuaternion<MathType>& Normalize();
-		FORCEINLINE TQuaternion<MathType> Conjugate() const;
-		FORCEINLINE TVector3<MathType> Euler() const;
-
     };
+
+	template<class MathType>
+	FORCEINLINE MathType Length(const TQuaternion<MathType>& Quat);
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType>& Normalize(const TQuaternion<MathType>& Quat);
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType> Conjugate(const TQuaternion<MathType>& Quat);
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> Euler(const TQuaternion<MathType>& Quat);
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType> AngleAxis(MathType Angle, const TVector3<MathType>& Vec);
 
 	template<class MathType>
 	using TQuat = TQuaternion<MathType>;

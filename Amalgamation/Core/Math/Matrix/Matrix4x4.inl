@@ -175,32 +175,4 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE TMatrix4x4<MathType>& TMatrix4x4<MathType>::operator*=(const TQuaternion<MathType>& Other)
 	{ return this->Multiply(Other); }
 
-	/*template<class MathType>
-	FORCEINLINE TVector4<MathType> TMatrix4x4<MathType>::operator[](size_t Index)
-	{ return m_Data[Index]; }*/
-
-	/*template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType> & Right) 
-	{ return Left.Multiply(Right); }
-	
-	template<class MathType>
-	FORCEINLINE TVector3<MathType> operator*(TMatrix4x4<MathType> Left, const TVector3<MathType>& Right)
-	{ return Left.Multiply(Right); }
-
-	template<class MathType>
-	FORCEINLINE TVector3<MathType> operator*(const TVector3<MathType>& Left, TMatrix4x4<MathType> Right)
-	{ return Right.Multiply(Left); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator*(TMatrix4x4<MathType> Left, const TVector4<MathType>& Right)
-	{ return Left.Multiply(Right); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator*(const TVector4<MathType>& Left, TMatrix4x4<MathType> Right)
-	{ return Right.Multiply(Left); }
-
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TQuaternion<MathType>& Right)
-	{ return Left.Multiply(Right); }*/
-
 } }

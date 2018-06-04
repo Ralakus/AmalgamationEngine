@@ -73,7 +73,7 @@ namespace Amalgamation {
 					}
 					else if (m_Lights[i]->LightType == Light::Type::Directional) {
 						GLDirectionalLight* DLight = static_cast<GLDirectionalLight*>(m_Lights[i]);
-						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), DLight->GetTransform()->Rotation.Euler());
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), Math::Euler(DLight->GetTransform()->Rotation));
 
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(),  DLight->Ambient);
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(),  DLight->Diffuse);
@@ -83,7 +83,7 @@ namespace Amalgamation {
 					else if (m_Lights[i]->LightType == Light::Type::Spot) {
 						GLSpotLight* SLight = static_cast<GLSpotLight*>(m_Lights[i]);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Position").c_str(), SLight->GetTransform()->Position);
-						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(),SLight->GetTransform()->Rotation.Euler());
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(), Math::Euler(SLight->GetTransform()->Rotation));
 
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].CutOff").c_str(), SLight->CutOff);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].OuterCutOff").c_str(), SLight->OuterCutOff);

@@ -170,32 +170,31 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE MathType TVector3<MathType>::operator[](size_t Index)
 	{ return m_Data[Index]; }
 
-	template<class MathType>
-	FORCEINLINE MathType TVector3<MathType>::Length() {
-		return sqrt(X * X + Y * Y + Z * Z);
-	}
 
 	template<class MathType>
-	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Normalize() {
-		return ((*this) /= this->Length());
-	}
+	FORCEINLINE MathType Length(const TVector3<MathType>& Vec)
+	{ return sqrt(Vec.X * Vec.X + Vec.Y * Vec.Y + Vec.Z * Vec.Z); }
 
 	template<class MathType>
-	FORCEINLINE MathType TVector3<MathType>::Dot(const TVector3<MathType>& Other) {
-		return (X * Other.X + Y * Other.Y + Z * Other.Z);
-	}
+	FORCEINLINE TVector3<MathType> Normalize(const TVector3<MathType>& Vec)
+	{ return (  Vec / Length(Vec)  ); }
 
 	template<class MathType>
-	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Rotate(MathType Angle) {
-		return *this;
-	}
+	FORCEINLINE MathType Dot(const TVector3<MathType>& Vec1, const TVector3<MathType>& Vec2)
+	{ return (Vec1.X * Vec2.X + Vec1.Y * Vec2.Y + Vec1.Z * Vec2.Z); }
 
 	template<class MathType>
-	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Cross(const TVector3<MathType>& Other) {
-		this->X = Y * Other.Z - Z * Other.Y;
-		this->Y = Z * Other.X - X * Other.Z;
-		this->Z = X * Other.Y - Y * Other.X;
-		return *this;
+	FORCEINLINE TVector3<MathType> Rotate(const TVector3<MathType>& Vec, MathType Angle)
+	{ return Vec; }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> Cross(const TVector3<MathType>& Vec1, const TVector3<MathType>& Vec2) {
+		return {
+			Vec1.Y * Vec2.Z - Vec1.Z * Vec2.Y,
+			Vec1.Z * Vec2.X - Vec1.X * Vec2.Z,
+			Vec1.X * Vec2.Y - Vec1.Y * Vec2.X,
+		};
 	}
+
 
 } }

@@ -67,22 +67,22 @@ namespace Amalgamation { namespace Math {
 		return *this;
 	}
 
-	/*template<class MathType>
-	FORCEINLINE TVector3<MathType> TQuaternion<MathType>::Multiply(const TVector3<MathType>& Other) {
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> TQuaternion<MathType>::RotateVec(const TVector3<MathType>& Other) const {
 
-		tvec3<T, P> const QuatVector(q.x, q.y, q.z);
+		/*tvec3<T, P> const QuatVector(q.x, q.y, q.z);
 		tvec3<T, P> const uv(glm::cross(QuatVector, v));
 		tvec3<T, P> const uuv(glm::cross(QuatVector, uv));
 
-		return v + ((uv * q.w) + uuv) * static_cast<T>(2);
+		return v + ((uv * q.w) + uuv) * static_cast<T>(2);*/
 
 		TVector3<MathType> QuatVector(this->X, this->Y, this->Z);
-		TVector3<MathType> UV(TVector3<MathType>(QuatVector).Cross(Other));
-		TVector3<MathType> UUV(TVector3<MathType>(QuatVector).Cross(UV));
+		TVector3<MathType> UV(Cross(QuatVector, Other));
+		TVector3<MathType> UUV(Cross(QuatVector, UV));
 
 		return Other + ((UV * this->W) + UUV) * static_cast<MathType>(2);
 
-	}*/
+	}
 
 	template<class MathType>
 	FORCEINLINE TQuaternion<MathType>& TQuaternion<MathType>::operator*=(const TQuaternion<MathType>& Other)
@@ -106,34 +106,6 @@ namespace Amalgamation { namespace Math {
 	{ return !(*this == Other); }
 
 	template<class MathType>
-	FORCEINLINE MathType TQuaternion<MathType>::Length() {
-		return sqrt(X * X + Y * Y + Z * Z + W * W);
-	}
-
-	template<class MathType>
-	FORCEINLINE TQuaternion<MathType>& TQuaternion<MathType>::Normalize() {
-		return ((*this) /= this->Length());
-	}
-
-	template<class MathType>
-	FORCEINLINE TQuaternion<MathType> TQuaternion<MathType>::Conjugate() const {
-		return TQuaternion<MathType>(-this->X, -this->Y, -this->Z, this->W);
-	}
-
-	template<class MathType>
-	FORCEINLINE TVector3<MathType> TQuaternion<MathType>::Euler() const {
-		MathType SQX = this->X * this->X;
-		MathType SQY = this->Y * this->Y;
-		MathType SQZ = this->Z * this->Z;
-		MathType SQW = this->W * this->W;
-		return TVector3<MathType>(
-			Math::Degrees(atan2(2.0  * (this->Y * this->Z + this->X * this->W), (-SQX - SQY + SQZ + SQW))),
-			Math::Degrees(asin(-2.0 * (this->X * this->Z - this->Y * this->W))),
-			Math::Degrees(atan2(2.0  * (this->X * this->Y + this->Z * this->W), (SQX - SQY - SQZ + SQW)))
-		);
-	}
-
-	template<class MathType>
 	FORCEINLINE TQuaternion<MathType>operator*(TQuaternion<MathType>Left, const TQuaternion<MathType>& Right)
 	{ return Left.Multiply(Right); }
 
@@ -144,5 +116,53 @@ namespace Amalgamation { namespace Math {
 	template<class MathType>
 	FORCEINLINE TQuaternion<MathType>operator*(const TVec3<MathType>& Left, TQuaternion<MathType>Right)
 	{ return Right.Multiply(Left); }
+
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> operator*(const TQuaternion<MathType>& Left, const TVec3<MathType>& Right) {
+		return Left.RotateVec(Right);
+	}
+
+
+
+
+	template<class MathType>
+	FORCEINLINE MathType Length(const TQuaternion<MathType>& Quat)
+	{ return sqrt(Quat.X * Quat.X + Quat.Y * Quat.Y + Quat.Z * Quat.Z + Quat.W * Quat.W); }
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType>& Normalize(const TQuaternion<MathType>& Quat)
+	{ return ( Quat / Length(Quat) ); }
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType> Conjugate(const TQuaternion<MathType>& Quat)
+	{ return { -Quat.X, -Quat.Y, -Quat.Z, Quat.W }; }
+
+	template<class MathType>
+	FORCEINLINE TVector3<MathType> Euler(const TQuaternion<MathType>& Quat) {
+		MathType SQX = Quat.X * Quat.X;
+		MathType SQY = Quat.Y * Quat.Y;
+		MathType SQZ = Quat.Z * Quat.Z;
+		MathType SQW = Quat.W * Quat.W;
+		return {
+			static_cast<MathType>(Math::Degrees(atan2(2.0  * (Quat.Y * Quat.Z + Quat.X * Quat.W), (-SQX - SQY + SQZ + SQW)))),
+			static_cast<MathType>(Math::Degrees(asin(-2.0 *  (Quat.X * Quat.Z - Quat.Y * Quat.W)))),
+			static_cast<MathType>(Math::Degrees(atan2(2.0  * (Quat.X * Quat.Y + Quat.Z * Quat.W), (SQX - SQY - SQZ + SQW))))
+		};
+	}
+
+	template<class MathType>
+	FORCEINLINE TQuaternion<MathType> AngleAxis(MathType Angle, const TVector3<MathType>& Vec) {
+
+		return {
+
+			Vec.X * sin(Angle * static_cast<MathType>(0.5)),
+			Vec.Y * sin(Angle * static_cast<MathType>(0.5)),
+			Vec.Z * sin(Angle * static_cast<MathType>(0.5)),
+			        cos(Angle * static_cast<MathType>(0.5))
+
+		};
+	}
+
 
 } }

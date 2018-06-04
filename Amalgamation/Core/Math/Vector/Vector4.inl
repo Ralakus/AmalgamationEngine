@@ -123,21 +123,6 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE const MathType& TVector4<MathType>::operator[](size_t Index) const
 	{ return m_Data[Index]; }
 
-	template<class MathType>
-	FORCEINLINE MathType TVector4<MathType>::Length()
-	{ return sqrt(X * X + Y * Y + Z * Z + W * W); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::Normalize()
-	{ return ((*this) /= this->Length()); }
-
-	template<class MathType>
-	FORCEINLINE MathType TVector4<MathType>::Dot(const TVector4<MathType> & Other)
-	{ return (X * Other.X + Y * Other.Y + Z * Other.Z + W * Other.W); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::Rotate(MathType Angle)
-	{ return *this; }
 
 	template<class MathType>
 	FORCEINLINE TVector4<MathType> operator+(TVector4<MathType> Left, const TVector4<MathType> & Right)
@@ -154,5 +139,22 @@ namespace Amalgamation { namespace Math {
 	template<class MathType>
 	FORCEINLINE TVector4<MathType> operator/(TVector4<MathType> Left, const TVector4<MathType> & Right)
 	{ return Left.Divide(Right); }
+
+
+	template<class MathType>
+	FORCEINLINE MathType Length(const TVector4<MathType>& Vec)
+	{ return sqrt(Vec.X * Vec.X + Y * Y + Z * Z + W * W); }
+
+	template<class MathType>
+	FORCEINLINE TVector4<MathType> Normalize(const TVector4<MathType>& Vec)
+	{ return (  Vec / Length(Vec)  ); }
+
+	template<class MathType>
+	FORCEINLINE MathType Dot(const TVector4<MathType>& Vec1, const TVector4<MathType>& Vec2)
+	{ return (Vec1.X * Vec2.X + Vec1.Y * Vec2.Y + Vec1.Z * Vec2.Z + Vec1.W * Vec2.W); }
+
+	template<class MathType>
+	FORCEINLINE TVector4<MathType> Rotate(const TVector4<MathType>& Vec, MathType Angle)
+	{ return Vec; }
 
 } }
