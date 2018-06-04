@@ -13,6 +13,12 @@ using namespace Amalgamation;
 
 int main(int argc, char* args[]) {
 
+
+	//================================================
+	//Loads config file and creates window
+	//================================================
+
+
 	Aesset Config;
 	Config.LoadFile("Config.aesset");
 
@@ -27,62 +33,103 @@ int main(int argc, char* args[]) {
 
 	Time T;
 
-	InputControl ICCloseWindow;
-	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held, 1.f);
-	ICCloseWindow.AddInput(Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Released, 0.f);
+	GLint ViewPort[4];
 
-	InputControl ICRandomName;
-	ICRandomName.AddInput(Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Pressed, 1.f);
-	ICRandomName.AddInput(Input::Instance().KeyFromAesset(Config, "RandomNameKey"), InputAction::Held, 1.f);
+	float CamFOV = 90.f;
 
-	EventFunctionCallback ECWriteCube([]()-> void {
-		Aesset Cube("Cube.aesset", true, std::ios::in | std::ios::out | std::ios::trunc);
-		MeshData SphereMD = Mesh::MakeMeshData(Mesh::Primitive::Cube);
-		Cube.WriteProperty("Vertices Size", std::to_string(SphereMD.Vertices.size() - 1));
-		Cube.NewLine();
-		Cube.NewLine();
-		for (size_t i = 0; i < SphereMD.Vertices.size(); i++) {
-			Cube.WriteProperty("VX" + std::to_string(i), std::to_string((SphereMD.Vertices[i].X)));
-			Cube.WriteProperty("VY" + std::to_string(i), std::to_string((SphereMD.Vertices[i].Y)));
-			Cube.WriteProperty("VZ" + std::to_string(i), std::to_string((SphereMD.Vertices[i].Z)));
+	//================================================
+	//Binds input
+	//================================================
 
-			Cube.NewLine();
 
-			Cube.WriteProperty("NX" + std::to_string(i), std::to_string((SphereMD.Normals[i].X)));
-			Cube.WriteProperty("NY" + std::to_string(i), std::to_string((SphereMD.Normals[i].Y)));
-			Cube.WriteProperty("NZ" + std::to_string(i), std::to_string((SphereMD.Normals[i].Z)));
+	EventLambdaCallback ECCloseWindow([&]() -> void { Window->Close(); });
+	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
+	Input::Instance().RegisterCallback("CloseWindow", &ECCloseWindow);
 
-			Cube.NewLine();
 
-			Cube.WriteProperty("TCX" + std::to_string(i), std::to_string((SphereMD.TextureCoords[i].X)));
-			Cube.WriteProperty("TCY" + std::to_string(i), std::to_string((SphereMD.TextureCoords[i].Y)));
 
-			Cube.NewLine();
-		}
-		Cube.NewLine();
-		Cube.WriteProperty("Indices Count", std::to_string(SphereMD.Indices.size() - 1));
-		Cube.NewLine();
-		Cube.NewLine();
-		for (size_t i = 0; i < SphereMD.Indices.size(); i++) {
-			Cube.WriteProperty("I" + std::to_string(i), std::to_string(SphereMD.Indices[i]));
-			if (i % 4 == 0) {
-				Cube.NewLine();
-			}
-		}
-		AE_LOG_SUCCESS("Cube.aesset written");
-	});
-	Input::Instance().RegisterKeyAction("WriteCube", Input::Instance().KeyFromAesset(Config, "InteractKey"), InputAction::Pressed);
-	Input::Instance().RegisterCallback("WriteCube", &ECWriteCube);
+
+	InputControl ICMoveForward;
+	ICMoveForward.AddInput(Key::W, InputAction::Pressed,  1.f);
+	ICMoveForward.AddInput(Key::W, InputAction::Held,     1.f);
+	ICMoveForward.AddInput(Key::S, InputAction::Pressed, -1.f);
+	ICMoveForward.AddInput(Key::S, InputAction::Held,    -1.f);
+	ICMoveForward.AddInput(Key::W, InputAction::Released, 0.f);
+	ICMoveForward.AddInput(Key::S, InputAction::Released, 0.f);
+
+	InputControl ICMoveLeft;
+	ICMoveLeft.AddInput(Key::A, InputAction::Pressed,  1.f);
+	ICMoveLeft.AddInput(Key::A, InputAction::Held,     1.f);
+	ICMoveLeft.AddInput(Key::D, InputAction::Pressed, -1.f);
+	ICMoveLeft.AddInput(Key::D, InputAction::Held,    -1.f);
+	ICMoveLeft.AddInput(Key::A, InputAction::Released, 0.f);
+	ICMoveLeft.AddInput(Key::D, InputAction::Released, 0.f);
+
+	InputControl ICRollLeft;
+	ICRollLeft.AddInput(Key::Q, InputAction::Pressed,  1.f);
+	ICRollLeft.AddInput(Key::Q, InputAction::Held,     1.f);
+	ICRollLeft.AddInput(Key::E, InputAction::Pressed, -1.f);
+	ICRollLeft.AddInput(Key::E, InputAction::Held,    -1.f);
+	ICRollLeft.AddInput(Key::Q, InputAction::Released, 0.f);
+	ICRollLeft.AddInput(Key::E, InputAction::Released, 0.f);
+
+	InputControl ICMoveUp;
+	ICMoveUp.AddInput(Key::Space, InputAction::Pressed,  1.f);
+	ICMoveUp.AddInput(Key::Space, InputAction::Held,     1.f);
+	ICMoveUp.AddInput(Key::C,     InputAction::Pressed, -1.f);
+	ICMoveUp.AddInput(Key::C,     InputAction::Held,    -1.f);
+	ICMoveUp.AddInput(Key::Space, InputAction::Released, 0.f);
+	ICMoveUp.AddInput(Key::C,     InputAction::Released, 0.f);
+
+	//================================================
+	//Create renderer and shaders
+	//================================================
+
+
 
 	GLBasicRenderer Renderer;
 	GLShader Shader;
 	Shader.LoadFromStr(Config.Get<std::string>("Shader"));
 	Shader.SupportsLighting = false;
 		
+
+
+
+
+
+
+
+	//================================================
+	//Create entities and components
+	//================================================
+
+
+
+
+
+
+
 	Level Level;
 
 	Entity* Player = Level.CreateEntity<Entity>();
-	MeshComponent* PMC = Player->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader);
+	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
+
+	Entity* Cube;
+	Cube = Level.CreateEntity<Entity>();
+	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader);
+
+
+
+
+
+
+
+
+
+	//================================================
+	//Begin game loop
+	//================================================
+
 
 	Level.Awake();
 
@@ -91,14 +138,15 @@ int main(int argc, char* args[]) {
 		Level.Update(T.GetDelta());
 		Window->Update();
 
-		Renderer.Flush();
+		GLCall(glGetIntegerv(GL_VIEWPORT, ViewPort));
+		Cam->SetProjection(Math::Mat4::Perspective(Math::Radians(CamFOV), (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
 
-		if (ICCloseWindow.Value() > 0.5f) {
-			Window->Close();
-		}
-		if (ICRandomName.Value() > 0.5f) {
-			AE_LOG(("Random Name: " + Random::Name(3, 8)).c_str());
-		}
+		Cam->Translate(0, 0, -1 * ICMoveForward.Value() * T.GetDelta() * 3.5);
+		Cam->Translate(-1 * ICMoveLeft.Value() * T.GetDelta() * 3.5, 0, 0);
+		Cam->Roll(ICRollLeft.Value() * -1 * T.GetDelta());
+		Cam->Translate(0, -1 * ICMoveUp.Value() * T.GetDelta(), 0);
+
+		Renderer.Flush();
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
