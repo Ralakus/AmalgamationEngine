@@ -13,7 +13,7 @@ namespace Amalgamation {
 		InputControl();
 		~InputControl();
 
-		void AddInput(Key KeyCode, InputAction KeyAction, float Value);
+		void AddInput(Key KeyCode, float Value);
 
 		float Value() const;
 

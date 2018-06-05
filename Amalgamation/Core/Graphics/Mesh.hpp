@@ -48,7 +48,6 @@ namespace Amalgamation {
 		virtual bool PushData(const MeshData& Data);
 
 		static MeshData MakeMeshData(const std::vector<Math::Vec3>& Verticies, const std::vector<Math::Vec3>& Normals, const std::vector<Math::Vec2>& TextureCoords, const std::vector<uint32>& Indices);
-
 		static MeshData MakeMeshData(Primitive Shape);
 
 		const Transform* GetTransform() const;
@@ -56,16 +55,14 @@ namespace Amalgamation {
 		const std::vector<Math::Vec3>& GetVertices()       const;
 		const std::vector<Math::Vec3>& GetNormals()        const;
 		const std::vector<Math::Vec2>& GetTextureCoords()  const;
-		const std::vector<uint32>&    GetIndices()        const;
+		const std::vector<uint32>&     GetIndices()        const;
 
-		const std::vector<float>&     GetInterlacedData() const;
+		const std::vector<float>&      GetInterlacedData() const;
 
-		const std::vector<Texture*>& GetTextures() const;
+		const std::vector<Texture*>&   GetTextures() const;
 
 		virtual bool AddTexture(Texture* TexturePtr);
-
 		virtual bool RemoveTexture(Texture* TexturePtr);
-
 		virtual bool HasTexture(Texture* TexturePtr);
 
 

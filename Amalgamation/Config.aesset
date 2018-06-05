@@ -1,13 +1,13 @@
 <WindowName/Aesset>
-<WindowWidth/1280>
-<WindowHeight/720>
+<WindowWidth/1920>
+<WindowHeight/1080>
 <WindowFullscreen/False>
 <CloseWindowKey/Escape>
 
 <InteractKey/E>
 <RandomNameKey/Q>
 
-<TODO/ Update the aesset file format to allow tables like the example below in the Config.aesset file and finish seperating the .hpp files into .inl files and finished math library>
+<TODO/ Finish math library, redo rendering, and update Level-Entity-Component to an Entity Component System using a scene graph>
 
 <Window/
   <Name/Aesset>
@@ -34,7 +34,7 @@ uniform mat4 u_Projection;
 out vec2 o_TextureCoord;
 
 void main() {
-  //o_TextureCoord = vec2(a_TextureCoords.x, a_TextureCoords.y);
+  o_TextureCoord = a_TextureCoords;
   gl_Position = u_Projection * u_View * u_Model * vec4(a_Position, 1.f);
 }
 @F

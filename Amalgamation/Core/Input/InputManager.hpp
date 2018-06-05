@@ -20,6 +20,8 @@ namespace Amalgamation {
 
 		Space = ' ', Ctrl = 341, Alt = 342, LShift = 340, RShift = 344, RAlt = 346, RCtrl = 345, Tab = 258, Enter = 257, Escape = 256,
 
+		Right = 262, Left = 263, Down = 264, Up = 265,
+
 		One = '1', Two = '2', Three = '3', Four = '4', Five = '5', Six = '6', Seven = '7', Eight = '8', Nine = '9', Zero = '0',
 	};
 
@@ -57,7 +59,7 @@ namespace Amalgamation {
 
 		SINGLETON_INSTANCE(Input)
 
-			FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action);
+		FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action);
 		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 
 		FORCEINLINE const Math::Vec2& GetMousePos() const;

@@ -2,15 +2,18 @@
 namespace Amalgamation {
 
 	FORCEINLINE bool GLWindow::m_Init() {
+		m_Window = nullptr;
+
 		if (!glfwInit()) {
 			AE_LOG_ERROR("Failed to initlize GLFW!");
 			return false;
 		}
 
 		glfwWindowHint(GLFW_SAMPLES, 4);
+		m_Monitor = glfwGetPrimaryMonitor();
 
 		if (m_Fullscreen) {
-			m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), glfwGetPrimaryMonitor(), nullptr);
+			m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), m_Monitor, nullptr);
 		}
 		else {
 			m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
@@ -51,7 +54,7 @@ namespace Amalgamation {
 	FORCEINLINE GLWindow::GLWindow() : Window(API::OpenGL) {
 		if (!m_Init()) {
 			AE_LOG_ERROR("Failed to create OpenGL Window!");
-			glfwTerminate();
+			glfwDestroyWindow(m_Window);
 		}
 	}
 
@@ -60,7 +63,7 @@ namespace Amalgamation {
 	{
 		if (!m_Init()) {
 			AE_LOG_ERROR("Failed to create OpenGL Window!");
-			glfwTerminate();
+			glfwDestroyWindow(m_Window);
 		}
 	}
 
@@ -84,14 +87,24 @@ namespace Amalgamation {
 
 	FORCEINLINE void GLWindow::Terminate() {
 		m_Valid = false;
-		glfwTerminate();
+		glfwDestroyWindow(m_Window);
 	}
 
 	FORCEINLINE void GLWindow::SetTitle(const std::string & Title) { m_Title = Title; glfwSetWindowTitle(m_Window, Title.c_str()); }
 
 	FORCEINLINE void GLWindow::SetTitle(const char * Title) { m_Title = Title; glfwSetWindowTitle(m_Window, Title); }
 
-	FORCEINLINE void GLWindow::SetFullscreen(bool Set) {}
+	FORCEINLINE void GLWindow::SetFullscreen(bool Set) {
+		if (Set != m_Fullscreen) {
+			m_Fullscreen = Set;
+			glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, m_Width, m_Height, NULL);
+			/*if (!m_Init()) {
+				AE_LOG_ERROR("Failed to create OpenGL Window!");
+				glfwDestroyWindow(m_Window);
+				throw Error("Failed to create OpenGL Window from function m_Init() called from function SetFullscreen(bool)");
+			}*/
+		}
+	}
 
 	/*ONLY INTEDED FOR DEBUG*/
 

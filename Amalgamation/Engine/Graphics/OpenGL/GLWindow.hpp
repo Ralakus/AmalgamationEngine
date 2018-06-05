@@ -9,6 +9,7 @@ namespace Amalgamation {
 	class GLWindow : public Window {
 
 		GLFWwindow* m_Window;
+		GLFWmonitor* m_Monitor;
 
 		bool m_Init();
 
@@ -31,7 +32,6 @@ namespace Amalgamation {
 
 		void SetFullscreen(bool Set) override;
 
-		/*ONLY INTEDED FOR DEBUG*/
 		GLFWwindow* GetGLFWWindowPtr();
 
 	};
