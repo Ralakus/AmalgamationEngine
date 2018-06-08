@@ -75,9 +75,6 @@
     <None Include="Core\Math\Vector\Vector4.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Core\Task\ThreadPool.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="Core\Utilities\Aesset.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -124,6 +121,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Core\Math\Transform.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Task\ThreadPool.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
@@ -210,9 +210,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Platform\Platform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Types\Noncopyable.hpp">
@@ -306,6 +303,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Input\InputControl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

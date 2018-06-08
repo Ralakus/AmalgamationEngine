@@ -9,10 +9,6 @@
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/quaternion.hpp>
-
 using namespace Amalgamation;
 
 int main(int argc, char* args[]) {
@@ -112,7 +108,7 @@ int main(int argc, char* args[]) {
 	});
 	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z = -1.f;
 	Cube->GetComponentByType<TransformComponent>()->GetTransform().Scale = Math::Vec3(0.5);
-	Cube->GetComponentByType<TransformComponent>()->GetTransform().Rotation = Math::Vec3(0, 90, 0);
+	//Cube->GetComponentByType<TransformComponent>()->GetTransform().Rotation = Math::Vec3(0, 90, 0);
 
 
 

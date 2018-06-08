@@ -1,143 +1,164 @@
+#include "Vector4.hpp"
 
 namespace Amalgamation { namespace Math {
 
-	template<class MathType>
+	template<class T>
 	template<class ...EXArgs>
-	FORCEINLINE TVector4<MathType>::TVector4(MathType X, MathType Y, MathType Z, MathType W, EXArgs && ...Ex)
-		: m_Data{ X, Y, Z, W } {}
+	FORCEINLINE TVector4<T>::TVector4(T X, T Y, T Z, T W, EXArgs && ...Ex)
+		: Value{ X, Y, Z, W } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4(MathType X, MathType Y, MathType Z, MathType W)
-		: m_Data{ X, Y, Z, W } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4(T X, T Y, T Z, T W)
+		: Value{ X, Y, Z, W } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4(MathType X, MathType Y, MathType Z)
-		: m_Data{ X, Y, Z, 0 } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4(T X, T Y, T Z)
+		: Value{ X, Y, Z, 0 } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4(MathType X, MathType Y)
-		: m_Data{ X, Y, 0, 0 } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4(T X, T Y)
+		: Value{ X, Y, 0, 0 } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4(MathType Scalar)
-		: m_Data{ Scalar, Scalar, Scalar } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4(T Scalar)
+		: Value{ Scalar, Scalar, Scalar } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4()
-		: m_Data{ 0, 0, 0, 0 } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4()
+		: Value{ 0, 0, 0, 0 } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::TVector4(const TVector4<MathType> & Other)
-		: m_Data{ Other.m_Data[0], Other.m_Data[1], Other.m_Data[2], Other.m_Data[3] } {}
+	template<class T>
+	FORCEINLINE TVector4<T>::TVector4(const TVector4<T> & Other)
+		: Value{ Other.Value[0], Other.Value[1], Other.Value[2], Other.Value[3] } {}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>::~TVector4()
+	template<class T>
+	FORCEINLINE TVector4<T>::~TVector4()
 	{}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>& TVector4<MathType>::Add(const TVector4<MathType> & Other) {
-		this->m_Data[0] += Other.m_Data[0];
-		this->m_Data[1] += Other.m_Data[1];
-		this->m_Data[2] += Other.m_Data[2];
-		this->m_Data[3] += Other.m_Data[3];
+	template<class T>
+	FORCEINLINE TVector4<T> & TVector4<T>::operator+=(const TVector4<T> & Other) {
+		this->Value[0] += Other.Value[0];
+		this->Value[1] += Other.Value[1];
+		this->Value[2] += Other.Value[2];
+		this->Value[3] += Other.Value[3];
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::Subtract(const TVector4<MathType> & Other) {
-		this->m_Data[0] -= Other.m_Data[0];
-		this->m_Data[1] -= Other.m_Data[1];
-		this->m_Data[2] -= Other.m_Data[2];
-		this->m_Data[3] -= Other.m_Data[3];
+	template<class T>
+	FORCEINLINE TVector4<T> & TVector4<T>::operator-=(const TVector4<T> & Other) {
+		this->Value[0] -= Other.Value[0];
+		this->Value[1] -= Other.Value[1];
+		this->Value[2] -= Other.Value[2];
+		this->Value[3] -= Other.Value[3];
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::Multiply(const TVector4<MathType> & Other) {
-		this->m_Data[0] *= Other.m_Data[0];
-		this->m_Data[1] *= Other.m_Data[1];
-		this->m_Data[2] *= Other.m_Data[2];
-		this->m_Data[3] *= Other.m_Data[3];
+	template<class T>
+	FORCEINLINE TVector4<T> & TVector4<T>::operator*=(const TVector4<T> & Other) {
+		this->Value[0] *= Other.Value[0];
+		this->Value[1] *= Other.Value[1];
+		this->Value[2] *= Other.Value[2];
+		this->Value[3] *= Other.Value[3];
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::Divide(const TVector4<MathType> & Other) {
-		this->m_Data[0] /= Other.m_Data[0];
-		this->m_Data[1] /= Other.m_Data[1];
-		this->m_Data[2] /= Other.m_Data[2];
-		this->m_Data[3] /= Other.m_Data[3];
+	template<class T>
+	FORCEINLINE TVector4<T>& TVector4<T>::operator/=(const TVector4<T>& Other) {
+		this->Value[0] /= Other.Value[0];
+		this->Value[1] /= Other.Value[1];
+		this->Value[2] /= Other.Value[2];
+		this->Value[3] /= Other.Value[3];
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::operator+=(const TVector4<MathType> & Other)
-	{ return this->Add(Other); }
+	template<class T>
+	FORCEINLINE TVector4<T>& TVector4<T>::operator+=(T Scalar) {
+		this->Value[0] += Scalar;
+		this->Value[1] += Scalar;
+		this->Value[2] += Scalar;
+		this->Value[3] += Scalar;
+		return *this;
+	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::operator-=(const TVector4<MathType> & Other)
-	{ return this->Subtract(Other); }
+	template<class T>
+	FORCEINLINE TVector4<T>& TVector4<T>::operator-=(T Scalar) {
+		this->Value[0] -= Scalar;
+		this->Value[1] -= Scalar;
+		this->Value[2] -= Scalar;
+		this->Value[3] -= Scalar;
+		return *this;
+	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::operator*=(const TVector4<MathType> & Other)
-	{ return this->Multiply(Other); }
+	template<class T>
+	FORCEINLINE TVector4<T>& TVector4<T>::operator*=(T Scalar) {
+		this->Value[0] *= Scalar;
+		this->Value[1] *= Scalar;
+		this->Value[2] *= Scalar;
+		this->Value[3] *= Scalar;
+		return *this;
+	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType>& TVector4<MathType>::operator/=(const TVector4<MathType>& Other)
-	{ return this->Divide(Other); }
+	template<class T>
+	FORCEINLINE TVector4<T>& TVector4<T>::operator/=(T Scalar) {
+		this->Value[0] /= Scalar;
+		this->Value[1] /= Scalar;
+		this->Value[2] /= Scalar;
+		this->Value[3] /= Scalar;
+		return *this;
+	}
 
-	template<class MathType>
-	FORCEINLINE bool TVector4<MathType>::operator==(const TVector4<MathType> & Other) {
-		return (this->m_Data[0] == Other.m_Data[0]
-			&& this->m_Data[1] == Other.m_Data[1]
-			&& this->m_Data[2] == Other.m_Data[2]
-			&& this->m_Data[3] == Other.m_Data[3]
+	template<class T>
+	FORCEINLINE bool TVector4<T>::operator==(const TVector4<T> & Other) {
+		return (this->Value[0] == Other.Value[0]
+			&& this->Value[1] == Other.Value[1]
+			&& this->Value[2] == Other.Value[2]
+			&& this->Value[3] == Other.Value[3]
 			);
 	}
 
-	template<class MathType>
-	FORCEINLINE bool TVector4<MathType>::operator!=(const TVector4<MathType> & Other)
+	template<class T>
+	FORCEINLINE bool TVector4<T>::operator!=(const TVector4<T> & Other)
 	{ return !(*this == Other); }
 
-	template<class MathType>
-	FORCEINLINE void TVector4<MathType>::operator++()
+	template<class T>
+	FORCEINLINE void TVector4<T>::operator++()
 	{ ++X; ++Y; ++Z; ++W; }
 
-	template<class MathType>
-	FORCEINLINE void TVector4<MathType>::operator--()
+	template<class T>
+	FORCEINLINE void TVector4<T>::operator--()
 	{ --X; --Y; --Z; --W; }
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::operator++(int)
-	{ TVector4<MathType> T = *this; ++*this; return T; }
+	template<class T>
+	FORCEINLINE TVector4<T> & TVector4<T>::operator++(int)
+	{ TVector4<T> Temp = *this; ++*this; return Temp; }
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> & TVector4<MathType>::operator--(int)
-	{ TVector4<MathType> T = *this; --*this; return T; }
+	template<class T>
+	FORCEINLINE TVector4<T> & TVector4<T>::operator--(int)
+	{ TVector4<T> Temp = *this; --*this; return Temp; }
 
-	template<class MathType>
-	FORCEINLINE MathType& TVector4<MathType>::operator[](size_t Index)
-	{ return m_Data[Index]; }
+	template<class T>
+	FORCEINLINE T& TVector4<T>::operator[](size_t Index)
+	{ return Value[Index]; }
 
-	template<class MathType>
-	FORCEINLINE const MathType& TVector4<MathType>::operator[](size_t Index) const
-	{ return m_Data[Index]; }
+	template<class T>
+	FORCEINLINE const T& TVector4<T>::operator[](size_t Index) const
+	{ return Value[Index]; }
 
 
-	template<class MathType>
-	FORCEINLINE MathType Length(const TVector4<MathType>& Vec)
+	template<class T>
+	FORCEINLINE T Length(const TVector4<T>& Vec)
 	{ return sqrt(Vec.X * Vec.X + Y * Y + Z * Z + W * W); }
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> Normalize(const TVector4<MathType>& Vec)
+	template<class T>
+	FORCEINLINE TVector4<T> Normalize(const TVector4<T>& Vec)
 	{ return (  Vec / Length(Vec)  ); }
 
-	template<class MathType>
-	FORCEINLINE MathType Dot(const TVector4<MathType>& Vec1, const TVector4<MathType>& Vec2)
+	template<class T>
+	FORCEINLINE T Dot(const TVector4<T>& Vec1, const TVector4<T>& Vec2)
 	{ return (Vec1.X * Vec2.X + Vec1.Y * Vec2.Y + Vec1.Z * Vec2.Z + Vec1.W * Vec2.W); }
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> Rotate(const TVector4<MathType>& Vec, MathType Angle)
+	template<class T>
+	FORCEINLINE TVector4<T> Rotate(const TVector4<T>& Vec, T Angle)
 	{ return Vec; }
 
 } }

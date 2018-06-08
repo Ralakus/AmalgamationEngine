@@ -2,8 +2,8 @@
 
 namespace Amalgamation { namespace Math {
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(MathType Diagonal) {
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::TMatrix4x4(T Diagonal) {
 		std::memset(Elements, 0, sizeof(Elements));
 		Elements[0][0] = Diagonal;
 		Elements[1][1] = Diagonal;
@@ -11,22 +11,22 @@ namespace Amalgamation { namespace Math {
 		Elements[3][3] = Diagonal;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(MathType* Array){
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::TMatrix4x4(T* Array){
 		memcpy(&Arr, Array, sizeof(Arr));
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(const TQuaternion<MathType> Quat) {
-		MathType QXX(Quat.X * Quat.X);
-		MathType QYY(Quat.Y * Quat.Y);
-		MathType QZZ(Quat.Z * Quat.Z);
-		MathType QXZ(Quat.X * Quat.Z);
-		MathType QXY(Quat.X * Quat.Y);
-		MathType QYZ(Quat.Y * Quat.Z);
-		MathType QWX(Quat.W * Quat.X);
-		MathType QWY(Quat.W * Quat.Y);
-		MathType QWZ(Quat.W * Quat.Z);
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::TMatrix4x4(const TQuaternion<T> Quat) {
+		T QXX(Quat.X * Quat.X);
+		T QYY(Quat.Y * Quat.Y);
+		T QZZ(Quat.Z * Quat.Z);
+		T QXZ(Quat.X * Quat.Z);
+		T QXY(Quat.X * Quat.Y);
+		T QYZ(Quat.Y * Quat.Z);
+		T QWX(Quat.W * Quat.X);
+		T QWY(Quat.W * Quat.Y);
+		T QWZ(Quat.W * Quat.Z);
 
 		Elements[0][0] = 1 - 2 * (QYY + QZZ);
 		Elements[0][1] = 2 * (QXY + QWZ);
@@ -49,22 +49,22 @@ namespace Amalgamation { namespace Math {
 		Elements[3][3] = 1;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4() {
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::TMatrix4x4() {
 		std::memset(Elements, 0, sizeof(Elements));
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(const TMatrix4x4 & Other) {
-		memcpy(&m_Data, &Other.m_Data, sizeof(TVector4<MathType>) * 4);
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::TMatrix4x4(const TMatrix4x4 & Other) {
+		memcpy(&m_Data, &Other.m_Data, sizeof(TVector4<T>) * 4);
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>::~TMatrix4x4()
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>::~TMatrix4x4()
 	{}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> & TMatrix4x4<MathType>::Multiply(const TMatrix4x4<MathType> & Other) {
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> & TMatrix4x4<T>::Multiply(const TMatrix4x4<T> & Other) {
 		for (unsigned int i = 0; i < 4; i++) {
 			for (unsigned int j = 0; j < 4; j++) {
 				(*this)[i][j] = (Elements[i][0]) * (Other[0][j]) +
@@ -76,18 +76,18 @@ namespace Amalgamation { namespace Math {
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> & TMatrix4x4<MathType>::Multiply(const TQuaternion<MathType>& Other) {
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> & TMatrix4x4<T>::Multiply(const TQuaternion<T>& Other) {
 
-		MathType QXX(Other.X * Other.X);
-		MathType QYY(Other.Y * Other.Y);
-		MathType QZZ(Other.Z * Other.Z);
-		MathType QXZ(Other.X * Other.Z);
-		MathType QXY(Other.X * Other.Y);
-		MathType QYZ(Other.Y * Other.Z);
-		MathType QWX(Other.W * Other.X);
-		MathType QWY(Other.W * Other.Y);
-		MathType QWZ(Other.W * Other.Z);
+		T QXX(Other.X * Other.X);
+		T QYY(Other.Y * Other.Y);
+		T QZZ(Other.Z * Other.Z);
+		T QXZ(Other.X * Other.Z);
+		T QXY(Other.X * Other.Y);
+		T QYZ(Other.Y * Other.Z);
+		T QWX(Other.W * Other.X);
+		T QWY(Other.W * Other.Y);
+		T QWZ(Other.W * Other.Z);
 
 		Elements[0][0] *= 1 - 2 * (QYY + QZZ);
 		Elements[0][1] *= 2 * (QXY + QWZ);
@@ -104,9 +104,9 @@ namespace Amalgamation { namespace Math {
 		return *this;
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> TMatrix4x4<MathType>::Multiply(const TVector4<MathType>& Other) const {
-		return TVector4<MathType>(
+	template<class T>
+	FORCEINLINE TVector4<T> TMatrix4x4<T>::Multiply(const TVector4<T>& Other) const {
+		return TVector4<T>(
 			m_Data[0].X * Other.X + m_Data[1].X * Other.Y + m_Data[2].X * Other.Z + m_Data[3].X * Other.W,
 			m_Data[0].Y * Other.X + m_Data[1].Y * Other.Y + m_Data[2].Y * Other.Z + m_Data[3].Y * Other.W,
 			m_Data[0].Z * Other.X + m_Data[1].Z * Other.Y + m_Data[2].Z * Other.Z + m_Data[3].Z * Other.W,
@@ -114,18 +114,18 @@ namespace Amalgamation { namespace Math {
 			);
 	}
 
-	template<class MathType>
-	FORCEINLINE TVector3<MathType> TMatrix4x4<MathType>::Multiply(const TVector3<MathType>& Other) const {
-		return TVector3<MathType>(
+	template<class T>
+	FORCEINLINE TVector3<T> TMatrix4x4<T>::Multiply(const TVector3<T>& Other) const {
+		return TVector3<T>(
 			m_Data[0].X * Other.X + m_Data[1].X * Other.Y + m_Data[2].X * Other.Z + m_Data[3].X,
 			m_Data[0].Y * Other.X + m_Data[1].Y * Other.Y + m_Data[2].Y * Other.Z + m_Data[3].Y,
 			m_Data[0].Z * Other.X + m_Data[1].Z * Other.Y + m_Data[2].Z * Other.Z + m_Data[3].Z
 			);
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Translate(const TVector3<MathType>& Translation) {
-		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Translate(const TVector3<T>& Translation) {
+		TMatrix4x4<T> Result(static_cast<T>(1));
 
 		Result.Elements[0][3] = Translation.X;
 		Result.Elements[1][3] = Translation.Y;
@@ -134,9 +134,9 @@ namespace Amalgamation { namespace Math {
 		return Result;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Scale(const TVector3<MathType>& Scale) {
-		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Scale(const TVector3<T>& Scale) {
+		TMatrix4x4<T> Result(static_cast<T>(1));
 
 		Result.Elements[0][0] = Scale.X;
 		Result.Elements[1][1] = Scale.Y;
@@ -145,18 +145,18 @@ namespace Amalgamation { namespace Math {
 		return Result;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Translate(const TMatrix4x4 & Matrix, const TVector3<MathType>& Translation){
-		TMatrix4x4<MathType> R = TMatrix4x4<MathType>(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Translate(const TMatrix4x4<T>& Matrix, const TVector3<T>& Translation){
+		TMatrix4x4<T> R = TMatrix4x4<T>(static_cast<T>(1));
 
 		R[3] = (R[0] * Translation[0] + R[1] * Translation[1] + R[2] * Translation[2] + R[3]);
 
 		return R;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Scale(const TMatrix4x4 & Matrix, const TVector3<MathType>& Scale){
-		TMatrix4x4<MathType> R = TMatrix4x4<MathType>(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Scale(const TMatrix4x4 & Matrix, const TVector3<T>& Scale){
+		TMatrix4x4<T> R = TMatrix4x4<T>(static_cast<T>(1));
 		R[0] = Matrix[0] * Scale[0];
 		R[1] = Matrix[1] * Scale[1];
 		R[2] = Matrix[2] * Scale[2];
@@ -165,18 +165,18 @@ namespace Amalgamation { namespace Math {
 		return R;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Identity() {
-		return TMatrix4x4<MathType>(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Identity() {
+		return TMatrix4x4<T>(static_cast<T>(1));
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Orthographic(MathType Left, MathType Right, MathType Bottom, MathType Top, MathType Near, MathType Far) {
-		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Orthographic(T Left, T Right, T Bottom, T Top, T Near, T Far) {
+		TMatrix4x4<T> Result(static_cast<T>(1));
 
-		Result.Elements[0][0] = static_cast<MathType>(2) / (Right - Left);
-		Result.Elements[1][1] = static_cast<MathType>(2) / (Top - Bottom);
-		Result.Elements[2][2] = static_cast<MathType>(2) / (Near - Far);
+		Result.Elements[0][0] = static_cast<T>(2) / (Right - Left);
+		Result.Elements[1][1] = static_cast<T>(2) / (Top - Bottom);
+		Result.Elements[2][2] = static_cast<T>(2) / (Near - Far);
 
 		Result.Elements[0][3] = (Left + Right) / (Left - Right);
 		Result.Elements[1][3] = (Bottom + Top) / (Bottom - Top);
@@ -185,28 +185,28 @@ namespace Amalgamation { namespace Math {
 		return Result;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Perspective(float FOV, float AspectRatio, float Near, float Far) {
-		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Perspective(float FOV, float AspectRatio, float Near, float Far) {
+		TMatrix4x4<T> Result(static_cast<T>(1));
 
-		Result.Elements[0][0] = static_cast<MathType>(1) / (tan(FOV / static_cast<MathType>(2)) * AspectRatio);
-		Result.Elements[1][1] = static_cast<MathType>(1) / tan(FOV / static_cast<MathType>(2));
-		Result.Elements[2][3] = static_cast<MathType>(-1);
+		Result.Elements[0][0] = static_cast<T>(1) / (tan(FOV / static_cast<T>(2)) * AspectRatio);
+		Result.Elements[1][1] = static_cast<T>(1) / tan(FOV / static_cast<T>(2));
+		Result.Elements[2][3] = static_cast<T>(-1);
 
 		Result.Elements[2][2] = (Far + Near) / (Far - Near);
-		Result.Elements[3][2] = (static_cast<MathType>(2) * Far * Near) / (Far - Near);
+		Result.Elements[3][2] = (static_cast<T>(2) * Far * Near) / (Far - Near);
 
 		return Result;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Rotate(float Angle, const TVector3<MathType>& Axis) {
-		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
+	template<class T>
+	FORCEINLINE TMatrix4x4<T> TMatrix4x4<T>::Rotate(float Angle, const TVector3<T>& Axis) {
+		TMatrix4x4<T> Result(static_cast<T>(1));
 
-		float R = Radians<MathType>(Angle);
+		float R = Radians<T>(Angle);
 		float C = cos(R);
 		float S = sin(R);
-		float OMC = static_cast<MathType>(1) - C;
+		float OMC = static_cast<T>(1) - C;
 
 		float X = Axis.X;
 		float Y = Axis.Y;
@@ -227,12 +227,12 @@ namespace Amalgamation { namespace Math {
 		return Result;
 	}
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>& TMatrix4x4<MathType>::operator*=(const TMatrix4x4<MathType>& Other)
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>& TMatrix4x4<T>::operator*=(const TMatrix4x4<T>& Other)
 	{ return this->Multiply(Other); }
 
-	template<class MathType>
-	FORCEINLINE TMatrix4x4<MathType>& TMatrix4x4<MathType>::operator*=(const TQuaternion<MathType>& Other)
+	template<class T>
+	FORCEINLINE TMatrix4x4<T>& TMatrix4x4<T>::operator*=(const TQuaternion<T>& Other)
 	{ return this->Multiply(Other); }
 
 } }

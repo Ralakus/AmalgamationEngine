@@ -6,65 +6,68 @@
 
 namespace Amalgamation { namespace Math {
 
-	template<class MathType>
+	template<class T>
 	class TVector2 {
 
 	public:
 
 		union {
-			MathType m_Data[2];
-			struct { MathType X, Y; };
+			T Value[2];
+			struct { T X, Y; };
 		};
 
-		FORCEINLINE TVector2(MathType X, MathType Y);
-		FORCEINLINE TVector2(MathType Scalar);
+		FORCEINLINE TVector2(T X, T Y);
+		FORCEINLINE TVector2(T Scalar);
 		FORCEINLINE TVector2();
-		FORCEINLINE TVector2(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2(const TVector2<T>& Other);
 
 		FORCEINLINE ~TVector2();
 
-		FORCEINLINE TVector2<MathType>& Add(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& Subtract(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& Multiply(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& Divide(const TVector2<MathType>& Other);
+		FORCEINLINE TVector2<T>& operator+=(const TVector2<T>& Other);
+		FORCEINLINE TVector2<T>& operator-=(const TVector2<T>& Other);
+		FORCEINLINE TVector2<T>& operator*=(const TVector2<T>& Other);
+		FORCEINLINE TVector2<T>& operator/=(const TVector2<T>& Other);
 
-		FORCEINLINE friend TVector2<MathType> operator+(TVector2<MathType> Left, const TVector2<MathType>& Right);
-		FORCEINLINE friend TVector2<MathType> operator-(TVector2<MathType> Left, const TVector2<MathType>& Right);
-		FORCEINLINE friend TVector2<MathType> operator*(TVector2<MathType> Left, const TVector2<MathType>& Right);
-		FORCEINLINE friend TVector2<MathType> operator/(TVector2<MathType> Left, const TVector2<MathType>& Right);
-
-		FORCEINLINE TVector2<MathType>& operator+=(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& operator-=(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& operator*=(const TVector2<MathType>& Other);
-		FORCEINLINE TVector2<MathType>& operator/=(const TVector2<MathType>& Other);
-
-		FORCEINLINE bool operator==(const TVector2<MathType>& Other);
-		FORCEINLINE bool operator!=(const TVector2<MathType>& Other);
+		FORCEINLINE bool operator==(const TVector2<T>& Other);
+		FORCEINLINE bool operator!=(const TVector2<T>& Other);
 
 		FORCEINLINE void operator++();
 		FORCEINLINE void operator--();
 
-		FORCEINLINE TVector2<MathType>& operator++(int);
-		FORCEINLINE TVector2<MathType>& operator--(int);
+		FORCEINLINE TVector2<T>& operator++(int);
+		FORCEINLINE TVector2<T>& operator--(int);
 
-		FORCEINLINE MathType operator[](size_t Index);
+		FORCEINLINE T& operator[](size_t Index);
+		FORCEINLINE const T& operator[](size_t Index) const;
 
 	};
 
-	template<class MathType>
-	FORCEINLINE MathType Length(const TVector2<MathType>& Vec);
+	template<class T>
+	FORCEINLINE TVector2<T> operator+(TVector2<T> Left, const TVector2<T>& Right);
 
-	template<class MathType>
-	FORCEINLINE TVector2<MathType> Normalize(const TVector2<MathType>& Vec);
+	template<class T>
+	FORCEINLINE TVector2<T> operator-(TVector2<T> Left, const TVector2<T>& Right);
 
-	template<class MathType>
-	FORCEINLINE MathType Dot(const TVector2<MathType>& Vec1, const TVector2<MathType>& Vec2);
+	template<class T>
+	FORCEINLINE TVector2<T> operator*(TVector2<T> Left, const TVector2<T>& Right);
 
-	template<class MathType>
-	FORCEINLINE TVector2<MathType>& Rotate(const TVector2<MathType>& Vec, MathType Angle);
+	template<class T>
+	FORCEINLINE TVector2<T> operator/(TVector2<T> Left, const TVector2<T>& Right);
 
-	template<class MathType>
-	using TVec2 = TVector2<MathType>;
+	template<class T>
+	FORCEINLINE T Length(const TVector2<T>& Vec);
+
+	template<class T>
+	FORCEINLINE TVector2<T> Normalize(const TVector2<T>& Vec);
+
+	template<class T>
+	FORCEINLINE T Dot(const TVector2<T>& Vec1, const TVector2<T>& Vec2);
+
+	template<class T>
+	FORCEINLINE TVector2<T>& Rotate(const TVector2<T>& Vec, T Angle);
+
+	template<class T>
+	using TVec2 = TVector2<T>;
 
 	using Vec2 = TVec2<MATH_TYPE>;
 	using Vector2 = Vec2;

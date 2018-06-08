@@ -6,66 +6,64 @@
 
 namespace Amalgamation { namespace Math {
 
-    template<class MathType>
+    template<class T>
     class TQuaternion {
 
     public:
 
 		union {
-			MathType m_Data[4];
-			struct { MathType X, Y, Z, W; };
+			T m_Data[4];
+			struct { T X, Y, Z, W; };
 		};
 
         template<class... EXArgs>
-        FORCEINLINE TQuaternion(MathType X, MathType Y, MathType Z, MathType W, EXArgs&&... Ex);
-		FORCEINLINE TQuaternion(MathType X, MathType Y, MathType Z, MathType W);
-		FORCEINLINE TQuaternion(MathType X, MathType Y, MathType Z);
-		FORCEINLINE TQuaternion(MathType X, MathType Y);
-		FORCEINLINE TQuaternion(MathType Scalar);
+        FORCEINLINE TQuaternion(T X, T Y, T Z, T W, EXArgs&&... Ex);
+		FORCEINLINE TQuaternion(T X, T Y, T Z, T W);
+		FORCEINLINE TQuaternion(T X, T Y, T Z);
+		FORCEINLINE TQuaternion(T X, T Y);
+		FORCEINLINE TQuaternion(T Scalar);
 		FORCEINLINE TQuaternion();
-		FORCEINLINE TQuaternion(const TQuaternion<MathType>& Other);
-		FORCEINLINE TQuaternion(const TVector3<MathType>& Euler);
+		FORCEINLINE TQuaternion(const TQuaternion<T>& Other);
+		FORCEINLINE TQuaternion(const TVector3<T>& Euler);
 		FORCEINLINE ~TQuaternion();
 
 
-		FORCEINLINE TQuaternion<MathType>& Multiply(const TQuaternion<MathType>& Other);
-		FORCEINLINE TQuaternion<MathType>& Multiply(const TVec3<MathType>& Other);
-		FORCEINLINE TVector3<MathType> RotateVec(const TVector3<MathType>& Other) const;
+		FORCEINLINE TQuaternion<T>& Multiply(const TQuaternion<T>& Other);
+		FORCEINLINE TQuaternion<T>& Multiply(const TVec3<T>& Other);
+		FORCEINLINE TVector3<T> RotateVec(const TVector3<T>& Other) const;
 
-		//FORCEINLINE TVector4<MathType> Multiply(const TQuaternion<MathType>& Other);
+		FORCEINLINE friend TQuaternion<T> operator*(TQuaternion<T> Left, const TQuaternion<T>& Right);
 
-		FORCEINLINE friend TQuaternion<MathType> operator*(TQuaternion<MathType> Left, const TQuaternion<MathType>& Right);
+		FORCEINLINE friend TQuaternion<T> operator*(TQuaternion<T> Left, const TVec3<T>& Right);
+		FORCEINLINE friend TQuaternion<T> operator*(const TVec3<T>& Left, TQuaternion<T> Right);
 
-		FORCEINLINE friend TQuaternion<MathType> operator*(TQuaternion<MathType> Left, const TVec3<MathType>& Right);
-		FORCEINLINE friend TQuaternion<MathType> operator*(const TVec3<MathType>& Left, TQuaternion<MathType> Right);
+		//FORCEINLINE friend TVector3<T> operator*(const TQuaternion<T>& Left, const TVec3<T>& Right);
 
-		FORCEINLINE friend TVector3<MathType> operator*(const TQuaternion<MathType>& Left, const TVec3<MathType>& Right);
+		FORCEINLINE TQuaternion<T>& operator*=(const TQuaternion<T>& Other);
+		FORCEINLINE TQuaternion<T>& operator*=(const TVec3<T>& Other);
 
-		FORCEINLINE TQuaternion<MathType>& operator*=(const TQuaternion<MathType>& Other);
-		FORCEINLINE TQuaternion<MathType>& operator*=(const TVec3<MathType>& Other);
-
-		FORCEINLINE bool operator==(const TQuaternion<MathType>& Other);
-		FORCEINLINE bool operator!=(const TQuaternion<MathType>& Other);
+		FORCEINLINE bool operator==(const TQuaternion<T>& Other);
+		FORCEINLINE bool operator!=(const TQuaternion<T>& Other);
 
     };
 
-	template<class MathType>
-	FORCEINLINE MathType Length(const TQuaternion<MathType>& Quat);
+	template<class T>
+	FORCEINLINE T Length(const TQuaternion<T>& Quat);
 
-	template<class MathType>
-	FORCEINLINE TQuaternion<MathType>& Normalize(const TQuaternion<MathType>& Quat);
+	template<class T>
+	FORCEINLINE TQuaternion<T>& Normalize(const TQuaternion<T>& Quat);
 
-	template<class MathType>
-	FORCEINLINE TQuaternion<MathType> Conjugate(const TQuaternion<MathType>& Quat);
+	template<class T>
+	FORCEINLINE TQuaternion<T> Conjugate(const TQuaternion<T>& Quat);
 
-	template<class MathType>
-	FORCEINLINE TVector3<MathType> Euler(const TQuaternion<MathType>& Quat);
+	template<class T>
+	FORCEINLINE TVector3<T> Euler(const TQuaternion<T>& Quat);
 
-	template<class MathType>
-	FORCEINLINE TQuaternion<MathType> AngleAxis(MathType Angle, const TVector3<MathType>& Vec);
+	template<class T>
+	FORCEINLINE TQuaternion<T> AngleAxis(T Angle, const TVector3<T>& Vec);
 
-	template<class MathType>
-	using TQuat = TQuaternion<MathType>;
+	template<class T>
+	using TQuat = TQuaternion<T>;
 
 	using Quat = TQuat<MATH_TYPE>;
 	using Quaternion = Quat;

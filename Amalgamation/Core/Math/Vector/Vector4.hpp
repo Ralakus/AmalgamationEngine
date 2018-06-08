@@ -6,69 +6,93 @@
 
 namespace Amalgamation { namespace Math {
 
-	template<class MathType>
+	template<class T>
 	class TVector4 {
+
 	public:
 
-
 		union {
-			MathType m_Data[4];
-			struct { MathType X, Y, Z, W; };
+			T Value[4];
+			struct { T X, Y, Z, W; };
 		};
 
         template<class... EXArgs>
-		FORCEINLINE TVector4(MathType X, MathType Y, MathType Z, MathType W, EXArgs&&... Ex);
-		FORCEINLINE TVector4(MathType X, MathType Y, MathType Z, MathType W);
-		FORCEINLINE TVector4(MathType X, MathType Y, MathType Z);
-		FORCEINLINE TVector4(MathType X, MathType Y);
-		FORCEINLINE TVector4(MathType Scalar);
+		FORCEINLINE TVector4(T X, T Y, T Z, T W, EXArgs&&... Ex);
+		FORCEINLINE TVector4(T X, T Y, T Z, T W);
+		FORCEINLINE TVector4(T X, T Y, T Z);
+		FORCEINLINE TVector4(T X, T Y);
+		FORCEINLINE TVector4(T Scalar);
 		FORCEINLINE TVector4();
-		FORCEINLINE TVector4(const TVector4<MathType>& Other);
+		FORCEINLINE TVector4(const TVector4<T>& Other);
 
 		FORCEINLINE ~TVector4();
 
-		FORCEINLINE TVector4<MathType>& Add(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& Subtract(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& Multiply(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& Divide(const TVector4<MathType>& Other);
+		FORCEINLINE TVector4<T>& operator+=(const TVector4<T>& Other);
+		FORCEINLINE TVector4<T>& operator-=(const TVector4<T>& Other);
+		FORCEINLINE TVector4<T>& operator*=(const TVector4<T>& Other);
+		FORCEINLINE TVector4<T>& operator/=(const TVector4<T>& Other);
 
-		FORCEINLINE friend TVector4<MathType> operator+(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Add(Right); }
-		FORCEINLINE friend TVector4<MathType> operator-(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Subtract(Right); }
-		FORCEINLINE friend TVector4<MathType> operator*(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Multiply(Right); }
-		FORCEINLINE friend TVector4<MathType> operator/(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Divide(Right); }
+		FORCEINLINE TVector4<T>& operator+=(T Scalar);
+		FORCEINLINE TVector4<T>& operator-=(T Scalar);
+		FORCEINLINE TVector4<T>& operator*=(T Scalar);
+		FORCEINLINE TVector4<T>& operator/=(T Scalar);
 
-		FORCEINLINE TVector4<MathType>& operator+=(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& operator-=(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& operator*=(const TVector4<MathType>& Other);
-		FORCEINLINE TVector4<MathType>& operator/=(const TVector4<MathType>& Other);
-
-		FORCEINLINE bool operator==(const TVector4<MathType>& Other);
-		FORCEINLINE bool operator!=(const TVector4<MathType>& Other);
+		FORCEINLINE bool operator==(const TVector4<T>& Other);
+		FORCEINLINE bool operator!=(const TVector4<T>& Other);
 
 		FORCEINLINE void operator++();
 		FORCEINLINE void operator--();
 
-		FORCEINLINE TVector4<MathType>& operator++(int);
-		FORCEINLINE TVector4<MathType>& operator--(int);
+		FORCEINLINE TVector4<T>& operator++(int);
+		FORCEINLINE TVector4<T>& operator--(int);
 
-		FORCEINLINE MathType& operator[](size_t Index);
-		FORCEINLINE const MathType& operator[](size_t Index) const;
+		FORCEINLINE T& operator[](size_t Index);
+		FORCEINLINE const T& operator[](size_t Index) const;
 	};
 
-	template<class MathType>
-	FORCEINLINE MathType Length(const TVector4<MathType>& Vec);
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> Normalize(const TVector4<MathType>& Vec);
+	template<class T>
+	FORCEINLINE TVector4<T> operator+(TVector4<T> Left, const TVector4<T>& Right) { return Left += Right; }
+	template<class T>																		    
+	FORCEINLINE TVector4<T> operator-(TVector4<T> Left, const TVector4<T>& Right) { return Left -= Right; }
+	template<class T>																		     
+	FORCEINLINE TVector4<T> operator*(TVector4<T> Left, const TVector4<T>& Right) { return Left *= Right; }
+	template<class T>																		    
+	FORCEINLINE TVector4<T> operator/(TVector4<T> Left, const TVector4<T>& Right) { return Left /= Right; }
 
-	template<class MathType>
-	FORCEINLINE MathType Dot(const TVector4<MathType>& Vec1, const TVector4<MathType>& Vec2);
+	template<class T>
+	FORCEINLINE TVector4<T> operator+(TVector4<T> Left, T Right) { return Left += Right; }
+	template<class T>
+	FORCEINLINE TVector4<T> operator-(TVector4<T> Left, T Right) { return Left -= Right; }
+	template<class T>
+	FORCEINLINE TVector4<T> operator*(TVector4<T> Left, T Right) { return Left *= Right; }
+	template<class T>
+	FORCEINLINE TVector4<T> operator/(TVector4<T> Left, T Right) { return Left /= Right; }
 
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> Rotate(const TVector4<MathType>& Vec, MathType Angle);
+	template<class T>
+	FORCEINLINE TVector4<T> operator+(T Left, TVector4<T> Right) { return Right += Left; }
+	template<class T>						 
+	FORCEINLINE TVector4<T> operator-(T Left, TVector4<T> Right) { return Right -= Left; }
+	template<class T>						 
+	FORCEINLINE TVector4<T> operator*(T Left, TVector4<T> Right) { return Right *= Left; }
+	template<class T>						 
+	FORCEINLINE TVector4<T> operator/(T Left, TVector4<T> Right) { return Right /= Left; }
 
-	template<class MathType>
-	using TVec4 = TVector4<MathType>;
+
+	template<class T>
+	FORCEINLINE T Length(const TVector4<T>& Vec);
+
+	template<class T>
+	FORCEINLINE TVector4<T> Normalize(const TVector4<T>& Vec);
+
+	template<class T>
+	FORCEINLINE T Dot(const TVector4<T>& Vec1, const TVector4<T>& Vec2);
+
+	template<class T>
+	FORCEINLINE TVector4<T> Rotate(const TVector4<T>& Vec, T Angle);
+
+	template<class T>
+	using TVec4 = TVector4<T>;
 
 	using Vec4 = TVec4<MATH_TYPE>;
 	using Vector4 = Vec4;

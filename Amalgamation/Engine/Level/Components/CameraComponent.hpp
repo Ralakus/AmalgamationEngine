@@ -28,7 +28,7 @@ namespace Amalgamation {
 		~CameraComponent() {}
 
 		Math::Mat4 View() const {
-			return Math::Mat4::Translate(m_TransformPtr->Rotation, m_TransformPtr->Position);
+			return Math::Mat4::Translate(m_TransformPtr->Rotation, m_TransformPtr->Position * -1.f);
 		}
 
 		void Translate(const Math::Vec3& Translation) {

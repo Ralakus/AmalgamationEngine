@@ -10,59 +10,59 @@
 
 namespace Amalgamation { namespace Math {
 
-	template<class MathType>
+	template<class T>
 	class TMatrix4x4 {
 
 	public:
 
         union{
-            TVector4<MathType> m_Data[4];
-            MathType Elements [4][4];
-			MathType Arr[16];
+            TVector4<T> m_Data[4];
+            T Elements [4][4];
+			T Arr[16];
         };
 
-		FORCEINLINE TMatrix4x4(MathType Diagonal);
-		FORCEINLINE TMatrix4x4(MathType* Arr);
-		FORCEINLINE TMatrix4x4(const TQuaternion<MathType> Quat);
+		FORCEINLINE TMatrix4x4(T Diagonal);
+		FORCEINLINE TMatrix4x4(T* Arr);
+		FORCEINLINE TMatrix4x4(const TQuaternion<T> Quat);
 		FORCEINLINE TMatrix4x4();
 		FORCEINLINE TMatrix4x4(const TMatrix4x4& Other);
 		FORCEINLINE ~TMatrix4x4();
 
-		FORCEINLINE TMatrix4x4<MathType>& Multiply(const TMatrix4x4<MathType>& Other);
-		FORCEINLINE TMatrix4x4<MathType>& Multiply(const TQuaternion<MathType>& Other);
+		FORCEINLINE TMatrix4x4<T>& Multiply(const TMatrix4x4<T>& Other);
+		FORCEINLINE TMatrix4x4<T>& Multiply(const TQuaternion<T>& Other);
 
-		FORCEINLINE TVector4<MathType> Multiply(const TVector4<MathType>& Other) const;
-		FORCEINLINE TVector3<MathType> Multiply(const TVector3<MathType>& Other) const;
+		FORCEINLINE TVector4<T> Multiply(const TVector4<T>& Other) const;
+		FORCEINLINE TVector3<T> Multiply(const TVector3<T>& Other) const;
 
-		FORCEINLINE static TMatrix4x4<MathType> Translate(const TVector3<MathType>& Translation);
-		FORCEINLINE static TMatrix4x4<MathType> Scale(const TVector3<MathType>& Scale);
+		FORCEINLINE static TMatrix4x4<T> Translate(const TVector3<T>& Translation);
+		FORCEINLINE static TMatrix4x4<T> Scale(const TVector3<T>& Scale);
 
-		FORCEINLINE static TMatrix4x4<MathType> Translate(const TMatrix4x4& Matrix, const TVector3<MathType>& Translation);
-		FORCEINLINE static TMatrix4x4<MathType> Scale(const TMatrix4x4& Matrix, const TVector3<MathType>& Scale);
+		FORCEINLINE static TMatrix4x4<T> Translate(const TMatrix4x4& Matrix, const TVector3<T>& Translation);
+		FORCEINLINE static TMatrix4x4<T> Scale(const TMatrix4x4& Matrix, const TVector3<T>& Scale);
 
-		FORCEINLINE static TMatrix4x4<MathType> Identity();
+		FORCEINLINE static TMatrix4x4<T> Identity();
 
-		FORCEINLINE static TMatrix4x4<MathType> Orthographic(MathType Left, MathType Right, MathType Bottom, MathType Top, MathType Near, MathType Far);
-		FORCEINLINE static TMatrix4x4<MathType> Perspective(float FOV, float AspectRatio, float Near, float Far);
+		FORCEINLINE static TMatrix4x4<T> Orthographic(T Left, T Right, T Bottom, T Top, T Near, T Far);
+		FORCEINLINE static TMatrix4x4<T> Perspective(float FOV, float AspectRatio, float Near, float Far);
 
-		FORCEINLINE static TMatrix4x4<MathType> Rotate(float Angle, const TVector3<MathType>& Axis);
+		FORCEINLINE static TMatrix4x4<T> Rotate(float Angle, const TVector3<T>& Axis);
 
-		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TMatrix4x4<MathType>& Right)  { return Left.Multiply(Right); }
-		FORCEINLINE friend TVector3<MathType>   operator*(TMatrix4x4<MathType> Left, const TVector3<MathType>& Right)    { return Left.Multiply(Right); }
-		FORCEINLINE friend TVector3<MathType>   operator*(const TVector3<MathType>& Left, TMatrix4x4<MathType> Right)    { return Right.Multiply(Left); }
-		FORCEINLINE friend TVector4<MathType>   operator*(TMatrix4x4<MathType> Left, const TVector4<MathType>& Right)    { return Left.Multiply(Right); }
-		FORCEINLINE friend TVector4<MathType>   operator*(const TVector4<MathType>& Left, TMatrix4x4<MathType> Right)    { return Right.Multiply(Left); }
-		FORCEINLINE friend TMatrix4x4<MathType> operator*(TMatrix4x4<MathType> Left, const TQuaternion<MathType>& Right) { return Left.Multiply(Right); }
+		FORCEINLINE friend TMatrix4x4<T> operator*(TMatrix4x4<T> Left, const TMatrix4x4<T>& Right)  { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector3<T>   operator*(TMatrix4x4<T> Left, const TVector3<T>& Right)    { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector3<T>   operator*(const TVector3<T>& Left, TMatrix4x4<T> Right)    { return Right.Multiply(Left); }
+		FORCEINLINE friend TVector4<T>   operator*(TMatrix4x4<T> Left, const TVector4<T>& Right)    { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector4<T>   operator*(const TVector4<T>& Left, TMatrix4x4<T> Right)    { return Right.Multiply(Left); }
+		FORCEINLINE friend TMatrix4x4<T> operator*(TMatrix4x4<T> Left, const TQuaternion<T>& Right) { return Left.Multiply(Right); }
 
-		FORCEINLINE TMatrix4x4<MathType>& operator*=(const TMatrix4x4<MathType>& Other);
-		FORCEINLINE TMatrix4x4<MathType>& operator*=(const TQuaternion<MathType>& Other);
+		FORCEINLINE TMatrix4x4<T>& operator*=(const TMatrix4x4<T>& Other);
+		FORCEINLINE TMatrix4x4<T>& operator*=(const TQuaternion<T>& Other);
 
-		FORCEINLINE       TVector4<MathType>& operator[](size_t Index)       { return m_Data[Index]; }
-		FORCEINLINE const TVector4<MathType>& operator[](size_t Index) const { return m_Data[Index]; }
+		FORCEINLINE       TVector4<T>& operator[](size_t Index)       { return m_Data[Index]; }
+		FORCEINLINE const TVector4<T>& operator[](size_t Index) const { return m_Data[Index]; }
 	};
 
-    template<class MathType>
-	using TMat4x4 = TMatrix4x4<MathType>;
+    template<class T>
+	using TMat4x4 = TMatrix4x4<T>;
 
 	using Mat4x4    = TMat4x4<MATH_TYPE>;
 	using Matrix4x4 =  Mat4x4;

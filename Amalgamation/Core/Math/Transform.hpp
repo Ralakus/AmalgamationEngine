@@ -17,8 +17,8 @@ namespace Amalgamation {
 	};
 
 	namespace Math {
-		template<class MathType = MATH_TYPE>
-		TMatrix4x4<MathType> MakeModelMatrix(const Transform& TransformData);
+		template<class T = MATH_TYPE>
+		TMatrix4x4<T> MakeModelMatrix(const Transform& TransformData);
 	}
 
 }
