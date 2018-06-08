@@ -1,9 +1,10 @@
+#include "Mesh.hpp"
 
 namespace Amalgamation {
 
 	struct CubeMeshData {
 
-		std::vector<Math::Vec3> Vertices = {
+		std::vector<glm::vec3> Vertices = {
 			{ -0.5f, -0.5f, -0.5f },
 			{  0.5f, -0.5f, -0.5f },
 			{  0.5f,  0.5f, -0.5f },
@@ -46,7 +47,7 @@ namespace Amalgamation {
 			{ -0.5f,  0.5f,  0.5f },
 			{ -0.5f,  0.5f, -0.5f }
 		};
-		std::vector<Math::Vec3> Normals = {
+		std::vector<glm::vec3> Normals = {
 			{ 0.0f,  0.0f, -1.0f },
 			{ 0.0f,  0.0f, -1.0f },
 			{ 0.0f,  0.0f, -1.0f },
@@ -89,7 +90,7 @@ namespace Amalgamation {
 			{ 0.0f,  1.0f,  0.0f },
 			{ 0.0f,  1.0f,  0.0f }
 		};
-		std::vector<Math::Vec2> TextureCoords = {
+		std::vector<glm::vec2> TextureCoords = {
 			{ 0.0f, 0.0f },
 			{ 1.0f, 0.0f },
 			{ 1.0f, 1.0f },
@@ -151,19 +152,19 @@ namespace Amalgamation {
 
 	struct PlaneMeshData {
 
-		std::vector<Math::Vec3> Vertices = {
+		std::vector<glm::vec3> Vertices = {
 			{ -0.5, -0.5, 0 },
 			{  0.5, -0.5, 0 },
 			{  0.5,  0.5, 0 },
 			{ -0.5,  0.5, 0 }
 		};
-		std::vector<Math::Vec3> Normals = {
+		std::vector<glm::vec3> Normals = {
 			{ 0,0,1 },
 			{ 0,0,1 },
 			{ 0,0,1 },
 			{ 0,0,1 }
 		};
-		std::vector<Math::Vec2> TextureCoords = {
+		std::vector<glm::vec2> TextureCoords = {
 			{ 0,0 },
 			{ 1,0 },
 			{ 1,1 },
@@ -180,16 +181,16 @@ namespace Amalgamation {
 
 	FORCEINLINE void Mesh::InterlaceData() {
 		for (size_t i = 0; i < m_MeshData.Vertices.size(); i++) {
-			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].X);
-			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].Y);
-			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].Z);
+			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].x);
+			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].y);
+			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].z);
 
-			m_InterlacedData.emplace_back(m_MeshData.Normals[i].X);
-			m_InterlacedData.emplace_back(m_MeshData.Normals[i].Y);
-			m_InterlacedData.emplace_back(m_MeshData.Normals[i].Z);
+			m_InterlacedData.emplace_back(m_MeshData.Normals[i].x);
+			m_InterlacedData.emplace_back(m_MeshData.Normals[i].y);
+			m_InterlacedData.emplace_back(m_MeshData.Normals[i].z);
 
-			m_InterlacedData.emplace_back(m_MeshData.TextureCoords[i].X);
-			m_InterlacedData.emplace_back(m_MeshData.TextureCoords[i].Y);
+			m_InterlacedData.emplace_back(m_MeshData.TextureCoords[i].x);
+			m_InterlacedData.emplace_back(m_MeshData.TextureCoords[i].y);
 		}
 	}
 
@@ -208,8 +209,8 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE MeshData Mesh::MakeMeshData(const std::vector<Math::Vec3>& Verticies, const std::vector<Math::Vec3>& Normals, const std::vector<Math::Vec2>& TextureCoords, const std::vector<uint32>& Indices) {
-		return MeshData({ Verticies, Normals, TextureCoords, Indices });
+	FORCEINLINE MeshData Mesh::MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices) {
+		return { Verticies, Normals, TextureCoords, Indices };
 	}
 
 	FORCEINLINE MeshData Mesh::MakeMeshData(Primitive Shape) {
@@ -238,21 +239,36 @@ namespace Amalgamation {
 	}
 
 	FORCEINLINE void Mesh::Draw() {
-		m_DrawFunction(this);
+		if (m_HasDrawFunction) {
+			m_DrawFunction(this);
+		}
+		else {
+			m_DefaultDrawFunction(this);
+		}
 	}
 
 	template<class Lambda>
 	FORCEINLINE void Mesh::SetDrawFunction(Lambda Function) {
 		m_DrawFunction = Function;
+		m_HasDrawFunction = true;
 	}
 
-	FORCEINLINE const Transform * Mesh::GetTransform() const { return m_TransformPtr; }
+	FORCEINLINE bool Mesh::HasDrawFunction() const {
+		return m_HasDrawFunction;
+	}
 
-	FORCEINLINE const std::vector<Math::Vec3>& Mesh::GetVertices() const { return m_MeshData.Vertices; }
+	FORCEINLINE void Mesh::RemoveDrawFunction() {
+		m_DrawFunction = [](Mesh*) {};
+		m_HasDrawFunction = false;
+	}
 
-	FORCEINLINE const std::vector<Math::Vec3>& Mesh::GetNormals() const { return m_MeshData.Normals; }
+	FORCEINLINE const Transform* Mesh::GetTransform() const { return m_TransformPtr; }
 
-	FORCEINLINE const std::vector<Math::Vec2>& Mesh::GetTextureCoords() const { return m_MeshData.TextureCoords; }
+	FORCEINLINE const std::vector<glm::vec3>& Mesh::GetVertices() const { return m_MeshData.Vertices; }
+
+	FORCEINLINE const std::vector<glm::vec3>& Mesh::GetNormals() const { return m_MeshData.Normals; }
+
+	FORCEINLINE const std::vector<glm::vec2>& Mesh::GetTextureCoords() const { return m_MeshData.TextureCoords; }
 
 	FORCEINLINE const std::vector<uint32>& Mesh::GetIndices() const { return m_MeshData.Indices; }
 

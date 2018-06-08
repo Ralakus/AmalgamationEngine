@@ -28,9 +28,9 @@ namespace Amalgamation {
 		virtual ~Light() {}
 
 
-		Math::Vec3 Diffuse = { 1.0f, 1.0f, 1.0f };
-		Math::Vec3 Specular = { 1.0f, 1.0f, 1.0f };
-		Math::Vec3 Ambient = { 0.05f, 0.05f, 0.05f };
+		glm::vec3 Diffuse = { 1.0f, 1.0f, 1.0f };
+		glm::vec3 Specular = { 1.0f, 1.0f, 1.0f };
+		glm::vec3 Ambient = { 0.05f, 0.05f, 0.05f };
 
 
 		Transform* GetTransform() {

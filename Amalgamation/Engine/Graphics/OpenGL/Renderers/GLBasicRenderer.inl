@@ -24,7 +24,7 @@ namespace Amalgamation {
 
 	void Amalgamation::GLBasicRenderer::Flush()
 	{
-		m_BufferedTransform = Math::Mat4::Identity();
+		m_BufferedTransform = glm::mat4(1.f);;
 
 		for (Mesh* MeshPtr : m_Meshes) {
 			GLMesh* CastMesh = static_cast<GLMesh*>(MeshPtr);
@@ -32,9 +32,9 @@ namespace Amalgamation {
 			CastMesh->GetVertexArray().Bind();
 			CastMesh->GetElementBuffer().Bind();
 
-			m_BufferedTransform = Math::Matrix4::Translate(MeshPtr->GetTransform()->Position);
+			/*m_BufferedTransform = Math::Matrix4::Translate(MeshPtr->GetTransform()->Position);
 			m_BufferedTransform *= MeshPtr->GetTransform()->Rotation;
-			m_BufferedTransform *= Math::Mat4::Scale(MeshPtr->GetTransform()->Scale);
+			m_BufferedTransform *= Math::Mat4::Scale(MeshPtr->GetTransform()->Scale);*/
 
 			CastShader->Bind();
 			CastShader->SetUniform("u_Model", m_BufferedTransform);
@@ -74,7 +74,7 @@ namespace Amalgamation {
 					}
 					else if (m_Lights[i]->LightType == Light::Type::Directional) {
 						GLDirectionalLight* DLight = static_cast<GLDirectionalLight*>(m_Lights[i]);
-						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), Math::Euler(DLight->GetTransform()->Rotation));
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), glm::eulerAngles(DLight->GetTransform()->Rotation));
 
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(),  DLight->Ambient);
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(),  DLight->Diffuse);
@@ -84,7 +84,7 @@ namespace Amalgamation {
 					else if (m_Lights[i]->LightType == Light::Type::Spot) {
 						GLSpotLight* SLight = static_cast<GLSpotLight*>(m_Lights[i]);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Position").c_str(), SLight->GetTransform()->Position);
-						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(), Math::Euler(SLight->GetTransform()->Rotation));
+						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(), glm::eulerAngles(SLight->GetTransform()->Rotation));
 
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].CutOff").c_str(), SLight->CutOff);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].OuterCutOff").c_str(), SLight->OuterCutOff);
@@ -120,7 +120,7 @@ namespace Amalgamation {
 			CastMesh->GetElementBuffer().Unbind();
 			CastMesh->GetVertexArray().Unbind();
 
-			m_BufferedTransform = Math::Mat4(1);
+			m_BufferedTransform = glm::mat4(1);
 		}
 
 		m_Meshes.clear();

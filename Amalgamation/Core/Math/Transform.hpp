@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Vector/Vector3.hpp"
-#include "Quaternion/Quaternion.hpp"
-#include "Matrix/Matrix4x4.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 namespace Amalgamation {
 
@@ -10,15 +9,14 @@ namespace Amalgamation {
 
 	public:
 
-		Math::Vec3 Position;
-		Math::Vec3 Scale;
-		Math::Quat Rotation;
+		glm::vec3 Position;
+		glm::vec3 Scale;
+		glm::quat Rotation;
 
 	};
 
 	namespace Math {
-		template<class T = MATH_TYPE>
-		TMatrix4x4<T> MakeModelMatrix(const Transform& TransformData);
+		glm::mat4 MakeModelMatrix(const Transform& TransformData);
 	}
 
 }

@@ -15,7 +15,7 @@ namespace Amalgamation {
 		std::vector<Mesh*> m_Meshes;
 		std::vector<Light*> m_Lights;
 		std::vector<Light*> m_SpotLights;
-		Math::Mat4 m_BufferedTransform;
+		glm::mat4 m_BufferedTransform;
 		CameraComponent* m_Cam;
 
 	public:

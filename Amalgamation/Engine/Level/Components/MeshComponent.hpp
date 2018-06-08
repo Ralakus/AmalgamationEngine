@@ -12,12 +12,12 @@ namespace Amalgamation {
 
 		TransformComponent* m_TransformComponentPtr;
 		Mesh* m_Mesh;
-		Renderer* m_Renderer;
 		Shader* m_Shader;
+		Window* m_Window;
 
 	public:
 
-		MeshComponent(Renderer* Renderer) : GraphicsClass(Renderer->GetAPI()), m_Renderer(Renderer) {}
+		MeshComponent(Window* Window) : GraphicsClass(Window->GetAPI()), m_Window(Window) {}
 		~MeshComponent() { SafeDelete(m_Mesh); }
 
 		MeshComponent* CreateMesh(const MeshData& Data, Shader* Shader) {
@@ -53,9 +53,6 @@ namespace Amalgamation {
 		void Awake() override {}
 
 		void Update(float Delta) override {
-			/*if (m_Mesh) {
-				m_Renderer->Submit(m_Mesh);
-			}*/
 			m_Mesh->Draw();
 		}
 

@@ -34,6 +34,7 @@ int main(int argc, char* args[]) {
 	Time T;
 
 	float CamFOV = 90.f;
+	GLint ViewPort[4];
 
 	//================================================
 	//Binds input
@@ -90,7 +91,7 @@ int main(int argc, char* args[]) {
 	Entity* Cube;
 	Cube = Level.CreateEntity<Entity>();
 	Cube->AddComponent<TransformComponent>();
-	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->GetMeshPtr()->SetDrawFunction([&](Mesh* M) {
+	Cube->AddComponent<MeshComponent>(Window._Myptr())->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->GetMeshPtr()->SetDrawFunction([&](Mesh* M) {
 
 		GLMesh* GLM = static_cast<GLMesh*>(M);
 
@@ -106,13 +107,8 @@ int main(int argc, char* args[]) {
 		GLCall(glDrawElements(GL_TRIANGLES, GLM->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
 
 	});
-	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z = -1.f;
-	Cube->GetComponentByType<TransformComponent>()->GetTransform().Scale = Math::Vec3(0.5);
-	//Cube->GetComponentByType<TransformComponent>()->GetTransform().Rotation = Math::Vec3(0, 90, 0);
-
-
-
-
+	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.z = -1.f;
+	Cube->GetComponentByType<TransformComponent>()->GetTransform().Scale = glm::vec3(0.5);
 
 
 	//================================================
@@ -122,8 +118,6 @@ int main(int argc, char* args[]) {
 
 	Level.Awake();
 
-	GLint ViewPort[4];
-
 	while (Window->IsValid()) {
 
 		T.Update();
@@ -131,17 +125,14 @@ int main(int argc, char* args[]) {
 		Window->Update(); 
 
 		GLCall(glGetIntegerv(GL_VIEWPORT, ViewPort));
-		Cam->SetProjection(Math::Mat4::Perspective(CamFOV, (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
+		Cam->SetProjection(glm::perspective(CamFOV, (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
 		
-		Cam->Translate(0, 0, ICMoveForward.Value() * T.GetDelta() * 3.5);
+		Cam->Translate(0, 0, -1 * ICMoveForward.Value() * T.GetDelta() * 3.5);
 		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * 3.5, 0, 0);
 		Cam->Roll(ICRollRight.Value() * T.GetDelta());
 		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta(), 0);
-		
-		//Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z += ICMoveForward.Value() * T.GetDelta();
-		//printf("Pos Z: %f              \r", PlayerTrans->GetTransform().Position.Z);
 
-		printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.X, PlayerTrans->GetTransform().Position.Y, PlayerTrans->GetTransform().Position.Z);
+		printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.x, PlayerTrans->GetTransform().Position.y, PlayerTrans->GetTransform().Position.z);
 
 
 		if (T.OnSecond()) {

@@ -4,7 +4,6 @@
 #include "Texture.hpp"
 #include "GraphicsClass.hpp"
 #include <Core/Math/Transform.hpp>
-#include <Core/Math/Vector/Vector2.hpp>
 
 #include <vector>
 #include <functional>
@@ -12,9 +11,9 @@
 namespace Amalgamation {
 
 	struct MeshData {
-		std::vector<Math::Vec3> Vertices;
-		std::vector<Math::Vec3> Normals;
-		std::vector<Math::Vec2> TextureCoords;
+		std::vector<glm::vec3> Vertices;
+		std::vector<glm::vec3> Normals;
+		std::vector<glm::vec2> TextureCoords;
 		std::vector<uint32> Indices;
 	};
 
@@ -33,7 +32,9 @@ namespace Amalgamation {
 		Transform* m_TransformPtr;
 
 		//void(*m_DrawFunction)(Mesh* M);
+		std::function<void(Mesh*)> m_DefaultDrawFunction;
 		std::function<void(Mesh*)> m_DrawFunction;
+		bool m_HasDrawFunction = false;
 
 		void SetTransform(Transform* TransformPtr);
 
@@ -51,19 +52,21 @@ namespace Amalgamation {
 
 		virtual bool PushData(const MeshData& Data);
 
-		static MeshData MakeMeshData(const std::vector<Math::Vec3>& Verticies, const std::vector<Math::Vec3>& Normals, const std::vector<Math::Vec2>& TextureCoords, const std::vector<uint32>& Indices);
+		static MeshData MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices);
 		static MeshData MakeMeshData(Primitive Shape);
 
 		void Draw();
 
 		template<class Lambda>
 		void SetDrawFunction(Lambda Function);
+		bool HasDrawFunction() const;
+		void RemoveDrawFunction();
 
 		const Transform* GetTransform() const;
 
-		const std::vector<Math::Vec3>& GetVertices()       const;
-		const std::vector<Math::Vec3>& GetNormals()        const;
-		const std::vector<Math::Vec2>& GetTextureCoords()  const;
+		const std::vector<glm::vec3>& GetVertices()       const;
+		const std::vector<glm::vec3>& GetNormals()        const;
+		const std::vector<glm::vec2>& GetTextureCoords()  const;
 		const std::vector<uint32>&     GetIndices()        const;
 
 		const std::vector<float>&      GetInterlacedData() const;
@@ -73,6 +76,7 @@ namespace Amalgamation {
 		virtual bool AddTexture(Texture* TexturePtr);
 		virtual bool RemoveTexture(Texture* TexturePtr);
 		virtual bool HasTexture(Texture* TexturePtr);
+
 
 
 	};

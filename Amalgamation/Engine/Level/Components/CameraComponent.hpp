@@ -3,9 +3,6 @@
 #include "TransformComponent.hpp"
 #include <Core/Level/Component.hpp>
 #include <Core/Level/Entity.hpp>
-#include <Core/Math/Vector/Vector3.hpp>
-#include <Core/Math/Quaternion/Quaternion.hpp>
-#include <Core/Math/Matrix/Matrix4x4.hpp>
 
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,7 +16,7 @@ namespace Amalgamation {
 
 		Transform* m_TransformPtr;
 
-		Math::Mat4 m_Projection;
+		glm::mat4 m_Projection;
 
 	public:
 
@@ -27,22 +24,22 @@ namespace Amalgamation {
 
 		~CameraComponent() {}
 
-		Math::Mat4 View() const {
-			return Math::Mat4::Translate(m_TransformPtr->Rotation, m_TransformPtr->Position * -1.f);
+		glm::mat4 View() const {
+			return glm::translate(glm::mat4_cast(m_TransformPtr->Rotation), -m_TransformPtr->Position);
 		}
 
-		void Translate(const Math::Vec3& Translation) {
-			m_TransformPtr->Position += m_TransformPtr->Rotation.RotateVec(Translation);
+		void Translate(const glm::vec3& Translation) {
+			m_TransformPtr->Position += Translation * m_TransformPtr->Rotation;
 		}
 		void Translate(float X, float Y, float Z) {
-			m_TransformPtr->Position += m_TransformPtr->Rotation.RotateVec(Math::Vec3(X, Y, Z));
+			m_TransformPtr->Position += glm::vec3(X, Y, Z) * m_TransformPtr->Rotation;
 		}
 
-		void Rotate(float Angle, const Math::Vec3& Axis) {
-			m_TransformPtr->Rotation *= Math::AngleAxis(Angle, m_TransformPtr->Rotation.RotateVec(Axis));
+		void Rotate(float Angle, const glm::vec3& Axis) {
+			m_TransformPtr->Rotation *= glm::angleAxis(Angle, Axis * m_TransformPtr->Rotation);
 		}
 		void Rotate(float Angle, float X, float Y, float Z) {
-			m_TransformPtr->Rotation *= Math::AngleAxis(Angle, m_TransformPtr->Rotation.RotateVec(Math::Vec3(X, Y, Z)));
+			m_TransformPtr->Rotation *= glm::angleAxis(Angle, glm::vec3(X, Y, Z) * m_TransformPtr->Rotation);
 		}
 
 		void Yaw(float Angle) {
@@ -55,23 +52,33 @@ namespace Amalgamation {
 			Rotate(Angle, 0.f, 0.f, 1.f);
 		}
 
-		Math::Vec3 GetFront() const {
-			return Math::Euler(m_TransformPtr->Rotation);
+		glm::vec3 GetFront() const {
+			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
+			glm::vec3 CamFront = glm::normalize(glm::vec3(
+
+				cos(CamEuler.y) * cos(CamEuler.x),
+				sin(CamEuler.x),
+				sin(CamEuler.y) * cos(CamEuler.x)
+
+			)) * m_TransformPtr->Rotation;
+			return CamFront;
 		}
 
-		Math::Vec3 GetRight() const {
-			return Math::Normalize(Math::Cross(GetFront(), Math::Vec3(0, 1, 0)));
+		glm::vec3 GetRight() const {
+			//return glm::Normalize(glm::Cross(GetFront(), glm::Vec3(0, 1, 0)));
+			return glm::normalize(glm::cross(GetFront(), glm::vec3(0, 1, 0)));
 		}
 
-		Math::Vec3 GetUp() const {
-			return Math::Normalize(Math::Cross(GetRight(), GetUp()));
+		glm::vec3 GetUp() const {
+			//return glm::Normalize(glm::Cross(GetRight(), GetUp()));
+			return glm::normalize(glm::cross(GetRight(), GetUp()));
 		}
 
-		void SetProjection(const Math::Mat4 Projection) {
+		void SetProjection(const glm::mat4 Projection) {
 			m_Projection = Projection;
 		}
 
-		const Math::Mat4 GetProjection() {
+		const glm::mat4 GetProjection() {
 			return m_Projection;
 		}
 

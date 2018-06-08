@@ -3,10 +3,6 @@
 #include "GLCommon.hpp"
 #include <Core/Graphics/Shader.hpp>
 #include <Core/Utilities/File.hpp>
-#include <Core/Math/Vector/Vector2.hpp>
-#include <Core/Math/Vector/Vector3.hpp>
-#include <Core/Math/Vector/Vector4.hpp>
-#include <Core/Math/Matrix/Matrix4x4.hpp>
 #include <unordered_map>
 
 namespace Amalgamation {
@@ -26,13 +22,13 @@ namespace Amalgamation {
 
 		void SetUniform(const char* name, float value);
 		void SetUniform(const char* name, int value);
-		void SetUniform(const char* name, const Math::Vec2& vector);
+		void SetUniform(const char* name, const glm::vec2& vector);
 		void SetUniform(const char* name, float x, float y);
-		void SetUniform(const char* name, const Math::Vec3& vector);
+		void SetUniform(const char* name, const glm::vec3& vector);
 		void SetUniform(const char* name, float x, float y, float z);
-		void SetUniform(const char* name, const Math::Vec4& vector);
+		void SetUniform(const char* name, const glm::vec4& vector);
 		void SetUniform(const char* name, float x, float y, float z, float w);
-		void SetUniform(const char* name, const Math::Mat4& matrix);
+		void SetUniform(const char* name, const glm::mat4& matrix);
 
 		void Bind()   const;
 		void Unbind() const;

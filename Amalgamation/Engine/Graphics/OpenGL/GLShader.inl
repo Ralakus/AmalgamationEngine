@@ -131,32 +131,32 @@ namespace Amalgamation {
 		GLCall(glUniform1i(GetUniformLocation(name), value));
 	}
 
-	FORCEINLINE void GLShader::SetUniform(const char * name, const Math::Vec2 & vector) {
-		GLCall(glUniform2f(GetUniformLocation(name), vector.X, vector.Y));
+	FORCEINLINE void GLShader::SetUniform(const char * name, const glm::vec2 & vector) {
+		GLCall(glUniform2f(GetUniformLocation(name), vector.x, vector.y));
 	}
 
 	FORCEINLINE void GLShader::SetUniform(const char * name, float x, float y) {
 		GLCall(glUniform2f(GetUniformLocation(name), x, y));
 	}
 
-	FORCEINLINE void GLShader::SetUniform(const char * name, const Math::Vec3 & vector) {
-		GLCall(glUniform3f(GetUniformLocation(name), vector.X, vector.Y, vector.Z));
+	FORCEINLINE void GLShader::SetUniform(const char * name, const glm::vec3 & vector) {
+		GLCall(glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z));
 	}
 
 	FORCEINLINE void GLShader::SetUniform(const char * name, float x, float y, float z) {
 		GLCall(glUniform3f(GetUniformLocation(name), x, y, z));
 	}
 
-	FORCEINLINE void GLShader::SetUniform(const char * name, const Math::Vec4 & vector) {
-		GLCall(glUniform4f(GetUniformLocation(name), vector.X, vector.Y, vector.Z, vector.W));
+	FORCEINLINE void GLShader::SetUniform(const char * name, const glm::vec4 & vector) {
+		GLCall(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 	}
 
 	FORCEINLINE void GLShader::SetUniform(const char * name, float x, float y, float z, float w) {
 		GLCall(glUniform4f(GetUniformLocation(name), x, y, z, w));
 	}
 
-	FORCEINLINE void GLShader::SetUniform(const char * name, const Math::Mat4 & matrix) {
-		GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, matrix.Arr));
+	FORCEINLINE void GLShader::SetUniform(const char * name, const glm::mat4 & matrix) {
+		GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0].x));
 	}
 
 	FORCEINLINE void GLShader::Bind() const { GLCall(glUseProgram(m_ShaderID)); }

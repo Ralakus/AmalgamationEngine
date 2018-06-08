@@ -2,7 +2,7 @@
 
 #include "Noncopyable.hpp"
 
-#define SINGLETON_INSTANCE(Class) Class(const Class& Other) = delete; static Class& Instance() { static Class m_Instance; return m_Instance; }
+#define SINGLETON_INSTANCE(Class) NON_COPYABLE(Class) static Class& Instance() { static Class m_Instance; return m_Instance; }
 
 namespace Amalgamation {
 
