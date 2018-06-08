@@ -32,7 +32,8 @@ namespace Amalgamation {
 			CastMesh->GetVertexArray().Bind();
 			CastMesh->GetElementBuffer().Bind();
 
-			m_BufferedTransform = Math::Matrix4::Translate(MeshPtr->GetTransform()->Position) * MeshPtr->GetTransform()->Rotation;
+			m_BufferedTransform = Math::Matrix4::Translate(MeshPtr->GetTransform()->Position);
+			m_BufferedTransform *= MeshPtr->GetTransform()->Rotation;
 			m_BufferedTransform *= Math::Mat4::Scale(MeshPtr->GetTransform()->Scale);
 
 			CastShader->Bind();

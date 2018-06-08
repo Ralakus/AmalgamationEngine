@@ -7,6 +7,7 @@
 #include <Core/Math/Vector/Vector2.hpp>
 
 #include <vector>
+#include <functional>
 
 namespace Amalgamation {
 
@@ -31,6 +32,9 @@ namespace Amalgamation {
 
 		Transform* m_TransformPtr;
 
+		//void(*m_DrawFunction)(Mesh* M);
+		std::function<void(Mesh*)> m_DrawFunction;
+
 		void SetTransform(Transform* TransformPtr);
 
 
@@ -49,6 +53,11 @@ namespace Amalgamation {
 
 		static MeshData MakeMeshData(const std::vector<Math::Vec3>& Verticies, const std::vector<Math::Vec3>& Normals, const std::vector<Math::Vec2>& TextureCoords, const std::vector<uint32>& Indices);
 		static MeshData MakeMeshData(Primitive Shape);
+
+		void Draw();
+
+		template<class Lambda>
+		void SetDrawFunction(Lambda Function);
 
 		const Transform* GetTransform() const;
 

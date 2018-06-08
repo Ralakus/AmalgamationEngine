@@ -1,6 +1,6 @@
 <WindowName/Aesset>
-<WindowWidth/1920>
-<WindowHeight/1080>
+<WindowWidth/800>
+<WindowHeight/600>
 <WindowFullscreen/False>
 <CloseWindowKey/Escape>
 
@@ -35,6 +35,7 @@ out vec2 o_TextureCoord;
 
 void main() {
   o_TextureCoord = a_TextureCoords;
+  //gl_Position = u_Projection * u_View * u_Model * vec4(a_Position, 1.f);
   gl_Position = u_Projection * u_View * u_Model * vec4(a_Position, 1.f);
 }
 @F

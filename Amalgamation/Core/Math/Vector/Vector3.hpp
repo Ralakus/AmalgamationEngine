@@ -7,6 +7,9 @@
 namespace Amalgamation { namespace Math {
 
 	template<class MathType>
+	class TQuaternion;
+
+	template<class MathType>
 	class TVector3 {
 
 	public:
@@ -37,6 +40,8 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector3<MathType>& Multiply(MathType Scalar);
 		FORCEINLINE TVector3<MathType>& Divide  (MathType Scalar);
 
+		FORCEINLINE TVector3<MathType>& Multiply(const TQuaternion<MathType>& Other);
+
 		FORCEINLINE friend TVector3<MathType> operator+(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Add(Right); }
 		FORCEINLINE friend TVector3<MathType> operator-(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Subtract(Right); }
 		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, const TVector3<MathType>& Right){ return Left.Multiply(Right); }
@@ -46,6 +51,8 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE friend TVector3<MathType> operator-(TVector3<MathType> Left, MathType Scalar) { return Left.Subtract(Scalar); }
 		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, MathType Scalar) { return Left.Multiply(Scalar); }
 		FORCEINLINE friend TVector3<MathType> operator/(TVector3<MathType> Left, MathType Scalar) { return Left.Divide(Scalar); }
+
+		FORCEINLINE friend TVector3<MathType> operator*(TVector3<MathType> Left, const TQuaternion<MathType>& Right) { return Left.Multiply(Right); }
 
 		FORCEINLINE TVector3<MathType>& operator+=(const TVector3<MathType>& Other);
 		FORCEINLINE TVector3<MathType>& operator-=(const TVector3<MathType>& Other);
@@ -57,6 +64,8 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector3<MathType>& operator/=(MathType Scalar) { return this->Divide(Scalar); }
 		FORCEINLINE TVector3<MathType>& operator+=(MathType Scalar) { return this->Add(Scalar); } 
 
+		FORCEINLINE TVector3<MathType>& operator*=(const TQuaternion<MathType>& Other);
+
 		FORCEINLINE bool operator==(const TVector3<MathType>& Other);
 		FORCEINLINE bool operator!=(const TVector3<MathType>& Other);
 
@@ -66,7 +75,8 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector3<MathType>& operator++(int);
 		FORCEINLINE TVector3<MathType>& operator--(int);
 
-		FORCEINLINE MathType operator[](size_t Index);
+		FORCEINLINE MathType& operator[](size_t Index);
+		FORCEINLINE const MathType& operator[](size_t Index) const;
 
 	};
 

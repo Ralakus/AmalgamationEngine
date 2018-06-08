@@ -1,3 +1,5 @@
+#include "../Quaternion/Quaternion.hpp"
+#include "Vector3.hpp"
 
 namespace Amalgamation { namespace Math {
 
@@ -95,6 +97,11 @@ namespace Amalgamation { namespace Math {
 	}
 
 	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::Multiply(const TQuaternion<MathType>& Other){
+		return ((*this) = Other.RotateVec(*this));
+	}
+
+	template<class MathType>
 	FORCEINLINE TVector3<MathType> operator+(TVector3<MathType> Left, const TVector3<MathType>& Right)
 	{ return Left.Add(Right); }
 
@@ -143,6 +150,10 @@ namespace Amalgamation { namespace Math {
 	{ return this->Divide(Other); }
 
 	template<class MathType>
+	FORCEINLINE TVector3<MathType>& TVector3<MathType>::operator*=(const TQuaternion<MathType>& Other)
+	{ return this->Multiply(Other); }
+
+	template<class MathType>
 	FORCEINLINE bool TVector3<MathType>::operator==(const TVector3<MathType>& Other)
 	{ return (this->X == Other.X && this->Y == Other.Y && this->Z == Other.Z); }
 
@@ -167,7 +178,11 @@ namespace Amalgamation { namespace Math {
 	{ TVector3<MathType> T = *this; --*this; return T; }
 
 	template<class MathType>
-	FORCEINLINE MathType TVector3<MathType>::operator[](size_t Index)
+	FORCEINLINE MathType& TVector3<MathType>::operator[](size_t Index)
+	{ return m_Data[Index]; }
+
+	template<class MathType>
+	FORCEINLINE const MathType & TVector3<MathType>::operator[](size_t Index) const
 	{ return m_Data[Index]; }
 
 

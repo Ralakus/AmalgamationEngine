@@ -123,6 +123,9 @@
     <None Include="Core\Input\InputControl.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Core\Math\Transform.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Event\Event.hpp">

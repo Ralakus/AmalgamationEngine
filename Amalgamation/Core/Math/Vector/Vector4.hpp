@@ -32,10 +32,10 @@ namespace Amalgamation { namespace Math {
 		FORCEINLINE TVector4<MathType>& Multiply(const TVector4<MathType>& Other);
 		FORCEINLINE TVector4<MathType>& Divide(const TVector4<MathType>& Other);
 
-		FORCEINLINE friend TVector4<MathType> operator+(TVector4<MathType> Left, const TVector4<MathType>& Right);
-		FORCEINLINE friend TVector4<MathType> operator-(TVector4<MathType> Left, const TVector4<MathType>& Right);
-		FORCEINLINE friend TVector4<MathType> operator*(TVector4<MathType> Left, const TVector4<MathType>& Right);
-		FORCEINLINE friend TVector4<MathType> operator/(TVector4<MathType> Left, const TVector4<MathType>& Right);
+		FORCEINLINE friend TVector4<MathType> operator+(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Add(Right); }
+		FORCEINLINE friend TVector4<MathType> operator-(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Subtract(Right); }
+		FORCEINLINE friend TVector4<MathType> operator*(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Multiply(Right); }
+		FORCEINLINE friend TVector4<MathType> operator/(TVector4<MathType> Left, const TVector4<MathType>& Right) { return Left.Divide(Right); }
 
 		FORCEINLINE TVector4<MathType>& operator+=(const TVector4<MathType>& Other);
 		FORCEINLINE TVector4<MathType>& operator-=(const TVector4<MathType>& Other);

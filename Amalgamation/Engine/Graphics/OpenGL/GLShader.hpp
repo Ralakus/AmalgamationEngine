@@ -16,7 +16,6 @@ namespace Amalgamation {
 		std::string m_VertexShader, m_FragmentShader, m_GeometryShader;
 		std::unordered_map<std::string, int32> m_UniformLocationCahce;
 
-		int GetUniformLocation(const char* name);
 		void AfterLoad() override;
 
 	public:
@@ -37,6 +36,8 @@ namespace Amalgamation {
 
 		void Bind()   const;
 		void Unbind() const;
+
+		int GetUniformLocation(const char* name);
 
 	};
 

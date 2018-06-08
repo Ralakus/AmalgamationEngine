@@ -2,6 +2,7 @@
 
 #include "Vector/Vector3.hpp"
 #include "Quaternion/Quaternion.hpp"
+#include "Matrix/Matrix4x4.hpp"
 
 namespace Amalgamation {
 
@@ -15,4 +16,11 @@ namespace Amalgamation {
 
 	};
 
+	namespace Math {
+		template<class MathType = MATH_TYPE>
+		TMatrix4x4<MathType> MakeModelMatrix(const Transform& TransformData);
+	}
+
 }
+
+#include "Transform.inl"

@@ -7,8 +7,8 @@
 #include <Core/Math/Quaternion/Quaternion.hpp>
 #include <Core/Math/Matrix/Matrix4x4.hpp>
 
-#include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Amalgamation {
 
@@ -28,9 +28,7 @@ namespace Amalgamation {
 		~CameraComponent() {}
 
 		Math::Mat4 View() const {
-			Math::Mat4 View(1);
-			View *= m_TransformPtr->Rotation;
-			return View.Multiply(Math::Matrix4::Translate((m_TransformPtr->Position * -1.f)));
+			return Math::Mat4::Translate(m_TransformPtr->Rotation, m_TransformPtr->Position);
 		}
 
 		void Translate(const Math::Vec3& Translation) {

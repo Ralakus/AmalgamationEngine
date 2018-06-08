@@ -1,3 +1,4 @@
+#include "GLMesh.hpp"
 
 namespace Amalgamation {
 
@@ -17,7 +18,7 @@ namespace Amalgamation {
 			m_ArrayBuffer.GetLayout().Push<float>(3);
 			m_ArrayBuffer.GetLayout().Push<float>(2);
 
-			m_VertexArray.AddBuffer(m_ArrayBuffer);
+			m_VertexArray.SetBuffer(m_ArrayBuffer);
 
 			return true;
 		}

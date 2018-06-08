@@ -20,7 +20,7 @@ namespace Amalgamation {
 
 	FORCEINLINE uint32 GLVertexArray::GetID() const { return m_ArrayID; }
 
-	FORCEINLINE void GLVertexArray::AddBuffer(const GLArrayBuffer & Buffer) {
+	FORCEINLINE void GLVertexArray::SetBuffer(const GLArrayBuffer & Buffer) {
 		Bind();
 		Buffer.Bind();
 		const auto& Elements = Buffer.GetLayout().GetElements();

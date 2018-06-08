@@ -39,6 +39,7 @@
     <None Include="Core\Level\Object.inl" />
     <None Include="Core\Math\Matrix\Matrix4x4.inl" />
     <None Include="Core\Math\Quaternion\Quaternion.inl" />
+    <None Include="Core\Math\Transform.inl" />
     <None Include="Core\Math\Vector\Vector2.inl" />
     <None Include="Core\Math\Vector\Vector3.inl" />
     <None Include="Core\Math\Vector\Vector4.inl" />

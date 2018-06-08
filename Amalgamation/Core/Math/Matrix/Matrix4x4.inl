@@ -1,3 +1,4 @@
+#include "Matrix4x4.hpp"
 
 namespace Amalgamation { namespace Math {
 
@@ -8,6 +9,44 @@ namespace Amalgamation { namespace Math {
 		Elements[1][1] = Diagonal;
 		Elements[2][2] = Diagonal;
 		Elements[3][3] = Diagonal;
+	}
+
+	template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(MathType* Array){
+		memcpy(&Arr, Array, sizeof(Arr));
+	}
+
+	template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType>::TMatrix4x4(const TQuaternion<MathType> Quat) {
+		MathType QXX(Quat.X * Quat.X);
+		MathType QYY(Quat.Y * Quat.Y);
+		MathType QZZ(Quat.Z * Quat.Z);
+		MathType QXZ(Quat.X * Quat.Z);
+		MathType QXY(Quat.X * Quat.Y);
+		MathType QYZ(Quat.Y * Quat.Z);
+		MathType QWX(Quat.W * Quat.X);
+		MathType QWY(Quat.W * Quat.Y);
+		MathType QWZ(Quat.W * Quat.Z);
+
+		Elements[0][0] = 1 - 2 * (QYY + QZZ);
+		Elements[0][1] = 2 * (QXY + QWZ);
+		Elements[0][2] = 2 * (QXZ - QWY);
+		Elements[0][3] = 0;
+
+		Elements[1][0] = 2 * (QXY - QWZ);
+		Elements[1][1] = 1 - 2 * (QXX + QZZ);
+		Elements[1][2] = 2 * (QYZ + QWX);
+		Elements[1][3] = 0;
+
+		Elements[2][0] = 2 * (QXZ + QWY);
+		Elements[2][1] = 2 * (QYZ - QWX);
+		Elements[2][2] = 1 - 2 * (QXX + QYY);
+		Elements[2][3] = 0;
+
+		Elements[3][0] = 0;
+		Elements[3][1] = 0;
+		Elements[3][2] = 0;
+		Elements[3][3] = 1;
 	}
 
 	template<class MathType>
@@ -50,17 +89,17 @@ namespace Amalgamation { namespace Math {
 		MathType QWY(Other.W * Other.Y);
 		MathType QWZ(Other.W * Other.Z);
 
-		Elements[0][0] = 1 - 2 * (QYY + QZZ);
-		Elements[0][1] = 2 * (QXY + QWZ);
-		Elements[0][2] = 2 * (QXZ - QWY);
-
-		Elements[1][0] = 2 * (QXY - QWZ);
-		Elements[1][1] = 1 - 2 * (QXX + QZZ);
-		Elements[1][2] = 2 * (QYZ + QWX);
-
-		Elements[2][0] = 2 * (QXZ + QWY);
-		Elements[2][1] = 2 * (QYZ - QWX);
-		Elements[2][2] = 1 - 2 * (QXX + QYY);
+		Elements[0][0] *= 1 - 2 * (QYY + QZZ);
+		Elements[0][1] *= 2 * (QXY + QWZ);
+		Elements[0][2] *= 2 * (QXZ - QWY);
+		
+		Elements[1][0] *= 2 * (QXY - QWZ);
+		Elements[1][1] *= 1 - 2 * (QXX + QZZ);
+		Elements[1][2] *= 2 * (QYZ + QWX);
+					   
+		Elements[2][0] *= 2 * (QXZ + QWY);
+		Elements[2][1] *= 2 * (QYZ - QWX);
+		Elements[2][2] *= 1 - 2 * (QXX + QYY);
 
 		return *this;
 	}
@@ -99,11 +138,31 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Scale(const TVector3<MathType>& Scale) {
 		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
 
-		Result.Elements[0][3] = Scale.X;
+		Result.Elements[0][0] = Scale.X;
 		Result.Elements[1][1] = Scale.Y;
 		Result.Elements[2][2] = Scale.Z;
 
 		return Result;
+	}
+
+	template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Translate(const TMatrix4x4 & Matrix, const TVector3<MathType>& Translation){
+		TMatrix4x4<MathType> R = TMatrix4x4<MathType>(static_cast<MathType>(1));
+
+		R[3] = (R[0] * Translation[0] + R[1] * Translation[1] + R[2] * Translation[2] + R[3]);
+
+		return R;
+	}
+
+	template<class MathType>
+	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Scale(const TMatrix4x4 & Matrix, const TVector3<MathType>& Scale){
+		TMatrix4x4<MathType> R = TMatrix4x4<MathType>(static_cast<MathType>(1));
+		R[0] = Matrix[0] * Scale[0];
+		R[1] = Matrix[1] * Scale[1];
+		R[2] = Matrix[2] * Scale[2];
+		R[3] = Matrix[3];
+
+		return R;
 	}
 
 	template<class MathType>
@@ -130,11 +189,12 @@ namespace Amalgamation { namespace Math {
 	FORCEINLINE TMatrix4x4<MathType> TMatrix4x4<MathType>::Perspective(float FOV, float AspectRatio, float Near, float Far) {
 		TMatrix4x4<MathType> Result(static_cast<MathType>(1));
 
-		Result.Elements[0][0] = (static_cast<MathType>(1) / tan(Radians<MathType>(0.5 * FOV))) / AspectRatio;
-		Result.Elements[1][1] = (static_cast<MathType>(1) / tan(Radians<MathType>(0.5 * FOV)));
-		Result.Elements[2][2] = (Near + Far) / (Near - Far);
-		Result.Elements[3][2] = static_cast<MathType>(-1);
-		Result.Elements[2][3] = (2 * Near * Far) / (Near - Far);
+		Result.Elements[0][0] = static_cast<MathType>(1) / (tan(FOV / static_cast<MathType>(2)) * AspectRatio);
+		Result.Elements[1][1] = static_cast<MathType>(1) / tan(FOV / static_cast<MathType>(2));
+		Result.Elements[2][3] = static_cast<MathType>(-1);
+
+		Result.Elements[2][2] = (Far + Near) / (Far - Near);
+		Result.Elements[3][2] = (static_cast<MathType>(2) * Far * Near) / (Far - Near);
 
 		return Result;
 	}

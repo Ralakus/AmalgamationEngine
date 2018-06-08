@@ -125,23 +125,6 @@ namespace Amalgamation { namespace Math {
 
 
 	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator+(TVector4<MathType> Left, const TVector4<MathType> & Right)
-	{ return Left.Add(Right); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator-(TVector4<MathType> Left, const TVector4<MathType> & Right)
-	{ return Left.Subtract(Right); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator*(TVector4<MathType> Left, const TVector4<MathType> & Right)
-	{ return Left.Multiply(Right); }
-
-	template<class MathType>
-	FORCEINLINE TVector4<MathType> operator/(TVector4<MathType> Left, const TVector4<MathType> & Right)
-	{ return Left.Divide(Right); }
-
-
-	template<class MathType>
 	FORCEINLINE MathType Length(const TVector4<MathType>& Vec)
 	{ return sqrt(Vec.X * Vec.X + Y * Y + Z * Z + W * W); }
 

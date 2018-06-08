@@ -237,6 +237,15 @@ namespace Amalgamation {
 		}
 	}
 
+	FORCEINLINE void Mesh::Draw() {
+		m_DrawFunction(this);
+	}
+
+	template<class Lambda>
+	FORCEINLINE void Mesh::SetDrawFunction(Lambda Function) {
+		m_DrawFunction = Function;
+	}
+
 	FORCEINLINE const Transform * Mesh::GetTransform() const { return m_TransformPtr; }
 
 	FORCEINLINE const std::vector<Math::Vec3>& Mesh::GetVertices() const { return m_MeshData.Vertices; }

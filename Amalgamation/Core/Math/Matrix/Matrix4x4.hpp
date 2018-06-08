@@ -22,6 +22,8 @@ namespace Amalgamation { namespace Math {
         };
 
 		FORCEINLINE TMatrix4x4(MathType Diagonal);
+		FORCEINLINE TMatrix4x4(MathType* Arr);
+		FORCEINLINE TMatrix4x4(const TQuaternion<MathType> Quat);
 		FORCEINLINE TMatrix4x4();
 		FORCEINLINE TMatrix4x4(const TMatrix4x4& Other);
 		FORCEINLINE ~TMatrix4x4();
@@ -34,6 +36,10 @@ namespace Amalgamation { namespace Math {
 
 		FORCEINLINE static TMatrix4x4<MathType> Translate(const TVector3<MathType>& Translation);
 		FORCEINLINE static TMatrix4x4<MathType> Scale(const TVector3<MathType>& Scale);
+
+		FORCEINLINE static TMatrix4x4<MathType> Translate(const TMatrix4x4& Matrix, const TVector3<MathType>& Translation);
+		FORCEINLINE static TMatrix4x4<MathType> Scale(const TMatrix4x4& Matrix, const TVector3<MathType>& Scale);
+
 		FORCEINLINE static TMatrix4x4<MathType> Identity();
 
 		FORCEINLINE static TMatrix4x4<MathType> Orthographic(MathType Left, MathType Right, MathType Bottom, MathType Top, MathType Near, MathType Far);

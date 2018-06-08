@@ -21,7 +21,7 @@ namespace Amalgamation {
 		inline void Unbind() const;
 		inline uint32 GetID() const;
 
-		void AddBuffer(const GLArrayBuffer& Buffer);
+		void SetBuffer(const GLArrayBuffer& Buffer);
 
 	};
 

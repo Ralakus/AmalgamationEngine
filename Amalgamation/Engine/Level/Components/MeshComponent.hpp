@@ -53,9 +53,10 @@ namespace Amalgamation {
 		void Awake() override {}
 
 		void Update(float Delta) override {
-			if (m_Mesh) {
+			/*if (m_Mesh) {
 				m_Renderer->Submit(m_Mesh);
-			}
+			}*/
+			m_Mesh->Draw();
 		}
 
 		void Destroy() override {}

@@ -9,6 +9,10 @@
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 using namespace Amalgamation;
 
 int main(int argc, char* args[]) {
@@ -33,8 +37,6 @@ int main(int argc, char* args[]) {
 
 	Time T;
 
-	GLint ViewPort[4];
-
 	float CamFOV = 90.f;
 
 	//================================================
@@ -45,13 +47,6 @@ int main(int argc, char* args[]) {
 	EventLambdaCallback ECCloseWindow([&]() -> void { Window->Close(); });
 	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
 	Input::Instance().RegisterCallback("CloseWindow", &ECCloseWindow);
-
-	EventLambdaCallback ECMakeFullscreen([&]()-> void { Window->SetFullscreen(!Window->IsFullscreen()); });
-	Input::Instance().RegisterKeyAction("MakeFullscreen", Key::P, InputAction::Pressed);
-	Input::Instance().RegisterCallback("MakeFullscreen", &ECMakeFullscreen);
-
-
-	GLFW_KEY_UP;
 
 	InputControl ICMoveForward;
 	ICMoveForward.AddInput(Key::W,  1.f);
@@ -82,11 +77,6 @@ int main(int argc, char* args[]) {
 	GLShader Shader;
 	Shader.LoadFromStr(Config.Get<std::string>("Shader"));
 	Shader.SupportsLighting = false;
-		
-
-
-
-
 
 
 
@@ -95,25 +85,34 @@ int main(int argc, char* args[]) {
 	//================================================
 
 
-
-
-
-
-
 	Level Level;
 
 	Entity* Player = Level.CreateEntity<Entity>();
 	TransformComponent* PlayerTrans = Player->AddComponent<TransformComponent>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
-	Renderer.SetCamera(Cam);
 
 	Entity* Cube;
 	Cube = Level.CreateEntity<Entity>();
-	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader);
-	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z = 5.f;
+	Cube->AddComponent<TransformComponent>();
+	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->GetMeshPtr()->SetDrawFunction([&](Mesh* M) {
 
+		GLMesh* GLM = static_cast<GLMesh*>(M);
 
+		GLM->GetVertexArray().Bind();
 
+		GLM->GetElementBuffer().Bind();
+		GLM->GetShader()->Bind();
+
+		GLM->GetShader()->SetUniform("u_Projection", Cam->GetProjection());
+		GLM->GetShader()->SetUniform("u_View", Cam->View());
+		GLM->GetShader()->SetUniform("u_Model", Math::MakeModelMatrix(*GLM->GetTransform()));
+
+		GLCall(glDrawElements(GL_TRIANGLES, GLM->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
+
+	});
+	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z = -1.f;
+	Cube->GetComponentByType<TransformComponent>()->GetTransform().Scale = Math::Vec3(0.5);
+	Cube->GetComponentByType<TransformComponent>()->GetTransform().Rotation = Math::Vec3(0, 90, 0);
 
 
 
@@ -127,23 +126,27 @@ int main(int argc, char* args[]) {
 
 	Level.Awake();
 
+	GLint ViewPort[4];
+
 	while (Window->IsValid()) {
 
 		T.Update();
 		Level.Update(T.GetDelta());
-		Window->Update();
+		Window->Update(); 
 
 		GLCall(glGetIntegerv(GL_VIEWPORT, ViewPort));
-		Cam->SetProjection(Math::Mat4::Perspective(Math::Radians(CamFOV), (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
-
+		Cam->SetProjection(Math::Mat4::Perspective(CamFOV, (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
+		
 		Cam->Translate(0, 0, ICMoveForward.Value() * T.GetDelta() * 3.5);
 		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * 3.5, 0, 0);
 		Cam->Roll(ICRollRight.Value() * T.GetDelta());
 		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta(), 0);
+		
+		//Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.Z += ICMoveForward.Value() * T.GetDelta();
+		//printf("Pos Z: %f              \r", PlayerTrans->GetTransform().Position.Z);
 
 		printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.X, PlayerTrans->GetTransform().Position.Y, PlayerTrans->GetTransform().Position.Z);
 
-		Renderer.Flush();
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
