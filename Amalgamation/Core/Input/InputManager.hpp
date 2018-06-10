@@ -2,7 +2,6 @@
 
 #include "../Event/EventHandler.hpp"
 #include "../Types/Singleton.hpp"
-#include "../Math/Vector/Vector2.hpp"
 #include "../Utilities/Aesset.hpp"
 
 #include <tuple>
@@ -19,6 +18,7 @@ namespace Amalgamation {
 		Minus = '-', Equals = '=',
 
 		Space = ' ', Ctrl = 341, Alt = 342, LShift = 340, RShift = 344, RAlt = 346, RCtrl = 345, Tab = 258, Enter = 257, Escape = 256,
+		Backspace = 259,
 
 		Right = 262, Left = 263, Down = 264, Up = 265,
 
@@ -44,13 +44,13 @@ namespace Amalgamation {
 
 		FORCEINLINE void UpdateButtons(Button ButtonCode, InputAction Action);
 
-		FORCEINLINE void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y);
+		FORCEINLINE void UpdateMousePos(float X, float Y);
 
 		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr);
 
 		FORCEINLINE void TriggerEvent(const std::string& Name);
 
-		Math::Vec2 m_MousePos;
+		glm::vec2 m_MousePos;
 
 	public:
 
@@ -62,9 +62,9 @@ namespace Amalgamation {
 		FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action);
 		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 
-		FORCEINLINE const Math::Vec2& GetMousePos() const;
+		FORCEINLINE const glm::vec2& GetMousePos() const;
 
-		Key KeyFromAesset(const Aesset& File, const std::string& Name);
+		Key KeyFromAesset(const Aesset& File, const std::string& Name, Key Default);
 
 	};
 

@@ -1,3 +1,4 @@
+#include "Window.hpp"
 
 namespace Amalgamation {
 
@@ -9,7 +10,7 @@ namespace Amalgamation {
 		Input::Instance().UpdateButtons(static_cast<Button>(ButtonCode), static_cast<InputAction>(Action));
 	}
 
-	FORCEINLINE void Window::UpdateMousePos(MATH_TYPE X, MATH_TYPE Y) {
+	FORCEINLINE void Window::UpdateMousePos(float X, float Y) {
 		Input::Instance().UpdateMousePos(X, Y);
 	}
 
@@ -32,6 +33,8 @@ namespace Amalgamation {
 	FORCEINLINE bool Window::IsValid() const { return m_Valid; }
 
 	FORCEINLINE bool Window::IsFullscreen() const { return m_Fullscreen; }
+
+	FORCEINLINE bool Window::IsMouseLocked() const { return m_MouseLocked; }
 
 
 }

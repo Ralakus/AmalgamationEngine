@@ -1,6 +1,7 @@
 #pragma once
 
 #include "File.hpp"
+#include "Log.hpp"
 #include <string>
 
 namespace Amalgamation {
@@ -67,6 +68,24 @@ namespace Amalgamation {
 		FORCEINLINE std::string Get(const std::string& Property) const;
 		template<>
 		FORCEINLINE bool Get(const std::string& Property) const;
+
+		template<typename T>
+		FORCEINLINE T Get(const std::string& Property, const T& Default) const;
+
+		template<>
+		FORCEINLINE float Get(const std::string& Property, const float& Default) const;
+		template<>
+		FORCEINLINE int Get(const std::string& Property, const int& Default) const;
+		template<>
+		FORCEINLINE double Get(const std::string& Property, const double& Default) const;
+		template<>
+		FORCEINLINE long double Get(const std::string& Property, const long double& Default) const;
+		template<>
+		FORCEINLINE unsigned int Get(const std::string& Property, const unsigned int& Default) const;
+		template<>
+		FORCEINLINE std::string Get(const std::string& Property, const std::string& Default) const;
+		template<>
+		FORCEINLINE bool Get(const std::string& Property, const bool& Default) const;
 
 	};
 

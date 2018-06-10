@@ -16,14 +16,15 @@ namespace Amalgamation {
 		uint32 m_Width, m_Height;
 		std::string m_Title;
 
-		bool m_Valid      = false;
-		bool m_Fullscreen = false;
+		bool m_Valid       = false;
+		bool m_Fullscreen  = false;
+		bool m_MouseLocked = false;
 
 	protected:
 
 		static void UpdateKeyInput(int KeyCode, int Action);
 		static void UpdateButtonInput(int ButtonCode, int Action);
-		static void UpdateMousePos(MATH_TYPE X, MATH_TYPE Y);
+		static void UpdateMousePos(float X, float Y);
 
 	public:
 
@@ -38,8 +39,9 @@ namespace Amalgamation {
 		virtual void SetTitle(const char* Title);
 		const std::string& GetTitle() const;
 
-		bool IsValid()      const;
-		bool IsFullscreen() const;
+		bool IsValid()       const;
+		bool IsFullscreen()  const;
+		bool IsMouseLocked() const;
 
 		virtual void SetFullscreen(bool Set) = 0;
 		virtual void LockMouse(bool Set)     = 0;

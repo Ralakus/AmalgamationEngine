@@ -1,3 +1,4 @@
+#include "InputManager.hpp"
 
 namespace Amalgamation {
 
@@ -23,9 +24,9 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE void Input::UpdateMousePos(MATH_TYPE X, MATH_TYPE Y) {
-		m_MousePos.X = X;
-		m_MousePos.Y = Y;
+	FORCEINLINE void Input::UpdateMousePos(float X, float Y) { 
+		m_MousePos.x = X;
+		m_MousePos.y = Y;
 	}
 
 	FORCEINLINE void Input::RegisterEvent(const std::string & Name, Event * EventPtr) {
@@ -54,12 +55,15 @@ namespace Amalgamation {
 		m_RButtons.emplace_back(ButtonCode, Action, Name);
 	}
 
-	FORCEINLINE const Math::Vec2 & Input::GetMousePos() const {
+	FORCEINLINE const glm::vec2 & Input::GetMousePos() const {
 		return m_MousePos;
 	}
 
-	FORCEINLINE Key Input::KeyFromAesset(const Aesset & File, const std::string & Name) {
-		std::string KeyStr = File.Get<std::string>(Name);
+	FORCEINLINE Key Input::KeyFromAesset(const Aesset & File, const std::string & Name, Key Default = Key::Unknown) {
+		std::string KeyStr = File.Get<std::string>(Name, "Key Null");
+		if (KeyStr == "Key Null") {
+			return Default;
+		}
 		if (KeyStr == "Escape") {
 			return Key::Escape;
 		}
@@ -86,6 +90,9 @@ namespace Amalgamation {
 		}
 		else if (KeyStr == "Enter") {
 			return Key::RAlt;
+		}
+		else if (KeyStr == "Backspace") {
+			return Key::Backspace;
 		}
 		else {
 			return static_cast<Key>(KeyStr.c_str()[0]);

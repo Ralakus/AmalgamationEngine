@@ -1,3 +1,4 @@
+#pragma once
 #include "../Platform/Platform.hpp"
 
 #if   defined(AE_LINUX)
@@ -28,6 +29,13 @@
     #define AE_LOG_WARNING(x) printf("%s %s%s%s\n", FYEL(AE_LOG_WARNING_STR), KYEL, x, RST)
     #define AE_LOG_SUCCESS(x) printf("%s %s%s%s\n", FGRN(AE_LOG_SUCCESS_STR), KGRN, x, RST)
 
+	#define AE_LOG_COLOR_RESET RST
+	#define AE_LOG_TEXT_COLOR KWHT
+	#define AE_LOG_NOTE_COLOR KBLU
+	#define AE_LOG_WARNING_COLOR KYEL
+	#define AE_LOG_ERROR_COLOR KRED
+	#define AE_LOG_SUCCESS_COLOR KGRN
+
 #elif defined(AE_WINDOWS)
 
     #include <windows.h>
@@ -41,5 +49,80 @@
     #define AE_LOG_WARNING(x) WIN_CON_COL(14); printf("%s %s\n", AE_LOG_WARNING_STR, x); WIN_CON_RES
     #define AE_LOG_SUCCESS(x) WIN_CON_COL(10); printf("%s %s\n", AE_LOG_SUCCESS_STR, x); WIN_CON_RES
 
+	#define AE_LOG_COLOR_RESET WIN_CON_RES
+	#define AE_LOG_TEXT_COLOR WIN_CON_RES
+	#define AE_LOG_NOTE_COLOR WIN_CON_COL(11);
+	#define AE_LOG_WARNING_COLOR WIN_CON_COL(14);
+	#define AE_LOG_ERROR_COLOR WIN_CON_COL(12);
+	#define AE_LOG_SUCCESS_COLOR WIN_CON_COL(10);
+
 #endif // AE_LINUX
 
+#include <iostream>
+
+namespace Amalgamation {
+
+
+	class Log {
+
+	public:
+#if   defined(AE_LINUX)
+
+		template<class T>
+		static void Text(const T& Message) {
+			std::cout << AE_LOG_TEXT_COLOR << AE_LOG_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		}
+
+		template<class T>
+		static void Note(const T& Message) {
+			std::cout << AE_LOG_NOTE_COLOR << AE_LOG_NOTE_STR << " " <<  Message << AE_LOG_COLOR_RESET << '\n';
+		}
+
+		template<class T>
+		static void Warning(const T& Message) {
+			std::cout << AE_LOG_WARNING_COLOR << AE_LOG_WARNING_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		}
+
+		template<class T>
+		static void Error(const T& Message) {
+			std::cout << AE_LOG_ERROR_COLOR << AE_LOG_ERROR_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		}
+
+		template<class T>
+		static void Success(const T& Message) {
+			std::cout << AE_LOG_SUCCESS_COLOR << AE_LOG_SUCCESS_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		}
+
+#elif defined(AE_WINDOWS)
+
+		template<class T>
+		static void Text(const T& Message) {
+			AE_LOG_TEXT_COLOR std::cout << AE_LOG_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		}
+
+		template<class T>
+		static void Note(const T& Message) {
+			AE_LOG_NOTE_COLOR std::cout << AE_LOG_NOTE_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		}
+
+		template<class T>
+		static void Warning(const T& Message) {
+			AE_LOG_WARNING_COLOR std::cout << AE_LOG_WARNING_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		}
+
+		template<class T>
+		static void Error(const T& Message) {
+			AE_LOG_ERROR_COLOR std::cout << AE_LOG_ERROR_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		}
+
+		template<class T>
+		static void Success(const T& Message) {
+			AE_LOG_SUCCESS_COLOR std::cout << AE_LOG_SUCCESS_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		}
+
+#endif
+
+	};
+
+
+}

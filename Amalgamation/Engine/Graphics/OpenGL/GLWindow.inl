@@ -69,7 +69,7 @@ namespace Amalgamation {
 
 	FORCEINLINE GLWindow::~GLWindow() { glfwTerminate(); }
 
-	FORCEINLINE void GLWindow::LockMouse(bool set) { if (set) { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); } else { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); } }
+	FORCEINLINE void GLWindow::LockMouse(bool set) { if (set) { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); } else { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); } m_MouseLocked = set; }
 
 	FORCEINLINE void GLWindow::Close() { m_Valid = false; glfwSetWindowShouldClose(m_Window, GLFW_TRUE); }
 

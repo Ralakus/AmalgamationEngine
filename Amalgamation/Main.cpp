@@ -22,19 +22,24 @@ int main(int argc, char* args[]) {
 	Aesset Config;
 	Config.LoadFile("Config.aesset");
 
-	AE_LOG_NOTE(("TODO:" + Config.Get<std::string>("TODO")).c_str());
+	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
 
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
-		Config.Get<std::string> ("WindowName"), 
-		Config.Get<unsigned int>("WindowWidth"), 
-		Config.Get<unsigned int>("WindowHeight"),
-		Config.Get<bool>        ("WindowFullscreen")
+		Config.Get<std::string> ("WindowName", "Noice"), 
+		Config.Get<unsigned int>("WindowWidth", 1280), 
+		Config.Get<unsigned int>("WindowHeight", 720),
+		Config.Get<bool>        ("WindowFullscreen", false)
 	);
+
+	Window->LockMouse(true);
 
 	Time T;
 
-	float CamFOV = 90.f;
 	GLint ViewPort[4];
+
+	float CamFOV = Config.Get<float>("CamFOV", 90.f);
+	float MovementSpeed = Config.Get<float>("MovementSpeed", 3.5f);
+	float MouseSensitivity = Config.Get<float>("MouseSensitivity", 3.5f);
 
 	//================================================
 	//Binds input
@@ -44,6 +49,10 @@ int main(int argc, char* args[]) {
 	EventLambdaCallback ECCloseWindow([&]() -> void { Window->Close(); });
 	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
 	Input::Instance().RegisterCallback("CloseWindow", &ECCloseWindow);
+
+	EventLambdaCallback ECToggleMouseLock([&]() -> void { Window->LockMouse(!Window->IsMouseLocked()); });
+	Input::Instance().RegisterKeyAction("ToggleMouseLock", Input::Instance().KeyFromAesset(Config, "ToggleMouseLockKey"), InputAction::Held);
+	Input::Instance().RegisterCallback("ToggleMouseLock", &ECToggleMouseLock);
 
 	InputControl ICMoveForward;
 	ICMoveForward.AddInput(Key::W,  1.f);
@@ -81,7 +90,7 @@ int main(int argc, char* args[]) {
 	//Create entities and components
 	//================================================
 
-
+		
 	Level Level;
 
 	Entity* Player = Level.CreateEntity<Entity>();
@@ -103,6 +112,7 @@ int main(int argc, char* args[]) {
 		GLM->GetShader()->SetUniform("u_Projection", Cam->GetProjection());
 		GLM->GetShader()->SetUniform("u_View", Cam->View());
 		GLM->GetShader()->SetUniform("u_Model", Math::MakeModelMatrix(*GLM->GetTransform()));
+		GLM->GetShader()->SetUniform("u_Color", 1.f, 0.5f, 0.3f, 1.f);
 
 		GLCall(glDrawElements(GL_TRIANGLES, GLM->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
 
@@ -115,6 +125,8 @@ int main(int argc, char* args[]) {
 	//Begin game loop
 	//================================================
 
+	glm::vec2 LastMousePos;
+	glm::vec2 MouseDelta;
 
 	Level.Awake();
 
@@ -127,13 +139,17 @@ int main(int argc, char* args[]) {
 		GLCall(glGetIntegerv(GL_VIEWPORT, ViewPort));
 		Cam->SetProjection(glm::perspective(CamFOV, (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
 		
-		Cam->Translate(0, 0, -1 * ICMoveForward.Value() * T.GetDelta() * 3.5);
-		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * 3.5, 0, 0);
-		Cam->Roll(ICRollRight.Value() * T.GetDelta());
-		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta(), 0);
+		MouseDelta   = Input::Instance().GetMousePos() - LastMousePos;
+		LastMousePos = Input::Instance().GetMousePos();
 
-		printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.x, PlayerTrans->GetTransform().Position.y, PlayerTrans->GetTransform().Position.z);
+		Cam->Translate(0, 0, -1 * ICMoveForward.Value() * T.GetDelta() * MovementSpeed);
+		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * MovementSpeed, 0, 0);
+		Cam->Roll(ICRollRight.Value() * T.GetDelta() * MovementSpeed / 2);
+		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta() * MovementSpeed, 0);
+		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity);
+		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity);
 
+		//printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.x, PlayerTrans->GetTransform().Position.y, PlayerTrans->GetTransform().Position.z);
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
