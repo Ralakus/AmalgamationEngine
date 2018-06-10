@@ -8,7 +8,7 @@ A C++/OpenGL game engine that I work on as a hobby project
 
 # To do:
 ## Short term :arrow_down:
-* Extend math library to remove glm as a dependency ( Fix Matrix4x4 and Quaternion Classes )
+* ~~Extend math library to remove glm as a dependency ( Fix Matrix4x4 and Quaternion Classes )~~
 * Split .hpp files into .hpp and .inl files to clean up code
 * Turn Level/Entity/Component System into an ECS
 * Add PBR
