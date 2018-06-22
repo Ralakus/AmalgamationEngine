@@ -28,7 +28,7 @@ namespace Amalgamation {
 		const std::string& GetFilePath() const { return m_FilePath; }
 
 
-		virtual bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer, std::function<void()> LoadFunction) = 0;
+		virtual bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) = 0;
 		virtual bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer) = 0;
 
 		virtual void Bind()   const = 0;

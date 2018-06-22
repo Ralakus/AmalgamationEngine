@@ -37,7 +37,7 @@ namespace Amalgamation {
 			m_BufferedTransform *= Math::Mat4::Scale(MeshPtr->GetTransform()->Scale);*/
 
 			CastShader->Bind();
-			CastShader->SetUniform("u_Model", m_BufferedTransform);
+			CastShader->SetUniform("u_Model", Math::MakeModelMatrix(*MeshPtr->GetTransform()));
 			if (m_Cam) {
 				CastShader->SetUniform("u_View", m_Cam->View());
 				CastShader->SetUniform("u_Projection", m_Cam->GetProjection());

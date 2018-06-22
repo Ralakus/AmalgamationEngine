@@ -1,7 +1,8 @@
+#include "Time.hpp"
 
 namespace Amalgamation {
 
-	FORCEINLINE Time::Time() { m_Timer.Start(); }
+	FORCEINLINE Time::Time() { m_Timer.Start(); m_ElapsedTimer.Start(); }
 
 	FORCEINLINE Time::~Time() {}
 
@@ -24,6 +25,8 @@ namespace Amalgamation {
 	}
 
 	FORCEINLINE float Time::GetDelta() const { return m_Delta; }
+
+	FORCEINLINE float Time::GetElapsed() const { return m_ElapsedTimer.GetTimeSec(); }
 
 	FORCEINLINE bool Time::OnSecond() const { return m_OnSecond; }
 

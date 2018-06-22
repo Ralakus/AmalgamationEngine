@@ -5,6 +5,7 @@
 #include <Core/Graphics/Mesh.hpp>
 #include <Core/Utilities/Random.hpp>
 #include <Core/Input/InputControl.hpp>
+#include <Engine/Graphics/OpenGL/GLTexture.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
@@ -70,13 +71,10 @@ int main(int argc, char* args[]) {
 	ICMoveUp.AddInput(Key::Space, 1.f);
 	ICMoveUp.AddInput(Key::C,    -1.f);
 
-	InputControl ICMakeFullscreen;
-	ICMakeFullscreen.AddInput(Key::P, 1.f);
 
 	//================================================
 	//Create renderer and shaders
 	//================================================
-
 
 
 	GLBasicRenderer Renderer;
@@ -90,36 +88,30 @@ int main(int argc, char* args[]) {
 	//Create entities and components
 	//================================================
 
-		
+	
 	Level Level;
 
 	Entity* Player = Level.CreateEntity<Entity>();
 	TransformComponent* PlayerTrans = Player->AddComponent<TransformComponent>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
+	Renderer.SetCamera(Cam);
+
+	GLTexture Blank;
+	Blank.LoadTexture("container2.png", false, 0, 0);
 
 	Entity* Cube;
 	Cube = Level.CreateEntity<Entity>();
 	Cube->AddComponent<TransformComponent>();
-	Cube->AddComponent<MeshComponent>(Window._Myptr())->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->GetMeshPtr()->SetDrawFunction([&](Mesh* M) {
-
-		GLMesh* GLM = static_cast<GLMesh*>(M);
-
-		GLM->GetVertexArray().Bind();
-
-		GLM->GetElementBuffer().Bind();
-		GLM->GetShader()->Bind();
-
-		GLM->GetShader()->SetUniform("u_Projection", Cam->GetProjection());
-		GLM->GetShader()->SetUniform("u_View", Cam->View());
-		GLM->GetShader()->SetUniform("u_Model", Math::MakeModelMatrix(*GLM->GetTransform()));
-		GLM->GetShader()->SetUniform("u_Color", 1.f, 0.5f, 0.3f, 1.f);
-
-		GLCall(glDrawElements(GL_TRIANGLES, GLM->GetElementBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
-
-	});
+	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader);
+	Cube->GetComponentByType<MeshComponent>()->AddTexture(&Blank);
 	Cube->GetComponentByType<TransformComponent>()->GetTransform().Position.z = -1.f;
 	Cube->GetComponentByType<TransformComponent>()->GetTransform().Scale = glm::vec3(0.5);
 
+	Entity* Cube2;
+	Cube2 = Level.CreateEntity<Entity>();
+	Cube2->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader);
+	Cube2->GetComponentByType<MeshComponent>()->AddTexture(&Blank);
+	Cube2->GetComponentByType<TransformComponent>()->GetTransform().Position.z = -5.f;
 
 	//================================================
 	//Begin game loop
@@ -130,6 +122,8 @@ int main(int argc, char* args[]) {
 
 	Level.Awake();
 
+	GLCall(glClearColor(0.7f, 0.7f, 0.7f, 0.7f));
+
 	while (Window->IsValid()) {
 
 		T.Update();
@@ -137,19 +131,19 @@ int main(int argc, char* args[]) {
 		Window->Update(); 
 
 		GLCall(glGetIntegerv(GL_VIEWPORT, ViewPort));
-		Cam->SetProjection(glm::perspective(CamFOV, (float)ViewPort[2] / (float)ViewPort[3], 0.001f, 100.f));
+		Cam->SetProjection(glm::perspective(CamFOV, static_cast<float>(static_cast<float>(ViewPort[2]) / static_cast<float>(ViewPort[3])), 0.001f, 100.f));
 		
-		MouseDelta   = Input::Instance().GetMousePos() - LastMousePos;
+		MouseDelta =   Input::Instance().GetMousePos() - LastMousePos;
 		LastMousePos = Input::Instance().GetMousePos();
 
-		Cam->Translate(0, 0, -1 * ICMoveForward.Value() * T.GetDelta() * MovementSpeed);
+		Cam->Translate(0, 0, ICMoveForward.Value() * T.GetDelta() * MovementSpeed);
 		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * MovementSpeed, 0, 0);
 		Cam->Roll(ICRollRight.Value() * T.GetDelta() * MovementSpeed / 2);
 		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta() * MovementSpeed, 0);
-		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity);
-		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity);
+		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity * -1);
+		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity * -1);
 
-		//printf("Pos: X: %f, Y: %f, Z: %f       \r", PlayerTrans->GetTransform().Position.x, PlayerTrans->GetTransform().Position.y, PlayerTrans->GetTransform().Position.z);
+		Renderer.Flush();
 
 		if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));

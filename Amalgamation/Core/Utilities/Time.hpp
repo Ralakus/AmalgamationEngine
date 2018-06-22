@@ -5,6 +5,7 @@
 namespace Amalgamation {
 
 	class Time {
+		Timer m_ElapsedTimer;
 		Timer m_Timer;
 
 		bool m_OnSecond = false;
@@ -25,7 +26,7 @@ namespace Amalgamation {
 
 		FORCEINLINE float GetDelta()   const;
 
-		//FORCEINLINE float GetElapsed() const { return ((float)(m_TP1 - m_Start).count() / 10000000); } Depreciated code
+		FORCEINLINE float GetElapsed() const;
 
 		FORCEINLINE bool  OnSecond()   const;
 

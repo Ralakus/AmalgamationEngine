@@ -5,6 +5,7 @@
 #include <Core/Math/Vector/Vector3.hpp>
 #include <Core/Math/Quaternion/Quaternion.hpp>
 #include <Core/Math/Matrix/Matrix4x4.hpp>
+#include <deque>
 
 namespace Amalgamation {
 
@@ -12,7 +13,7 @@ namespace Amalgamation {
 
 	class GLBasicRenderer : public Renderer {
 
-		std::vector<Mesh*> m_Meshes;
+		std::deque<Mesh*> m_Meshes;
 		std::vector<Light*> m_Lights;
 		std::vector<Light*> m_SpotLights;
 		glm::mat4 m_BufferedTransform;

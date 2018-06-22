@@ -17,7 +17,7 @@ namespace Amalgamation {
 		GLTexture();
 		~GLTexture();
 
-		bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer, std::function<void()> LoadFunction) override;
+		bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) override;
 
 		bool LoadTexture(const std::string& FilePath, bool Flip, uint32 LODLevel, int Layer) override;
 

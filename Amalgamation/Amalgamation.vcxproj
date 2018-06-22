@@ -64,6 +64,7 @@
     <ClInclude Include="Core\Event\EventCallback.hpp" />
     <ClInclude Include="Core\Event\EventHandler.hpp" />
     <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
+    <ClInclude Include="Core\Graphics\GUI.hpp" />
     <ClInclude Include="Core\Graphics\Light.hpp" />
     <ClInclude Include="Core\Graphics\Material.hpp" />
     <ClInclude Include="Core\Graphics\Mesh.hpp" />

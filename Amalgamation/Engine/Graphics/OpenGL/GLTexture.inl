@@ -1,11 +1,13 @@
 
+#include <Core/Utilities/File.hpp>
+
 namespace Amalgamation {
 
 	FORCEINLINE GLTexture::GLTexture() : Texture(API::OpenGL) {}
 
 	FORCEINLINE GLTexture::~GLTexture() {}
 
-	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32 LODLevel, int Layer, std::function<void()> LoadFunction) {
+	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) {
 		if (Layer >= 0 && Layer <= 31) {
 			m_Layer = Layer;
 		}
@@ -70,8 +72,32 @@ namespace Amalgamation {
 		}
 		else {
 			printf("Failed to load texture from: %s\n", FilePath.c_str());
+			unsigned char BrokenTexture[3] = { 0xFF, 0xFF, 0xFF };
+			GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, BrokenTexture));
 			return false;
 		}
+
+
+		/*std::vector<unsigned char> RawData;
+		bool Stop = false;
+		unsigned long long int i = -1;
+		while (!Stop) {
+			if (LoadedData[++i] == 0) {
+				Stop = true;
+			}
+			else {
+				RawData.emplace_back(LoadedData[i]);
+			}
+		}
+
+		File RawDataF("RawDataOutput.txt");
+		std::string RawDataStr;
+		for (auto I : RawData) {
+			RawDataStr += (std::to_string(I) + ", ");
+		}
+		RawDataF.Write(RawDataStr);*/
+
+
 		stbi_image_free(LoadedData);
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 		return true;

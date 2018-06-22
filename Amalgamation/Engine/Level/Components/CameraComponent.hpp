@@ -25,7 +25,7 @@ namespace Amalgamation {
 		~CameraComponent() {}
 
 		glm::mat4 View() const {
-			return glm::translate(glm::mat4_cast(m_TransformPtr->Rotation), -m_TransformPtr->Position);
+			return glm::translate(glm::mat4_cast(m_TransformPtr->Rotation), m_TransformPtr->Position);
 		}
 
 		void Translate(const glm::vec3& Translation) {

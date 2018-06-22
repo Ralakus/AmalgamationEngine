@@ -308,5 +308,8 @@
     <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Graphics\GUI.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
