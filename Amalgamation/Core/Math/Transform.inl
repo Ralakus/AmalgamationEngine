@@ -15,7 +15,7 @@ namespace Amalgamation{ namespace Math {
 		glm::mat4 R(1.f);
 
 		R = glm::translate(R, TransformData.Position) * glm::mat4_cast(TransformData.Rotation);
-		R *= glm::scale(R, TransformData.Scale);
+		R = glm::scale(R, TransformData.Scale);
 
 		return R;
 	}

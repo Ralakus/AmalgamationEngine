@@ -10,7 +10,7 @@ namespace Amalgamation {
 	public:
 
 		glm::vec3 Position;
-		glm::vec3 Scale;
+		glm::vec3 Scale = { 1.f, 1.f, 1.f };
 		glm::quat Rotation;
 
 	};

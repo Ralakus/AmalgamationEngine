@@ -1,5 +1,6 @@
 
 #include <Core/Utilities/File.hpp>
+#include "GLTexture.hpp"
 
 namespace Amalgamation {
 
@@ -99,6 +100,57 @@ namespace Amalgamation {
 
 
 		stbi_image_free(LoadedData);
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+		return true;
+	}
+
+	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32 LODLevel, int Layer) {
+		m_Channels = Channels;
+		m_Width = Width;
+		m_Height = Height;
+		m_Layer = Layer;
+
+		GLCall(glGenTextures(1, &m_TextureID));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		switch (m_Channels) {
+		case 3: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, Data)); break;
+		case 4: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, Data)); break;
+		default:
+			printf("Number of color channels is invalid!\n");
+			return false;
+			break;
+		}
+		GLCall(glGenerateMipmap(GL_TEXTURE_2D));
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+		return true;
+	}
+
+	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) {
+		m_Channels = Channels;
+		m_Width = Width;
+		m_Height = Height;
+		m_Layer = Layer;
+
+		GLCall(glGenTextures(1, &m_TextureID));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
+
+		LoadFunction();
+
+		switch (m_Channels) {
+		case 3: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, Data)); break;
+		case 4: GLCall(glTexImage2D(GL_TEXTURE_2D, LODLevel, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, Data)); break;
+		default:
+			printf("Number of color channels is invalid!\n");
+			return false;
+			break;
+		}
+		GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 		return true;
 	}

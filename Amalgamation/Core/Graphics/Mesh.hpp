@@ -47,7 +47,7 @@ namespace Amalgamation {
 		virtual ~Mesh();
 
 		enum class Primitive {
-			Plane, Cube  //, Sphere, Cone, Cylinder
+			Plane, Cube, Pyramid  //, Sphere, Cone, Cylinder
 		};
 
 		virtual bool PushData(const MeshData& Data);

@@ -177,6 +177,44 @@ namespace Amalgamation {
 
 	};
 
+	struct PyramidMeshData {
+
+		std::vector<glm::vec3> Vertices = {
+			{ -0.5, 0,  -0.5 },
+			{  0.5, 0,  -0.5 },
+			{  0.5, 0,   0.5 },
+			{ -0.5, 0,   0.5 },
+			{  0,   1.f, 0   }
+		};
+		std::vector<glm::vec3> Normals = {
+			{ 0,0,1 },
+			{ 0,0,1 },
+			{ 0,0,1 },
+			{ 0,0,1 },
+			{ 0,0,1 }
+		};
+		std::vector<glm::vec2> TextureCoords = {
+			{ 0,0 },
+			{ 1,0 },
+			{ 1,1 },
+			{ 0,1 },
+			{ 0.5f, 0.5f},
+		};
+		std::vector<uint32> Indices = {
+			0, 1, 2,
+			2, 3, 0,
+
+			0, 1, 4,
+
+			1, 2, 4,
+
+			2, 3, 4,
+
+			3, 0, 4
+		};
+
+	};
+
 	FORCEINLINE void Mesh::SetTransform(Transform * TransformPtr) { m_TransformPtr = TransformPtr; }
 
 	FORCEINLINE void Mesh::InterlaceData() {
@@ -216,12 +254,16 @@ namespace Amalgamation {
 	FORCEINLINE MeshData Mesh::MakeMeshData(Primitive Shape) {
 		static CubeMeshData CubeMesh;
 		static PlaneMeshData PlaneMesh;
+		static PyramidMeshData PyramidMesh;
 		switch (Shape) {
 		case Primitive::Cube:
 			return { CubeMesh.Vertices, CubeMesh.Normals, CubeMesh.TextureCoords, CubeMesh.Indices };
 			break;
 		case Primitive::Plane:
 			return { PlaneMesh.Vertices, PlaneMesh.Normals, PlaneMesh.TextureCoords, PlaneMesh.Indices };
+			break;
+		case Primitive::Pyramid:
+			return { PyramidMesh.Vertices, PyramidMesh.Normals, PyramidMesh.TextureCoords, PyramidMesh.Indices };
 			break;
 			/*case Primitive::Sphere:
 			return MeshData();

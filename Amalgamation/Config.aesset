@@ -5,11 +5,11 @@
 <CloseWindowKey/Escape>
 <ToggleMouseLockKey/Backspace>
 
-<CamFOV/5>
+<CamFOV/90>
 <MovementSpeed/3.5>
 <MouseSensitivity/3.5>
 
-<TODO/ Finish math library, redo rendering, and update Level-Entity-Component to an Entity Component System using a scene graph>
+<TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph >
 
 <Window/
   <Name/Aesset>
@@ -50,13 +50,10 @@ struct Material{
 
 in vec2 o_TextureCoord;
 
-uniform sampler2D u_Texture0;
-uniform vec4 u_Color;
 uniform Material u_Material;
 
 void main() {
   FragColor = texture(u_Material.Diffuse, o_TextureCoord);
-  //FragColor =  u_Color; //vec4(1.f, 0.5f, 0.3f, 1.f);
 }
 
 >
