@@ -1,3 +1,4 @@
+[Window]
 <WindowName/Noice>
 <WindowWidth/1920>
 <WindowHeight/1080>
@@ -5,20 +6,21 @@
 <CloseWindowKey/Escape>
 <ToggleMouseLockKey/Backspace>
 
+[Camera]
 <CamFOV/90>
 <MovementSpeed/3.5>
 <MouseSensitivity/3.5>
 
+[Pong]
+<BallSpeed/5>
+<PannelThickness/0.25>
+<PannelHeight/1.5>
+<UpperBounds/5>
+<LowerBounds/-5>
+
+
+[Misc]
 <TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph >
-
-<Window/
-  <Name/Aesset>
-  <Width/1280>
-  <Height/720>
-  <Fullscreen/False>
-  <CloseKey/Escape>
->
-
 
 <Shader/
 

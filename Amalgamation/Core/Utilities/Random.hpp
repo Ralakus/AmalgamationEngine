@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Platform/Platform.hpp"
 #include <string>
 #include <time.h>
