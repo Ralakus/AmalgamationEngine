@@ -24,13 +24,19 @@ int main(int argc, char* args[]) {
 	Aesset Config;
 	Config.LoadFile("Config.aesset");
 
+	Aesset WindowConfig;
+	WindowConfig.LoadDataString(Config.Get<std::string>("Window"));
+
+	Aesset CamConfig;
+	CamConfig.LoadDataString(Config.Get<std::string>("Camera"));
+
 	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
 
 	std::unique_ptr<Window> Window = std::make_unique<GLWindow>(
-		Config.Get<std::string> ("WindowName", "Noice"), 
-		Config.Get<unsigned int>("WindowWidth", 1280), 
-		Config.Get<unsigned int>("WindowHeight", 720),
-		Config.Get<bool>        ("WindowFullscreen", false)
+		WindowConfig.Get<std::string> ("Name", "Noice"), 
+		WindowConfig.Get<unsigned int>("Width", 1280), 
+		WindowConfig.Get<unsigned int>("Height", 720),
+		WindowConfig.Get<bool>        ("Fullscreen", false)
 	);
 
 	Window->LockMouse(true);
@@ -39,9 +45,9 @@ int main(int argc, char* args[]) {
 
 	GLint ViewPort[4];
 
-	float CamFOV = Config.Get<float>("CamFOV", 90.f);
-	float MovementSpeed = Config.Get<float>("MovementSpeed", 3.5f);
-	float MouseSensitivity = Config.Get<float>("MouseSensitivity", 3.5f);
+	float CamFOV = CamConfig.Get<float>("FOV", 90.f);
+	float MovementSpeed = CamConfig.Get<float>("MovementSpeed", 3.5f);
+	float MouseSensitivity = CamConfig.Get<float>("MouseSensitivity", 3.5f);
 
 	//================================================
 	//Binds input
@@ -49,11 +55,11 @@ int main(int argc, char* args[]) {
 
 
 	EventLambdaCallback ECCloseWindow([&]() -> void { Window->Close(); });
-	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(Config, "CloseWindowKey"), InputAction::Held);
+	Input::Instance().RegisterKeyAction("CloseWindow", Input::Instance().KeyFromAesset(WindowConfig, "CloseKey"), InputAction::Held);
 	Input::Instance().RegisterCallback("CloseWindow", &ECCloseWindow);
 
 	EventLambdaCallback ECToggleMouseLock([&]() -> void { Window->LockMouse(!Window->IsMouseLocked()); });
-	Input::Instance().RegisterKeyAction("ToggleMouseLock", Input::Instance().KeyFromAesset(Config, "ToggleMouseLockKey"), InputAction::Held);
+	Input::Instance().RegisterKeyAction("ToggleMouseLock", Input::Instance().KeyFromAesset(WindowConfig, "ToggleMouseLockKey"), InputAction::Held);
 	Input::Instance().RegisterCallback("ToggleMouseLock", &ECToggleMouseLock);
 
 	InputControl ICMoveForward;
@@ -130,14 +136,15 @@ int main(int argc, char* args[]) {
 
 
 
-
+	Aesset PongConfig;
+	PongConfig.LoadDataString(Config.Get<std::string>("Pong"));
 
 
 	float PongZPlane = -10.f;
-	float PannelThickness = Config.Get<float>("PannelThickness", 0.5f);
-	float PannelHeight = Config.Get<float>("PannelHeight", 1.5f);
-	float UpperBounds = Config.Get<float>("UpperBounds", 2.5);
-	float LowerBounds = Config.Get<float>("LowerBounds", -2.5);
+	float PannelThickness = PongConfig.Get<float>("PannelThickness", 0.5f);
+	float PannelHeight = PongConfig.Get<float>("PannelHeight", 1.5f);
+	float UpperBounds = PongConfig.Get<float>("UpperBounds", 2.5);
+	float LowerBounds = PongConfig.Get<float>("LowerBounds", -2.5);
 
 	Entity* Ball;
 	Ball = Level.CreateEntity<Entity>();
@@ -148,7 +155,7 @@ int main(int argc, char* args[]) {
 
 	float BallAngle = 25.f;
 	glm::vec3 BallVel = { 0.f, 0.25f, 0.f };
-	float BallSpeed = Config.Get<float>("BallSpeed", 1.5f);
+	float BallSpeed = PongConfig.Get<float>("BallSpeed", 1.5f);
 	bool BallChangedThisFrame = false;
 	bool HitDone = true;
 

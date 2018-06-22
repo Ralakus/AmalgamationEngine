@@ -1,22 +1,25 @@
-[Window]
-<WindowName/Noice>
-<WindowWidth/1920>
-<WindowHeight/1080>
-<WindowFullscreen/False>
-<CloseWindowKey/Escape>
-<ToggleMouseLockKey/Backspace>
+<Window/
+	<Name/Noice>
+	<Width/1920>
+	<Height/1080>
+	<Fullscreen/False>
+	<CloseKey/Escape>
+	<ToggleMouseLockKey/Backspace>
+>
 
-[Camera]
-<CamFOV/90>
-<MovementSpeed/3.5>
-<MouseSensitivity/3.5>
+<Camera/
+	<FOV/90>
+	<MovementSpeed/3.5>
+	<MouseSensitivity/3.5>
+>
 
-[Pong]
-<BallSpeed/5>
-<PannelThickness/0.25>
-<PannelHeight/1.5>
-<UpperBounds/5>
-<LowerBounds/-5>
+<Pong/
+	<BallSpeed/5>
+	<PannelThickness/0.25>
+	<PannelHeight/1.5>
+	<UpperBounds/5>
+	<LowerBounds/-5>
+>
 
 
 [Misc]

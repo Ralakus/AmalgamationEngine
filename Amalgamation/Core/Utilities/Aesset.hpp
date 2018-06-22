@@ -22,8 +22,16 @@ namespace Amalgamation {
 
 		*/
 
+	public:
+		struct Property {
+			std::string Name = "";
+			std::string Value = "";
+		};
+	private:
+
 		File m_File;
 		std::string m_Content;
+		std::unordered_map<std::string, std::string> m_PropertyMap;
 
 		mutable std::string m_Buffer;
 
@@ -44,12 +52,14 @@ namespace Amalgamation {
 		FORCEINLINE const std::string& GetData() const;
 
 		FORCEINLINE void WriteProperty(const std::string& Name, const std::string& Value);
+		FORCEINLINE void WriteProperty(const Property& Prop);
 
-		FORCEINLINE void NewLine();
+		FORCEINLINE void ParseAesset();
 
-		FORCEINLINE size_t ScanForProperty(const std::string& Property) const;
+		FORCEINLINE void NewLineInFile();
 
-		FORCEINLINE const std::string& GetPropertyRawString(const std::string& Property) const;
+		FORCEINLINE bool HasProperty(const std::string& Name) const;
+		FORCEINLINE Property GetProperty(const std::string Name) const;
 
 		template<typename T>
 		FORCEINLINE T Get(const std::string& Property) const;
@@ -68,6 +78,8 @@ namespace Amalgamation {
 		FORCEINLINE std::string Get(const std::string& Property) const;
 		template<>
 		FORCEINLINE bool Get(const std::string& Property) const;
+		template<>
+		FORCEINLINE Property Get(const std::string& Property) const;
 
 		template<typename T>
 		FORCEINLINE T Get(const std::string& Property, const T& Default) const;
@@ -86,6 +98,8 @@ namespace Amalgamation {
 		FORCEINLINE std::string Get(const std::string& Property, const std::string& Default) const;
 		template<>
 		FORCEINLINE bool Get(const std::string& Property, const bool& Default) const;
+		template<>
+		FORCEINLINE Property Get(const std::string& Prop, const Property& Default) const;
 
 	};
 

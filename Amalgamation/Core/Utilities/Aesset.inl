@@ -1,3 +1,4 @@
+#include "Aesset.hpp"
 
 
 namespace Amalgamation {
@@ -19,10 +20,12 @@ namespace Amalgamation {
 
 	FORCEINLINE void Aesset::LoadFile(const std::string & Name, unsigned int Mode) {
 		m_Content = m_File.LoadAndGetContents(Name, Mode);
+		ParseAesset();
 	}
 
 	FORCEINLINE void Aesset::LoadDataString(const std::string & Data) {
 		m_Content = Data;
+		ParseAesset();
 	}
 
 	FORCEINLINE void Aesset::Unload() {
@@ -38,56 +41,90 @@ namespace Amalgamation {
 		m_File.Write("<" + Name + "/" + Value + ">");
 	}
 
-	FORCEINLINE void Aesset::NewLine() {
+	FORCEINLINE void Aesset::WriteProperty(const Property & Prop) {
+		m_File.Write("<" + Prop.Name + "/" + Prop.Value + ">");
+	}
+
+	FORCEINLINE void Aesset::ParseAesset() {
+		m_Buffer.clear();
+		enum class State {
+			Name, Value, Scanning
+		} ParseState = State::Scanning;
+		size_t PassedOpenings = 0;
+		Property Buffer = { "", "" };
+		size_t AessetSize = m_Content.size();
+		for (size_t i = 0; i < AessetSize; i++) {
+			switch (ParseState) {
+				case State::Name: {
+				
+					if (m_Content[i] == '/') {
+						Buffer.Name = m_Buffer;
+						m_Buffer.clear();
+						ParseState = State::Value;
+					}
+					else {
+						m_Buffer += m_Content[i];
+					}
+
+
+				} break;
+				case State::Value: {
+				
+
+					if (m_Content[i] == '<') {
+						m_Buffer += '<';
+						PassedOpenings++;
+					}
+					else if(m_Content[i] == '>'){
+						if (PassedOpenings == 0) {
+							Buffer.Value = m_Buffer;
+							m_Buffer.clear();
+							m_PropertyMap[Buffer.Name] = Buffer.Value;
+							ParseState = State::Scanning;
+						}
+						else {
+							m_Buffer += '>';
+							PassedOpenings--;
+						}
+					}
+					else {
+						m_Buffer += m_Content[i];
+					}
+
+
+				} break;
+				case State::Scanning: {
+
+					if (m_Content[i] == '<') {
+						ParseState = State::Name;
+					}
+
+				} break;
+				default: {} break;
+			}
+		}
+	}
+
+	FORCEINLINE void Aesset::NewLineInFile() {
 		m_File.Write("\n");
 	}
 
-	FORCEINLINE size_t Aesset::ScanForProperty(const std::string & Property) const {
-		m_Buffer.clear();
-		bool BufferDone = false;
-		bool Buffering = false;
-		//bool OnOpeningStatement = false;
-		//bool OnClosingStatement = false;
-		for (size_t i = 0; i < m_Content.size(); i++) {
-			if (BufferDone) {
-				m_Buffer.clear();
-				BufferDone = false;
-			}
-			if (m_Content[i] == '<') {
-				Buffering = true;
-				i++;
-			}
-			if (Buffering) {
-				m_Buffer += m_Content[i];
-			}
-			if (m_Content[i] == '/') {
-				Buffering = false;
-				BufferDone = true;
-			}
-			if (m_Buffer == Property) {
-				return i + 2;
-			}
+	FORCEINLINE bool Aesset::HasProperty(const std::string & Name) const{
+		if (m_PropertyMap.count(Name) > 0) {
+			return true;
 		}
-		//printf("Could not find property %s\n", Property.c_str());
-		Log::Error("Coud not find property " + Property);
-		return -1;
+		else {
+			return false;
+		}
 	}
 
-	FORCEINLINE const std::string & Aesset::GetPropertyRawString(const std::string & Property) const {
-		size_t PropertyIndex = ScanForProperty(Property);
-		if (PropertyIndex == static_cast<size_t>(-1)) {
-			m_Buffer = ReadError();
-			return m_Buffer;
+	FORCEINLINE Aesset::Property Aesset::GetProperty(const std::string Name) const {
+		if (HasProperty(Name)) {
+			return { Name, m_PropertyMap.at(Name) };
 		}
-		m_Buffer.clear();
-		for (size_t i = PropertyIndex; i < m_Content.size(); i++) {
-			if (m_Content[i] == '>') {
-				return m_Buffer;
-			}
-			m_Buffer += m_Content[i];
+		else {
+			return { ReadError(), ReadError() };
 		}
-		m_Buffer = ReadError();
-		return m_Buffer;
 	}
 
 	template<typename T>
@@ -97,7 +134,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE float Aesset::Get(const std::string & Property) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		float Value = 0.f;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -114,7 +157,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE int Aesset::Get(const std::string & Property) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		int Value = 0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -131,7 +180,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE double Aesset::Get(const std::string & Property) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		double Value = 0.0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -148,7 +203,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE long double Aesset::Get(const std::string & Property) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		double Value = 0.0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -165,7 +226,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE unsigned int Aesset::Get(const std::string & Property) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		unsigned int Value = 0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -184,7 +251,13 @@ namespace Amalgamation {
 	FORCEINLINE std::string Aesset::Get(const std::string & Property) const {
 		std::string Value;
 		try {
-			Value = GetPropertyRawString(Property);
+			if (m_PropertyMap.count(Property) > 0) {
+				Value = m_PropertyMap.at(Property);
+			}
+			else {
+				Value = ReadError();
+				throw Error("Property not found!");
+			}
 		}
 		catch (...) {
 			//printf("%s", ("[LOG_ERROR]: Failed to parse " + Property + " into a string!\n").c_str());
@@ -198,7 +271,13 @@ namespace Amalgamation {
 	FORCEINLINE bool Aesset::Get(const std::string & Property) const {
 		std::string Value;
 		try {
-			Value = GetPropertyRawString(Property);
+			if (m_PropertyMap.count(Property) > 0) {
+				Value = m_PropertyMap.at(Property);
+			}
+			else {
+				Value = ReadError();
+				throw Error("Property not found!");
+			}
 			if (Value == "True" || Value == "true" || Value == "TRUE") {
 				return true;
 			}
@@ -217,6 +296,17 @@ namespace Amalgamation {
 		return false;
 	}
 
+	template<>
+	FORCEINLINE Aesset::Property Aesset::Get(const std::string& Property) const {
+		if (HasProperty(Property)) {
+			return GetProperty(Property);
+		}
+		else {
+			Log::Error(Property + " property not in aesset!");
+			return { ReadError(), ReadError() };
+		}
+	}
+
 	template<typename T>
 	FORCEINLINE T Aesset::Get(const std::string & Property, const T& Default) const {
 		static_assert(false, "Invalid property type");
@@ -224,7 +314,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE float Aesset::Get(const std::string & Property, const float& Default) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		float Value = 0.f;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -244,7 +340,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE int Aesset::Get(const std::string & Property, const int& Default) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		int Value = Default;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -264,7 +366,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE double Aesset::Get(const std::string & Property, const double& Default) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		double Value = 0.0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -284,7 +392,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE long double Aesset::Get(const std::string & Property, const long double& Default) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		double Value = 0.0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -304,7 +418,13 @@ namespace Amalgamation {
 
 	template<>
 	FORCEINLINE unsigned int Aesset::Get(const std::string & Property, const unsigned int& Default) const {
-		std::string str = GetPropertyRawString(Property);
+		std::string str;
+		if (m_PropertyMap.count(Property) > 0) {
+			str = m_PropertyMap.at(Property);
+		}
+		else {
+			str = ReadError();
+		}
 		unsigned int Value = 0;
 		try {
 			if (str != "" && str != ReadError()) {
@@ -326,7 +446,13 @@ namespace Amalgamation {
 	FORCEINLINE std::string Aesset::Get(const std::string & Property, const std::string& Default) const {
 		std::string Value;
 		try {
-			Value = GetPropertyRawString(Property);
+			if (m_PropertyMap.count(Property) > 0) {
+				Value = m_PropertyMap.at(Property);
+			}
+			else {
+				Value = ReadError();
+				throw Error("Property not found!");
+			}
 		}
 		catch (...) {
 			printf("%s", ("[LOG_ERROR]: Failed to parse " + Property + " into a string!\n").c_str());
@@ -344,7 +470,13 @@ namespace Amalgamation {
 	FORCEINLINE bool Aesset::Get(const std::string & Property, const bool& Default) const {
 		std::string Value;
 		try {
-			Value = GetPropertyRawString(Property);
+			if (m_PropertyMap.count(Property) > 0) {
+				Value = m_PropertyMap.at(Property);
+			}
+			else {
+				Value = ReadError();
+				throw Error("Property not found!");
+			}
 			if (Value == "True" || Value == "true" || Value == "TRUE") {
 				return true;
 			}
@@ -361,6 +493,17 @@ namespace Amalgamation {
 			return Default;
 		}
 		return Default;
+	}
+
+	template<>
+	FORCEINLINE Aesset::Property Aesset::Get(const std::string& Prop, const Property& Default) const {
+		if (HasProperty(Prop)) {
+			return GetProperty(Prop);
+		}
+		else {
+			Log::Error(Prop + " property not in aesset!\nLoading default value of \"" + Default.Name + '/' + Default.Value  + "\" in place");
+			return Default;
+		}
 	}
 
 }
