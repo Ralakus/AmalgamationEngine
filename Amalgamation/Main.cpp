@@ -96,9 +96,9 @@ int main(int argc, char* args[]) {
 	//================================================
 
 	
-	Level Level;
+	Level TestLevel;
 
-	Entity* Player = Level.CreateEntity<Entity>();
+	Entity* Player = TestLevel.CreateEntity<Entity>();
 	TransformComponent* PlayerTrans = Player->AddComponent<TransformComponent>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
 	Renderer.SetCamera(Cam);
@@ -115,13 +115,13 @@ int main(int argc, char* args[]) {
 	BlueTexture.LoadTextureData(BlueData, 1, 1, 3, 0, 0);
 
 	Entity* Cube;
-	Cube = Level.CreateEntity<Entity>();
+	Cube = TestLevel.CreateEntity<Entity>();
 	auto& CubeTrans = Cube->AddComponent<TransformComponent>()->GetTransform();
 	Cube->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->AddTexture(&CrateTexture);
 	CubeTrans.Position.z = -1.f;
 
 	Entity* Cube2;
-	Cube2 = Level.CreateEntity<Entity>();
+	Cube2 = TestLevel.CreateEntity<Entity>();
 	auto& Cube2Trans = Cube2->AddComponent<TransformComponent>()->GetTransform();
 	Cube2->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Pyramid), &Shader)->AddTexture(&OrangeTexture);
 	Cube2Trans.Position.z = -1.f;
@@ -129,7 +129,7 @@ int main(int argc, char* args[]) {
 	Cube2Trans.Scale = glm::vec3(0.5f);
 
 	Entity* Cube3;
-	Cube3 = Level.CreateEntity<Entity>();
+	Cube3 = TestLevel.CreateEntity<Entity>();
 	auto& Cube3Trans = Cube3->AddComponent<TransformComponent>()->GetTransform();
 	Cube3->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Plane), &Shader)->AddTexture(&BlueTexture);
 	Cube3Trans.Position.z = -2.f;
@@ -140,14 +140,15 @@ int main(int argc, char* args[]) {
 	PongConfig.LoadDataString(Config.Get<std::string>("Pong"));
 
 
-	float PongZPlane = -10.f;
+	float PongZPlane      = PongConfig.Get<float>("ZPlane", -10.f);
 	float PannelThickness = PongConfig.Get<float>("PannelThickness", 0.5f);
-	float PannelHeight = PongConfig.Get<float>("PannelHeight", 1.5f);
-	float UpperBounds = PongConfig.Get<float>("UpperBounds", 2.5);
-	float LowerBounds = PongConfig.Get<float>("LowerBounds", -2.5);
+	float PannelHeight    = PongConfig.Get<float>("PannelHeight", 1.5f);
+	float UpperBounds     = PongConfig.Get<float>("UpperBounds", 2.5);
+	float LowerBounds     = PongConfig.Get<float>("LowerBounds", -2.5);
+	float PannelSpeed     = PongConfig.Get<float>("PannelSpeed", 2.5f);
 
 	Entity* Ball;
-	Ball = Level.CreateEntity<Entity>();
+	Ball = TestLevel.CreateEntity<Entity>();
 	auto& BallTrans = Ball->AddComponent<TransformComponent>()->GetTransform();
 	Ball->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->AddTexture(&CrateTexture);
 	BallTrans.Position.z = PongZPlane;
@@ -161,7 +162,7 @@ int main(int argc, char* args[]) {
 
 
 	Entity* LPannel;
-	LPannel = Level.CreateEntity<Entity>();
+	LPannel = TestLevel.CreateEntity<Entity>();
 	auto& LPannelTrans = LPannel->AddComponent<TransformComponent>()->GetTransform();
 	LPannel->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->AddTexture(&BlueTexture);
 	LPannelTrans.Position.z = PongZPlane;
@@ -170,7 +171,7 @@ int main(int argc, char* args[]) {
 	bool LPannelSafe = false;
 
 	Entity* RPannel;
-	RPannel = Level.CreateEntity<Entity>();
+	RPannel = TestLevel.CreateEntity<Entity>();
 	auto& RPannelTrans = RPannel->AddComponent<TransformComponent>()->GetTransform();
 	RPannel->AddComponent<MeshComponent>(&Renderer)->CreateMesh(Mesh::MakeMeshData(Mesh::Primitive::Cube), &Shader)->AddTexture(&OrangeTexture);
 	RPannelTrans.Position.z = PongZPlane;
@@ -179,14 +180,8 @@ int main(int argc, char* args[]) {
 	bool RPannelSafe = false;
 
 
-
-
-	auto LPannelLost = [&]() { Log::Text("LPannel Missed"); };
-	auto RPannelLost = [&]() { Log::Text("RPannel Missed"); };
-
-
-
-	//Bounds X: 5 Wide, Y: 5 Tall, Z: Constrained
+	auto LPannelLost = [&]() { Log::Text("Left Pannel Missed"); };
+	auto RPannelLost = [&]() { Log::Text("Right Pannel Missed"); };
 
 
 	//================================================
@@ -196,7 +191,7 @@ int main(int argc, char* args[]) {
 	glm::vec2 LastMousePos;
 	glm::vec2 MouseDelta;
 
-	Level.Awake();
+	TestLevel.Awake();
 
 	GLCall(glClearColor(0.7f, 0.7f, 0.7f, 0.7f));
 
@@ -303,11 +298,11 @@ int main(int argc, char* args[]) {
 				RPannelTrans.Position.y = UpperBounds + RPannelTrans.Scale.y / 2;
 			}
 			else {
-				RPannelTrans.Position.y = Math::Lerp(RPannelTrans.Position.y, BallTrans.Position.y, T.GetDelta() * BallSpeed * 5);
+				RPannelTrans.Position.y = Math::Lerp(RPannelTrans.Position.y, BallTrans.Position.y, T.GetDelta() * BallSpeed * PannelSpeed);
 			}
 		}
 		else {
-			RPannelTrans.Position.y = Math::Lerp(RPannelTrans.Position.y, 0.f, T.GetDelta() * BallSpeed * 2.5);
+			RPannelTrans.Position.y = Math::Lerp(RPannelTrans.Position.y, 0.f, T.GetDelta() * BallSpeed * PannelSpeed);
 		}
 
 		if (BallTrans.Position.x < 0 && BallVel.x < 0) {
@@ -318,11 +313,11 @@ int main(int argc, char* args[]) {
 				LPannelTrans.Position.y = UpperBounds + LPannelTrans.Scale.y / 2;
 			}
 			else {
-				LPannelTrans.Position.y = Math::Lerp(LPannelTrans.Position.y, BallTrans.Position.y, T.GetDelta() * BallSpeed * 5);
+				LPannelTrans.Position.y = Math::Lerp(LPannelTrans.Position.y, BallTrans.Position.y, T.GetDelta() * BallSpeed * PannelSpeed);
 			}
 		}
 		else {
-			LPannelTrans.Position.y = Math::Lerp(LPannelTrans.Position.y, 0.f, T.GetDelta() * BallSpeed * 2.5);
+			LPannelTrans.Position.y = Math::Lerp(LPannelTrans.Position.y, 0.f, T.GetDelta() * BallSpeed * PannelSpeed);
 		}
 
 
@@ -382,7 +377,7 @@ int main(int argc, char* args[]) {
 
 
 		T.Update();
-		Level.Update(T.GetDelta());
+		TestLevel.Update(T.GetDelta());
 		Window->Update();
 		Renderer.Flush();
 
@@ -391,7 +386,7 @@ int main(int argc, char* args[]) {
 		}
 	}
 
-	Level.Destroy();
+	TestLevel.Destroy();
 
 	return 0;
 

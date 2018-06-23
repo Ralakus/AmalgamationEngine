@@ -58,9 +58,19 @@ namespace Amalgamation {
 				case State::Name: {
 				
 					if (m_Content[i] == '/') {
-						Buffer.Name = m_Buffer;
+						if (m_Buffer == "") {
+							Log::Error("Property at iterator " + std::to_string(i) + " has no name!");
+						}
+						else {
+							Buffer.Name = m_Buffer;
+							m_Buffer.clear();
+							ParseState = State::Value;
+						}
+					}
+					else if (m_Content[i] == '>') {
+						Log::Error("Property \"" + m_Buffer + "\" has no value statement!");
+						ParseState = State::Scanning;
 						m_Buffer.clear();
-						ParseState = State::Value;
 					}
 					else {
 						m_Buffer += m_Content[i];
@@ -77,15 +87,24 @@ namespace Amalgamation {
 					}
 					else if(m_Content[i] == '>'){
 						if (PassedOpenings == 0) {
-							Buffer.Value = m_Buffer;
-							m_Buffer.clear();
-							m_PropertyMap[Buffer.Name] = Buffer.Value;
-							ParseState = State::Scanning;
+							if(m_Buffer == ""){
+								Log::Error("Property \"" + Buffer.Name + " has no value!");
+							}
+							else {
+								Buffer.Value = m_Buffer;
+								m_Buffer.clear();
+								m_PropertyMap[Buffer.Name] = Buffer.Value;
+								ParseState = State::Scanning;
+							}
 						}
 						else {
 							m_Buffer += '>';
 							PassedOpenings--;
 						}
+					}
+					else if (i == m_Content.length() - 1) {
+						Log::Error("Property \"" + Buffer.Name + "\" does not have a closing >!");
+						ParseState = State::Scanning;
 					}
 					else {
 						m_Buffer += m_Content[i];

@@ -45,7 +45,7 @@ namespace Amalgamation {
 	FORCEINLINE GLArrayBuffer::~GLArrayBuffer() {
 		try {
 			GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-			GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID));
+			GLCall(glDeleteBuffers(GL_ARRAY_BUFFER, &m_BufferID)); //Crashes on windows after system update sometimes due to some strange memory handling error on Window's side
 		}
 		catch (...) {
 			return;

@@ -14,11 +14,13 @@
 >
 
 <Pong/
-	<BallSpeed/5>
+	<BallSpeed/10>
+  <PannelSpeed/2.5>
 	<PannelThickness/0.25>
 	<PannelHeight/1.5>
 	<UpperBounds/5>
 	<LowerBounds/-5>
+  <ZPlane/-10>
 >
 
 
