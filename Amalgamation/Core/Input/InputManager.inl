@@ -64,37 +64,42 @@ namespace Amalgamation {
 		if (KeyStr == "Key Null") {
 			return Default;
 		}
-		if (KeyStr == "Escape") {
+		std::transform(KeyStr.begin(), KeyStr.end(), KeyStr.begin(), ::tolower);
+		if (KeyStr == "escape") {
 			return Key::Escape;
 		}
-		else if (KeyStr == "Ctrl") {
+		else if (KeyStr == "space") {
+			return Key::Space;
+		}
+		else if (KeyStr == "ctrl") {
 			return Key::Ctrl;
 		}
-		else if (KeyStr == "Alt") {
+		else if (KeyStr == "alt") {
 			return Key::Alt;
 		}
-		else if (KeyStr == "LShift") {
+		else if (KeyStr == "lshift") {
 			return Key::LShift;
 		}
-		else if (KeyStr == "RShift") {
+		else if (KeyStr == "rshift") {
 			return Key::RShift;
 		}
-		else if (KeyStr == "RAlt") {
+		else if (KeyStr == "ralt") {
 			return Key::RAlt;
 		}
-		else if (KeyStr == "RCtrl") {
+		else if (KeyStr == "rctrl") {
 			return Key::RCtrl;
 		}
-		else if (KeyStr == "Tab") {
+		else if (KeyStr == "tab") {
 			return Key::Tab;
 		}
-		else if (KeyStr == "Enter") {
+		else if (KeyStr == "enter") {
 			return Key::RAlt;
 		}
-		else if (KeyStr == "Backspace") {
+		else if (KeyStr == "backspace") {
 			return Key::Backspace;
 		}
 		else {
+			std::transform(KeyStr.begin(), KeyStr.end(), KeyStr.begin(), ::toupper);
 			return static_cast<Key>(KeyStr.c_str()[0]);
 		}
 	}

@@ -13,6 +13,21 @@
 	<MouseSensitivity/3.5>
 >
 
+<Input/
+  <Movement/
+    <Forward/W>
+    <Backwards/S>
+    <Left/A>
+    <Right/D>
+    <Up/Space>
+    <Down/C>
+    <RollRight/E>
+    <RollLeft/Q>
+  >
+  <InvertMouseX/False>
+  <InvertMouseY/False>
+>
+
 <Pong/
 	<BallSpeed/10>
   <PannelSpeed/2.5>
@@ -26,6 +41,10 @@
 
 [Misc]
 <TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph >
+
+<AudioFile/T15P2V3LQ1.ogg>
+<AudioBufferSize/2>
+<AudioVolume/1>
 
 <Shader/
 
@@ -64,3 +83,4 @@ void main() {
 }
 
 >
+

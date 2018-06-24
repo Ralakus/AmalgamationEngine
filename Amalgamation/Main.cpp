@@ -10,8 +10,35 @@
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
+#include <Core/Audio/OggFile.hpp>
+#include <Core/Audio/Player.hpp>
 
 using namespace Amalgamation;
+
+PORTAUDIO_CALLBACK(TestCallback) {
+	short* out = (short*)OutputBuffer;
+	(void)InputBuffer;
+
+	int ReturnState = paContinue;
+
+	OggFile::OggData* Ogg = (OggFile::OggData*)UserData;
+
+	for (uint32 i = 0; i< FramesPerBuffer; i++) {
+
+		if (Ogg->CursorPos < (Ogg->BufferSize)) {
+			out[i] = Ogg->Data[Ogg->CursorPos+= sizeof(short)] * Ogg->Volume;
+		}
+		else {
+			out[i] = 0;
+			ReturnState = paComplete;
+		}
+
+
+	}
+
+	return ReturnState;
+}
+
 
 int main(int argc, char* args[]) {
 
@@ -19,7 +46,6 @@ int main(int argc, char* args[]) {
 	//================================================
 	//Loads config file and creates window
 	//================================================
-
 
 	Aesset Config;
 	Config.LoadFile("Config.aesset");
@@ -29,6 +55,46 @@ int main(int argc, char* args[]) {
 
 	Aesset CamConfig;
 	CamConfig.LoadDataString(Config.Get<std::string>("Camera"));
+
+	Aesset InputConfig;
+	InputConfig.LoadDataString(Config.Get<std::string>("Input"));
+
+	Aesset MovementConfig;
+	MovementConfig.LoadDataString(InputConfig.Get<std::string>("Movement"));
+
+	auto err = Pa_Initialize();
+	if (err != paNoError) {
+		Log::Error("Failed to init Portaudio");
+	}
+
+	OggFile Ogg(Config.Get<std::string>("AudioFile"));
+	OggFile::OggData OggUserData = Ogg.GetOggData();
+	OggUserData.Volume = Config.Get<float>("AudioVolume", 1);
+
+	PaStream* TStream = nullptr;
+	PaStreamParameters AudioParams;
+	AudioParams.device = Pa_GetDefaultOutputDevice();
+	AudioParams.channelCount = Ogg.GetChannels();
+	AudioParams.sampleFormat = paInt16;
+	AudioParams.suggestedLatency = Pa_GetDeviceInfo(AudioParams.device)->defaultLowOutputLatency;
+	AudioParams.hostApiSpecificStreamInfo = nullptr;
+	//err = Pa_OpenDefaultStream(&TStream, 0, Ogg.GetChannels(), paInt16, Ogg.GetSampleRate(), Config.Get<unsigned int>("AudioBufferSize", 2), TestCallback, &Ogg);
+	err = Pa_OpenStream(&TStream, nullptr, &AudioParams, Ogg.GetSampleRate(), Config.Get<unsigned int>("AudioBufferSize", 2), paClipOff | paPrimeOutputBuffersUsingStreamCallback, &TestCallback, &OggUserData);
+	if (err != paNoError) {
+		Log::Error("Failed to open stream!");
+	}
+
+	err = Pa_StartStream(TStream);
+	if (err != paNoError) {
+		Log::Error("Failed to start stream!");
+	}
+
+
+
+	EventLambdaCallback StopStreamCallback([&]() { err = Pa_StopStream(TStream); if (err != paNoError) { Log::Error("Failed to stop stream!"); } });
+	Input::Instance().RegisterKeyAction("StopStream", Key::R, InputAction::Pressed);
+	Input::Instance().RegisterCallback("StopStream", &StopStreamCallback);
+
 
 	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
 
@@ -59,25 +125,27 @@ int main(int argc, char* args[]) {
 	Input::Instance().RegisterCallback("CloseWindow", &ECCloseWindow);
 
 	EventLambdaCallback ECToggleMouseLock([&]() -> void { Window->LockMouse(!Window->IsMouseLocked()); });
-	Input::Instance().RegisterKeyAction("ToggleMouseLock", Input::Instance().KeyFromAesset(WindowConfig, "ToggleMouseLockKey"), InputAction::Held);
+	Input::Instance().RegisterKeyAction("ToggleMouseLock", Input::Instance().KeyFromAesset(WindowConfig, "ToggleMouseLockKey"), InputAction::Pressed);
 	Input::Instance().RegisterCallback("ToggleMouseLock", &ECToggleMouseLock);
 
 	InputControl ICMoveForward;
-	ICMoveForward.AddInput(Key::W,  1.f);
-	ICMoveForward.AddInput(Key::S, -1.f);
+	ICMoveForward.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Forward", Key::W),  1.f);
+	ICMoveForward.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Backwards", Key::S), -1.f);
 
 	InputControl ICMoveRight;
-	ICMoveRight.AddInput(Key::D,  1.f);
-	ICMoveRight.AddInput(Key::A, -1.f);
+	ICMoveRight.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Right", Key::D),  1.f);
+	ICMoveRight.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Left", Key::A), -1.f);
 
 	InputControl ICRollRight;
-	ICRollRight.AddInput(Key::E,  1.f);
-	ICRollRight.AddInput(Key::Q, -1.f);
+	ICRollRight.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "RollRight", Key::E),  1.f);
+	ICRollRight.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "RollLeft", Key::Q), -1.f);
 
 	InputControl ICMoveUp;
-	ICMoveUp.AddInput(Key::Space, 1.f);
-	ICMoveUp.AddInput(Key::C,    -1.f);
+	ICMoveUp.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Up", Key::Space), 1.f);
+	ICMoveUp.AddInput(Input::Instance().KeyFromAesset(MovementConfig, "Down", Key::C),    -1.f);
 
+	bool InvertMouseX = InputConfig.Get<bool>("InvertMouseX", false);
+	bool InvertMouseY = InputConfig.Get<bool>("InvertMouseY", false);
 
 	//================================================
 	//Create renderer and shaders
@@ -368,8 +436,8 @@ int main(int argc, char* args[]) {
 		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * MovementSpeed * -1, 0, 0);
 		Cam->Roll(ICRollRight.Value() * T.GetDelta() * MovementSpeed / 2);
 		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta() * MovementSpeed * -1, 0);
-		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity);
-		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity);
+		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity * (InvertMouseY ? -1 : 1));
+		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity * (InvertMouseX ? -1 : 1));
 
 
 
@@ -387,6 +455,11 @@ int main(int argc, char* args[]) {
 	}
 
 	TestLevel.Destroy();
+
+	err = Pa_Terminate();
+	if (err != paNoError) {
+		Log::Error("Failed to terminate Portaudio");
+	}
 
 	return 0;
 
