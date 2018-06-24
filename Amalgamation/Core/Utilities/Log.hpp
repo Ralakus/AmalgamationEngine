@@ -59,6 +59,7 @@
 #endif // AE_LINUX
 
 #include <iostream>
+#include <vector>
 
 namespace Amalgamation {
 
@@ -66,58 +67,118 @@ namespace Amalgamation {
 	class Log {
 
 	public:
+
+		struct Color {
+			Color(float r, float g, float b, float a) : R(r), G(g), B(b), A(a) {}
+			float R, G, B, A;
+		};
+
+		static bool& IsEnabled() { static bool m_Enabled = true; return m_Enabled; }
+
+		static std::vector<std::pair<Color, std::string>>& GetBuffer() { static std::vector<std::pair<Color, std::string>> m_Buffer; return m_Buffer; }
+
 #if   defined(AE_LINUX)
 
-		template<class T>
-		static void Text(const T& Message) {
-			std::cout << AE_LOG_TEXT_COLOR << AE_LOG_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		
+		static void Text(const std::string& Message) {
+			if (IsEnabled()) {
+				std::cout << AE_LOG_TEXT_COLOR << AE_LOG_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 1.f, 1.f, 1.f), Message);
+			}
 		}
 
-		template<class T>
-		static void Note(const T& Message) {
-			std::cout << AE_LOG_NOTE_COLOR << AE_LOG_NOTE_STR << " " <<  Message << AE_LOG_COLOR_RESET << '\n';
+		
+		static void Note(const std::string& Message) {
+			if (IsEnabled()) {
+				std::cout << AE_LOG_NOTE_COLOR << AE_LOG_NOTE_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+			}
+			else {
+				GetBuffer().emplace_back(Color(0.1f, 0.1f, 1.f, 1.f), Message);
+			}
 		}
 
-		template<class T>
-		static void Warning(const T& Message) {
-			std::cout << AE_LOG_WARNING_COLOR << AE_LOG_WARNING_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		
+		static void Warning(const std::string& Message) {
+			if (IsEnabled()) {
+				std::cout << AE_LOG_WARNING_COLOR << AE_LOG_WARNING_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 1.f, 0.f, 1.f ), Message);
+			}
 		}
 
-		template<class T>
-		static void Error(const T& Message) {
-			std::cout << AE_LOG_ERROR_COLOR << AE_LOG_ERROR_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		
+		static void Error(const std::string& Message) {
+			if (IsEnabled()) {
+				std::cout << AE_LOG_ERROR_COLOR << AE_LOG_ERROR_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 0.1f, 0.1f, 1.f), Message);
+			}
 		}
 
-		template<class T>
-		static void Success(const T& Message) {
-			std::cout << AE_LOG_SUCCESS_COLOR << AE_LOG_SUCCESS_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+		
+		static void Success(const std::string& Message) {
+			if (IsEnabled()) {
+				std::cout << AE_LOG_SUCCESS_COLOR << AE_LOG_SUCCESS_STR << " " << Message << AE_LOG_COLOR_RESET << '\n';
+			}
+			else {
+				GetBuffer().emplace_back(Color(0.1f, 1.f, 0.1f, 1.f), Message);
+			}
 		}
 
 #elif defined(AE_WINDOWS)
 
-		template<class T>
-		static void Text(const T& Message) {
-			AE_LOG_TEXT_COLOR std::cout << AE_LOG_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		
+		static void Text(const std::string& Message) {
+			if (IsEnabled()) {
+				AE_LOG_TEXT_COLOR std::cout << AE_LOG_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 1.f, 1.f, 1.f), Message);
+			}
 		}
 
-		template<class T>
-		static void Note(const T& Message) {
-			AE_LOG_NOTE_COLOR std::cout << AE_LOG_NOTE_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		
+		static void Note(const std::string& Message) {
+			if (IsEnabled()) {
+				AE_LOG_NOTE_COLOR std::cout << AE_LOG_NOTE_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+			}
+			else {
+				GetBuffer().emplace_back(Color( 0.1f, 0.1f, 1.f, 1.f ), Message);
+			}
 		}
 
-		template<class T>
-		static void Warning(const T& Message) {
-			AE_LOG_WARNING_COLOR std::cout << AE_LOG_WARNING_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		
+		static void Warning(const std::string& Message) {
+			if (IsEnabled()) {
+				AE_LOG_WARNING_COLOR std::cout << AE_LOG_WARNING_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 1.f, 0.f, 1.f ), Message);
+			}
 		}
 
-		template<class T>
-		static void Error(const T& Message) {
-			AE_LOG_ERROR_COLOR std::cout << AE_LOG_ERROR_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		
+		static void Error(const std::string& Message) {
+			if (IsEnabled()) {
+				AE_LOG_ERROR_COLOR std::cout << AE_LOG_ERROR_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+			}
+			else {
+				GetBuffer().emplace_back(Color(1.f, 0.1f, 0.1f, 1.f ), Message);
+			}
 		}
 
-		template<class T>
-		static void Success(const T& Message) {
-			AE_LOG_SUCCESS_COLOR std::cout << AE_LOG_SUCCESS_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+		
+		static void Success(const std::string& Message) {
+			if (IsEnabled()) {
+				AE_LOG_SUCCESS_COLOR std::cout << AE_LOG_SUCCESS_STR << " " << Message << '\n'; AE_LOG_COLOR_RESET
+			}
+			else {
+				GetBuffer().emplace_back(Color(0.1f, 1.f, 0.1f, 1.f ), Message);
+			}
 		}
 
 #endif

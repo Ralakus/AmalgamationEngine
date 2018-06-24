@@ -18,11 +18,25 @@ namespace Amalgamation {
 
 		glm::mat4 m_Projection;
 
+		glm::vec2 m_LastMousePos;
+		glm::vec2 m_MouseDelta;
+
+		union {
+			float Vec3[3];
+			struct { float m_Pitch, m_Roll, m_Yaw; };
+		};
+
+		glm::vec3 Front = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 Right = glm::vec3();
+
 	public:
 
 		CameraComponent() {}
-
 		~CameraComponent() {}
+
+		float Sensitivity = 1.f;
+		bool ConstrainPitch = true;
 
 		glm::mat4 View() const {
 			return glm::translate(glm::mat4_cast(m_TransformPtr->Rotation), m_TransformPtr->Position);
@@ -50,6 +64,14 @@ namespace Amalgamation {
 		}
 		void Roll(float Angle) {
 			Rotate(Angle, 0.f, 0.f, 1.f);
+		}
+
+		const glm::vec2& GetMouseDelta() const {
+			return m_MouseDelta;
+		}
+
+		const glm::vec2& GetLastMousePos() const {
+			return m_LastMousePos;
 		}
 
 		glm::vec3 GetFront() const {
@@ -94,7 +116,35 @@ namespace Amalgamation {
 		}
 
 		virtual void Update(float Delta) override {
+			m_MouseDelta   = Input::Instance().GetMousePos() - m_LastMousePos;
+			m_LastMousePos = Input::Instance().GetMousePos();
 
+			m_MouseDelta *= Sensitivity;
+
+			if (ConstrainPitch)
+			{
+				if (m_Pitch > 89.0f) {
+					m_Pitch = 89.0f;
+				}
+				if (m_Pitch < -89.0f) {
+					m_Pitch = -89.0f;
+				}
+			}
+
+			m_Yaw += m_MouseDelta.x;
+			m_Pitch += m_MouseDelta.y;
+
+
+			Front = glm::normalize(glm::vec3(
+				cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch)),
+				sin(glm::radians(m_Pitch)),
+				sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch))
+			));
+
+			Right = glm::normalize(glm::cross(Front, glm::vec3(0, 1, 0)));
+			Up = glm::normalize(glm::cross(Right, Front));
+
+			m_TransformPtr->Rotation = glm::lookAt(m_TransformPtr->Position, m_TransformPtr->Position - Front, Up);
 		}
 
 		virtual void Destroy() override {

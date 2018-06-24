@@ -3,6 +3,8 @@
 #include <Core/Graphics/Window.hpp>
 #include "GLCommon.hpp"
 #include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
 
 namespace Amalgamation {
 

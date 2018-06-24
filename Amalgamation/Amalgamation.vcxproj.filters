@@ -314,7 +314,7 @@
     <ClInclude Include="Core\Audio\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Audio\OggFile.hpp">
+    <ClInclude Include="Engine\Graphics\ImGui\Console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

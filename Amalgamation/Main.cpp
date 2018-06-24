@@ -6,19 +6,28 @@
 #include <Core/Utilities/Random.hpp>
 #include <Core/Input/InputControl.hpp>
 #include <Core/Utilities/Random.hpp>
+#include <Core/Audio/Player.hpp>
 #include <Engine/Graphics/OpenGL/GLTexture.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
+#include <Engine/Graphics/ImGui/Console.hpp>
 
-#include <soloud.h>
+#include <imgui_impl_opengl3.h>
+
 #include <soloud_wav.h>
 #include <soloud_wavstream.h>
+#include <soloud_speech.h>
 
 using namespace Amalgamation;
 
 int main(int argc, char* args[]) {
 
+	Log::IsEnabled() = false;
+
+#ifdef AE_WINDOWS
+	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+#endif
 
 	//================================================
 	//Loads config file and creates window
@@ -39,14 +48,9 @@ int main(int argc, char* args[]) {
 	Aesset MovementConfig;
 	MovementConfig.LoadDataString(InputConfig.Get<std::string>("Movement"));
 
-
-	SoLoud::Soloud gSoLoud;
-	gSoLoud.init();
 	SoLoud::WavStream gWav;
 	gWav.load(Config.Get<std::string>("AudioFile").c_str());
-	gSoLoud.play(gWav);
-
-
+	Audio::Instance().play(gWav);
 
 	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
 
@@ -56,6 +60,15 @@ int main(int argc, char* args[]) {
 		WindowConfig.Get<unsigned int>("Height", 720),
 		WindowConfig.Get<bool>        ("Fullscreen", false)
 	);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui_ImplGlfw_InitForOpenGL(static_cast<GLWindow*>(Window._Myptr())->GetGLFWWindowPtr(), false);
+	ImGui_ImplOpenGL3_Init();
+
+	ImGui::StyleColorsDark();
 
 	Window->LockMouse(true);
 
@@ -121,6 +134,7 @@ int main(int argc, char* args[]) {
 	Entity* Player = TestLevel.CreateEntity<Entity>();
 	TransformComponent* PlayerTrans = Player->AddComponent<TransformComponent>();
 	CameraComponent* Cam = Player->AddComponent<CameraComponent>();
+	Cam->Sensitivity = MouseSensitivity;
 	Renderer.SetCamera(Cam);
 
 	GLTexture CrateTexture;
@@ -216,16 +230,18 @@ int main(int argc, char* args[]) {
 	GLCall(glClearColor(0.7f, 0.7f, 0.7f, 0.7f));
 
 	bool Cube2Up = true;
-
 	bool Cube3ScaleUp = true;
+
+	ImGuiConsole Console;
 
 	while (Window->IsValid()) {
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 
-
-
-
+		Console.Show([&]() { ImGui::Text("FPS: %f", T.GetAvgFPS()); });
 
 
 		BallChangedThisFrame = false;
@@ -378,18 +394,10 @@ int main(int argc, char* args[]) {
 		
 
 
-
-
-
-		MouseDelta =   Input::Instance().GetMousePos() - LastMousePos;
-		LastMousePos = Input::Instance().GetMousePos();
-
 		Cam->Translate(0, 0, ICMoveForward.Value() * T.GetDelta() * MovementSpeed);
 		Cam->Translate(ICMoveRight.Value() * T.GetDelta() * MovementSpeed * -1, 0, 0);
 		Cam->Roll(ICRollRight.Value() * T.GetDelta() * MovementSpeed / 2);
 		Cam->Translate(0, ICMoveUp.Value() * T.GetDelta() * MovementSpeed * -1, 0);
-		Cam->Pitch(MouseDelta.y * T.GetDelta() * MouseSensitivity * (InvertMouseY ? -1 : 1));
-		Cam->Yaw(MouseDelta.x * T.GetDelta() * MouseSensitivity * (InvertMouseX ? -1 : 1));
 
 
 
@@ -401,14 +409,19 @@ int main(int argc, char* args[]) {
 		Window->Update();
 		Renderer.Flush();
 
-		if (T.OnSecond()) {
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		/*if (T.OnSecond()) {
 			Window->SetTitle("FPS: " + std::to_string(T.GetAvgFPS()));
-		}
+		}*/
 	}
 
-	TestLevel.Destroy();
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
-	gSoLoud.deinit();
+	TestLevel.Destroy();
 
 	return 0;
 

@@ -62,7 +62,6 @@
     <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Audio\OggFile.hpp" />
     <ClInclude Include="Core\Audio\Player.hpp" />
     <ClInclude Include="Core\Event\Event.hpp" />
     <ClInclude Include="Core\Event\EventCallback.hpp" />
@@ -104,6 +103,7 @@
     <ClInclude Include="Core\Utilities\Random.hpp" />
     <ClInclude Include="Core\Utilities\Time.hpp" />
     <ClInclude Include="Core\Utilities\Timer.hpp" />
+    <ClInclude Include="Engine\Graphics\ImGui\Console.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.hpp" />
