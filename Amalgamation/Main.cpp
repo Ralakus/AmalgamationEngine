@@ -10,35 +10,12 @@
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 #include <Engine/Level/Components/MeshComponent.hpp>
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
-#include <Core/Audio/OggFile.hpp>
-#include <Core/Audio/Player.hpp>
+
+#include <soloud.h>
+#include <soloud_wav.h>
+#include <soloud_wavstream.h>
 
 using namespace Amalgamation;
-
-PORTAUDIO_CALLBACK(TestCallback) {
-	short* out = (short*)OutputBuffer;
-	(void)InputBuffer;
-
-	int ReturnState = paContinue;
-
-	OggFile::OggData* Ogg = (OggFile::OggData*)UserData;
-
-	for (uint32 i = 0; i< FramesPerBuffer; i++) {
-
-		if (Ogg->CursorPos < (Ogg->BufferSize)) {
-			out[i] = Ogg->Data[Ogg->CursorPos+= sizeof(short)] * Ogg->Volume;
-		}
-		else {
-			out[i] = 0;
-			ReturnState = paComplete;
-		}
-
-
-	}
-
-	return ReturnState;
-}
-
 
 int main(int argc, char* args[]) {
 
@@ -62,38 +39,13 @@ int main(int argc, char* args[]) {
 	Aesset MovementConfig;
 	MovementConfig.LoadDataString(InputConfig.Get<std::string>("Movement"));
 
-	auto err = Pa_Initialize();
-	if (err != paNoError) {
-		Log::Error("Failed to init Portaudio");
-	}
 
-	OggFile Ogg(Config.Get<std::string>("AudioFile"));
-	OggFile::OggData OggUserData = Ogg.GetOggData();
-	OggUserData.Volume = Config.Get<float>("AudioVolume", 1);
+	SoLoud::Soloud gSoLoud;
+	gSoLoud.init();
+	SoLoud::WavStream gWav;
+	gWav.load(Config.Get<std::string>("AudioFile").c_str());
+	gSoLoud.play(gWav);
 
-	PaStream* TStream = nullptr;
-	PaStreamParameters AudioParams;
-	AudioParams.device = Pa_GetDefaultOutputDevice();
-	AudioParams.channelCount = Ogg.GetChannels();
-	AudioParams.sampleFormat = paInt16;
-	AudioParams.suggestedLatency = Pa_GetDeviceInfo(AudioParams.device)->defaultLowOutputLatency;
-	AudioParams.hostApiSpecificStreamInfo = nullptr;
-	//err = Pa_OpenDefaultStream(&TStream, 0, Ogg.GetChannels(), paInt16, Ogg.GetSampleRate(), Config.Get<unsigned int>("AudioBufferSize", 2), TestCallback, &Ogg);
-	err = Pa_OpenStream(&TStream, nullptr, &AudioParams, Ogg.GetSampleRate(), Config.Get<unsigned int>("AudioBufferSize", 2), paClipOff | paPrimeOutputBuffersUsingStreamCallback, &TestCallback, &OggUserData);
-	if (err != paNoError) {
-		Log::Error("Failed to open stream!");
-	}
-
-	err = Pa_StartStream(TStream);
-	if (err != paNoError) {
-		Log::Error("Failed to start stream!");
-	}
-
-
-
-	EventLambdaCallback StopStreamCallback([&]() { err = Pa_StopStream(TStream); if (err != paNoError) { Log::Error("Failed to stop stream!"); } });
-	Input::Instance().RegisterKeyAction("StopStream", Key::R, InputAction::Pressed);
-	Input::Instance().RegisterCallback("StopStream", &StopStreamCallback);
 
 
 	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
@@ -456,10 +408,7 @@ int main(int argc, char* args[]) {
 
 	TestLevel.Destroy();
 
-	err = Pa_Terminate();
-	if (err != paNoError) {
-		Log::Error("Failed to terminate Portaudio");
-	}
+	gSoLoud.deinit();
 
 	return 0;
 

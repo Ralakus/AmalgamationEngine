@@ -1,5 +1,8 @@
 #pragma once
 
+static_assert(false, "Depereciated after SoLoud integration!");
+
+#if 0
 
 #include <Core/Platform/Platform.hpp>
 
@@ -47,14 +50,10 @@ namespace Amalgamation {
 			m_Data.Volume = 1.f;
 		}
 
-		int GetChannels()   const { return m_Data.Channels; }
-		int GetSampleRate() const { return m_Data.SampleRate; }
-
-		short* GetData() { return m_Data.Data; }
-		size_t GetBufferSize() const { return m_Data.BufferSize; }
-
 		OggData& GetOggData() { return m_Data; }
 
 	};
 
 }
+
+#endif

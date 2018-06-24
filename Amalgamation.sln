@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGUI", "Dependencies\ImGUI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{B8E1F52B-421C-40ED-876C-212B098E92DB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoLoud", "Dependencies\SoLoud\SoLoud.vcxproj", "{A0141925-4BF3-4EBF-8D32-595CCA8885EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -43,6 +45,14 @@ Global
 		{AE85F0B0-4E88-4044-9953-4F6B237DACF2}.Release|x64.Build.0 = Release|x64
 		{AE85F0B0-4E88-4044-9953-4F6B237DACF2}.Release|x86.ActiveCfg = Release|Win32
 		{AE85F0B0-4E88-4044-9953-4F6B237DACF2}.Release|x86.Build.0 = Release|Win32
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Debug|x64.ActiveCfg = Debug|x64
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Debug|x64.Build.0 = Debug|x64
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Debug|x86.ActiveCfg = Debug|Win32
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Debug|x86.Build.0 = Debug|Win32
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Release|x64.ActiveCfg = Release|x64
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Release|x64.Build.0 = Release|x64
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Release|x86.ActiveCfg = Release|Win32
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8D323F77-1C47-4843-9E14-75CE8B23680B} = {B8E1F52B-421C-40ED-876C-212B098E92DB}
 		{AE85F0B0-4E88-4044-9953-4F6B237DACF2} = {B8E1F52B-421C-40ED-876C-212B098E92DB}
+		{A0141925-4BF3-4EBF-8D32-595CCA8885EE} = {B8E1F52B-421C-40ED-876C-212B098E92DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3D0E5A3-1C22-4B07-B328-6AAFF75C2E26}

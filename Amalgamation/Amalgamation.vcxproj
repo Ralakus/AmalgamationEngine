@@ -126,6 +126,17 @@
     <ClInclude Include="Engine\Level\Entities\EmtpyEntity.hpp" />
     <ClInclude Include="Engine\Level\LevelPlugins\BulletPhysicsPlugin.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dependencies\Bullet3\Bullet3.vcxproj">
+      <Project>{8d323f77-1c47-4843-9e14-75ce8b23680b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\ImGUI\ImGUI.vcxproj">
+      <Project>{ae85f0b0-4e88-4044-9953-4f6b237dacf2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\SoLoud\SoLoud.vcxproj">
+      <Project>{a0141925-4bf3-4ebf-8d32-595cca8885ee}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B54CD1A1-FE14-42C6-A24C-656CA3389662}</ProjectGuid>
@@ -180,26 +191,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Portaudio/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(SolutionDir)Dependencies/Portaudio;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Portaudio/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(SolutionDir)Dependencies/Portaudio;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Portaudio/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies/Portaudio;$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/Portaudio/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies/Portaudio;$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -210,7 +221,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;lua53.lib;portaudio_static_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -222,7 +233,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;lua53.lib;portaudio_static_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -238,7 +249,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;lua53.lib;portaudio_static_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -254,7 +265,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;lua53.lib;portaudio_static_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
