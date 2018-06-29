@@ -17,7 +17,7 @@ namespace Amalgamation {
 
 	public:
 
-		void Show() {
+		void CopyLogBuffer() {
 
 			if (Log::IsEnabled() == false) {
 				m_Buffer.clear();
@@ -25,6 +25,10 @@ namespace Amalgamation {
 					m_Buffer.emplace_back(ImVec4(Text.first.R, Text.first.G, Text.first.B, Text.first.A), Text.second);
 				}
 			}
+
+		}
+
+		void Show() {
 
 			ImGui::Begin("Console");
 
@@ -38,13 +42,6 @@ namespace Amalgamation {
 
 		template<class T>
 		void Show(const T& ExtraFunctions) {
-
-			if (Log::IsEnabled() == false) {
-				m_Buffer.clear();
-				for (auto& Text : Log::GetBuffer()) {
-					m_Buffer.emplace_back(ImVec4(Text.first.R, Text.first.G, Text.first.B, Text.first.A), Text.second);
-				}
-			}
 
 			ImGui::Begin("Console");
 

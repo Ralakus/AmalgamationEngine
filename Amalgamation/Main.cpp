@@ -23,11 +23,12 @@ using namespace Amalgamation;
 
 int main(int argc, char* args[]) {
 
-	Log::IsEnabled() = false;
-
 #ifdef AE_WINDOWS
 	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 #endif
+
+	Log::IsEnabled() = false;
+
 
 	//================================================
 	//Loads config file and creates window
@@ -138,7 +139,7 @@ int main(int argc, char* args[]) {
 	Renderer.SetCamera(Cam);
 
 	GLTexture CrateTexture;
-	CrateTexture.LoadTexture("container2.png", false, 0, 0);
+	CrateTexture.LoadTexture(Config.Get<std::string>("CubeTexture"), false, 0, 0);
 
 	GLTexture OrangeTexture;
 	Byte OrangeData[] = { 0xFF, 0x80, 0x4D };
@@ -214,8 +215,6 @@ int main(int argc, char* args[]) {
 	bool RPannelSafe = false;
 
 
-	auto LPannelLost = [&]() { Log::Text("Left Pannel Missed"); };
-	auto RPannelLost = [&]() { Log::Text("Right Pannel Missed"); };
 
 
 	//================================================
@@ -233,6 +232,12 @@ int main(int argc, char* args[]) {
 	bool Cube3ScaleUp = true;
 
 	ImGuiConsole Console;
+
+	Console.CopyLogBuffer();
+
+	auto LPannelLost = [&]() { Console.AddText("Left Pannel Missed", { 1.f, 1.f, 1.f, 1.f }); };
+	auto RPannelLost = [&]() { Console.AddText("Right Pannel Missed", { 1.f, 1.f, 1.f, 1.f }); };
+
 
 	while (Window->IsValid()) {
 

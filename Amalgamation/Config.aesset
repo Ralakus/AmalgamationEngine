@@ -4,7 +4,7 @@
 	<Height/1080>
 	<Fullscreen/false>
 	<CloseKey/Escape>
-	<ToggleMouseLockKey/Backspace>
+	<ToggleMouseLockKey/Alt>
 >
 
 <Camera/
@@ -42,6 +42,7 @@
 [Misc]
 <TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph >
 
+<CubeTexture/container2.png>
 <AudioFile/T15P2V3LQ1.ogg>
 <AudioBufferSize/2>
 <AudioVolume/1>
