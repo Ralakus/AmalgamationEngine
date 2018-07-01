@@ -126,6 +126,12 @@
     <None Include="Core\Task\ThreadPool.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Core\Data\TagContainer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Graphics\Renderer.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Event\Event.hpp">
@@ -308,13 +314,13 @@
     <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Graphics\GUI.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Audio\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\ImGui\Console.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Data\TagContainer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

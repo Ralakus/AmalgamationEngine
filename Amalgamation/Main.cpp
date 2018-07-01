@@ -7,6 +7,7 @@
 #include <Core/Input/InputControl.hpp>
 #include <Core/Utilities/Random.hpp>
 #include <Core/Audio/Player.hpp>
+#include <Core/Data/TagContainer.hpp>
 #include <Engine/Graphics/OpenGL/GLTexture.hpp>
 #include <Engine/Graphics/OpenGL/GLWindow.hpp>
 #include <Engine/Level/Components/MeshComponent.hpp>
@@ -51,6 +52,7 @@ int main(int argc, char* args[]) {
 
 	SoLoud::WavStream gWav;
 	gWav.load(Config.Get<std::string>("AudioFile").c_str());
+	gWav.setVolume(Config.Get<float>("AudioVolume", 1.f));
 	Audio::Instance().play(gWav);
 
 	Log::Note("TODO:" + Config.Get<std::string>("TODO", " Error reading TODO"));
@@ -64,7 +66,7 @@ int main(int argc, char* args[]) {
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGuiIO& io = ImGui::GetIO();
 
 	ImGui_ImplGlfw_InitForOpenGL(static_cast<GLWindow*>(Window._Myptr())->GetGLFWWindowPtr(), false);
 	ImGui_ImplOpenGL3_Init();
@@ -379,7 +381,7 @@ int main(int argc, char* args[]) {
 		else if (Cube3Trans.Scale.y < 1.1f) {
 			Cube3ScaleUp = true;
 		}
-	
+		
 		Cube2Trans.Position.y = Math::Lerp(Cube2Trans.Position.y, Cube2Up ? 1.f : -1.f, T.GetDelta());
 
 		if (Cube2Trans.Position.y > 0.9f) {
@@ -412,7 +414,7 @@ int main(int argc, char* args[]) {
 		T.Update();
 		TestLevel.Update(T.GetDelta());
 		Window->Update();
-		Renderer.Flush();
+		Renderer.Render();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

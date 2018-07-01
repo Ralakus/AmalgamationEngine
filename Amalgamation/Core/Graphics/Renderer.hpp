@@ -3,23 +3,32 @@
 #include "Mesh.hpp"
 #include "Light.hpp"
 
+#include <algorithm>
+
 namespace Amalgamation {
 
 	class Renderer : public GraphicsClass {
+
+	protected:
+
+		std::vector<Mesh*>  m_Meshes;
+		std::vector<Light*> m_Lights;
 
 	public:
 
 		Renderer(API API) : GraphicsClass(API) {}
 		virtual ~Renderer()                    {}
 
-		virtual void Begin() = 0;
-		virtual void Submit(Mesh* Mesh) = 0;
-		virtual void End() = 0;
-		virtual void Flush() = 0;
+		virtual bool RegisterMesh(Mesh* Mesh);
+		virtual bool DeregisterMesh(Mesh* Mesh);
 
-		virtual bool AddLight(Light* LightPtr) = 0;
-		virtual bool RemoveLight(Light* LightPtr) = 0;
+		virtual void Render() = 0;
+
+		virtual bool AddLight(Light* LightPtr);
+		virtual bool RemoveLight(Light* LightPtr);
 
  	};
 
 }
+
+#include "Renderer.inl"

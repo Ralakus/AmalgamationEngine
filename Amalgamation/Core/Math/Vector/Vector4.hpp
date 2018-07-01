@@ -94,7 +94,7 @@ namespace Amalgamation { namespace Math {
 	template<class T>
 	using TVec4 = TVector4<T>;
 
-	using Vec4 = TVec4<MATH_TYPE>;
+	using Vec4 = TVec4<AE_MATH_TYPE>;
 	using Vector4 = Vec4;
 
 } }

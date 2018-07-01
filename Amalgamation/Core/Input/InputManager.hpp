@@ -4,6 +4,7 @@
 #include "../Types/Singleton.hpp"
 #include "../Utilities/Aesset.hpp"
 
+#include <glm/common.hpp>
 #include <tuple>
 
 namespace Amalgamation {

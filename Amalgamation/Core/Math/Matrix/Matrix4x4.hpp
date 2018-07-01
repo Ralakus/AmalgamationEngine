@@ -64,7 +64,7 @@ namespace Amalgamation { namespace Math {
     template<class T>
 	using TMat4x4 = TMatrix4x4<T>;
 
-	using Mat4x4    = TMat4x4<MATH_TYPE>;
+	using Mat4x4    = TMat4x4<AE_MATH_TYPE>;
 	using Matrix4x4 =  Mat4x4;
 
     using Mat4    = Mat4x4;

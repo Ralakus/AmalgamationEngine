@@ -71,10 +71,10 @@ namespace Amalgamation {
 		else if (KeyStr == "space") {
 			return Key::Space;
 		}
-		else if (KeyStr == "ctrl") {
+		else if (KeyStr == "ctrl" || KeyStr == "lctrl") {
 			return Key::Ctrl;
 		}
-		else if (KeyStr == "alt") {
+		else if (KeyStr == "alt" || KeyStr == "lalt") {
 			return Key::Alt;
 		}
 		else if (KeyStr == "lshift") {

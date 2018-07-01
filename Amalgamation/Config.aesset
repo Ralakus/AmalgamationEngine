@@ -4,13 +4,13 @@
 	<Height/1080>
 	<Fullscreen/false>
 	<CloseKey/Escape>
-	<ToggleMouseLockKey/Alt>
+	<ToggleMouseLockKey/LAlt>
 >
 
 <Camera/
 	<FOV/90>
 	<MovementSpeed/3.5>
-	<MouseSensitivity/0.5>
+	<MouseSensitivity/3.5>
 >
 
 <Input/
@@ -40,11 +40,10 @@
 
 
 [Misc]
-<TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph >
+<TODO/ Upgrade Level-Entity-Component to an Entity Component System that uses a scene graph, allow the aesset to give property map of the file to other functions for future VFS >
 
 <CubeTexture/container2.png>
-<AudioFile/T15P2V3LQ1.ogg>
-<AudioBufferSize/2>
+<AudioFile/T15V3F2H2LQ1.ogg>
 <AudioVolume/1>
 
 <Shader/

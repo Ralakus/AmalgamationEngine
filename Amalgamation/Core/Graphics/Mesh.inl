@@ -218,6 +218,7 @@ namespace Amalgamation {
 	FORCEINLINE void Mesh::SetTransform(Transform * TransformPtr) { m_TransformPtr = TransformPtr; }
 
 	FORCEINLINE void Mesh::InterlaceData() {
+		m_InterlacedData.reserve(m_MeshData.Vertices.size() + m_MeshData.Normals.size() + m_MeshData.TextureCoords.size());
 		for (size_t i = 0; i < m_MeshData.Vertices.size(); i++) {
 			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].x);
 			m_InterlacedData.emplace_back(m_MeshData.Vertices[i].y);

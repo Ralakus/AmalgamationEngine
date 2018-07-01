@@ -69,7 +69,7 @@ namespace Amalgamation { namespace Math {
 	template<class T>
 	using TVec2 = TVector2<T>;
 
-	using Vec2 = TVec2<MATH_TYPE>;
+	using Vec2 = TVec2<AE_MATH_TYPE>;
 	using Vector2 = Vec2;
 
 } }

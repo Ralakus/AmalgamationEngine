@@ -10,10 +10,10 @@ namespace Amalgamation { namespace Math {
 	}
     template<class Type>
     FORCEINLINE Type Radians(const Type& Degrees){
-        return Degrees * (AE_PI / 180);
+        return Degrees * (AE_TAU / 360);
     }
     template<class Type>
     FORCEINLINE Type Degrees(const Type& Radians){
-        return Radians * (180 / AE_PI);
+        return Radians * (360 / AE_TAU);
     }
 } }

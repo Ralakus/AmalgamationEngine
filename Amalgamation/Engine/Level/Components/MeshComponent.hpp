@@ -51,16 +51,20 @@ namespace Amalgamation {
 			return m_Mesh;
 		}
 
-		void Awake() override {}
-
-		void Update(float Delta) override {
-			//m_Mesh->Draw();
+		void Awake() override {
 			if (m_Mesh) {
-				m_Renderer->Submit(m_Mesh);
+				m_Renderer->RegisterMesh(m_Mesh);
 			}
 		}
 
-		void Destroy() override {}
+		void Update(float Delta) override {
+		}
+
+		void Destroy() override {
+			if (m_Mesh) {
+				m_Renderer->DeregisterMesh(m_Mesh);
+			}
+		}
 
 	};
 

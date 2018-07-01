@@ -7,9 +7,9 @@ namespace Amalgamation {
 
 	FORCEINLINE Aesset::Aesset() {}
 
-	FORCEINLINE Aesset::Aesset(const std::string & Data, bool IsFile, unsigned int Mode) {
+	FORCEINLINE Aesset::Aesset(const std::string & Data, bool IsFile, bool ParseData, unsigned int Mode) {
 		if (IsFile) {
-			LoadFile(Data, Mode);
+			LoadFile(Data, ParseData, Mode);
 		}
 		else {
 			m_Content = Data;
@@ -18,19 +18,20 @@ namespace Amalgamation {
 
 	FORCEINLINE Aesset::~Aesset() {}
 
-	FORCEINLINE void Aesset::LoadFile(const std::string & Name, unsigned int Mode) {
+	FORCEINLINE void Aesset::LoadFile(const std::string & Name, bool ParseData, unsigned int Mode) {
 		m_Content = m_File.LoadAndGetContents(Name, Mode);
-		ParseAesset();
+		if (ParseData) { ParseAesset(); }
 	}
 
-	FORCEINLINE void Aesset::LoadDataString(const std::string & Data) {
+	FORCEINLINE void Aesset::LoadDataString(const std::string & Data, bool ParseData) {
 		m_Content = Data;
-		ParseAesset();
+		if (ParseData) { ParseAesset(); }
 	}
 
 	FORCEINLINE void Aesset::Unload() {
 		m_File.Close();
 		m_Content.clear();
+		m_PropertyMap.clear();
 	}
 
 	FORCEINLINE const std::string & Aesset::GetData() const {
@@ -46,6 +47,7 @@ namespace Amalgamation {
 	}
 
 	FORCEINLINE void Aesset::ParseAesset() {
+		m_PropertyMap.clear();
 		m_Buffer.clear();
 		enum class State {
 			Name, Value, Scanning
@@ -122,6 +124,7 @@ namespace Amalgamation {
 				default: {} break;
 			}
 		}
+		m_Content.clear();
 	}
 
 	FORCEINLINE void Aesset::NewLineInFile() {

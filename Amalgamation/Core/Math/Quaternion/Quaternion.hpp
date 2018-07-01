@@ -65,7 +65,7 @@ namespace Amalgamation { namespace Math {
 	template<class T>
 	using TQuat = TQuaternion<T>;
 
-	using Quat = TQuat<MATH_TYPE>;
+	using Quat = TQuat<AE_MATH_TYPE>;
 	using Quaternion = Quat;
 
 } }

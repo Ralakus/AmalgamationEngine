@@ -21,14 +21,9 @@ namespace Amalgamation {
 		glm::vec2 m_LastMousePos;
 		glm::vec2 m_MouseDelta;
 
-		union {
-			float Vec3[3];
-			struct { float m_Pitch, m_Roll, m_Yaw; };
-		};
-
-		glm::vec3 Front = glm::vec3(0.0f, 0.0f, -1.0f);
-		glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-		glm::vec3 Right = glm::vec3();
+		glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 m_Right = glm::vec3();
 
 	public:
 
@@ -74,26 +69,16 @@ namespace Amalgamation {
 			return m_LastMousePos;
 		}
 
-		glm::vec3 GetFront() const {
-			glm::vec3 CamEuler = glm::eulerAngles(m_TransformPtr->Rotation);
-			glm::vec3 CamFront = glm::normalize(glm::vec3(
-
-				cos(CamEuler.y) * cos(CamEuler.x),
-				sin(CamEuler.x),
-				sin(CamEuler.y) * cos(CamEuler.x)
-
-			)) * m_TransformPtr->Rotation;
-			return CamFront;
+		const glm::vec3& GetFront() const {
+			return m_Front;
 		}
 
-		glm::vec3 GetRight() const {
-			//return glm::Normalize(glm::Cross(GetFront(), glm::Vec3(0, 1, 0)));
-			return glm::normalize(glm::cross(GetFront(), glm::vec3(0, 1, 0)));
+		const glm::vec3 GetRight() const {
+			return m_Right;
 		}
 
 		glm::vec3 GetUp() const {
-			//return glm::Normalize(glm::Cross(GetRight(), GetUp()));
-			return glm::normalize(glm::cross(GetRight(), GetUp()));
+			return m_Up;
 		}
 
 		void SetProjection(const glm::mat4 Projection) {
@@ -121,30 +106,26 @@ namespace Amalgamation {
 
 			m_MouseDelta *= Sensitivity;
 
-			if (ConstrainPitch)
-			{
-				if (m_Pitch > 89.0f) {
-					m_Pitch = 89.0f;
-				}
-				if (m_Pitch < -89.0f) {
-					m_Pitch = -89.0f;
-				}
-			}
+			Pitch(m_MouseDelta.y * Delta);
+			Yaw(m_MouseDelta.x * Delta);
 
-			m_Yaw += m_MouseDelta.x;
-			m_Pitch += m_MouseDelta.y;
+			m_Front = glm::vec3(
+				2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.z + m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.y),
+				2.0f * (m_TransformPtr->Rotation.y * m_TransformPtr->Rotation.z - m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.x),
+				1.0f - 2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.x + m_TransformPtr->Rotation.y * m_TransformPtr->Rotation.y)
+			);
 
+			m_Up = glm::vec3(
+				2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.y - m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.z),
+				1.0f - 2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.x + m_TransformPtr->Rotation.z * m_TransformPtr->Rotation.z),
+				2.0f * (m_TransformPtr->Rotation.y * m_TransformPtr->Rotation.z + m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.x)
+			);
 
-			Front = glm::normalize(glm::vec3(
-				cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch)),
-				sin(glm::radians(m_Pitch)),
-				sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch))
-			));
-
-			Right = glm::normalize(glm::cross(Front, glm::vec3(0, 1, 0)));
-			Up = glm::normalize(glm::cross(Right, Front));
-
-			m_TransformPtr->Rotation = glm::lookAt(m_TransformPtr->Position, m_TransformPtr->Position - Front, Up);
+			m_Right = glm::vec3(
+				-(1.0f - 2.0f * (m_TransformPtr->Rotation.y * m_TransformPtr->Rotation.y + m_TransformPtr->Rotation.z * m_TransformPtr->Rotation.z)),
+				-(2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.y + m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.z)),
+				-(2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.z - m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.y))
+			);
 		}
 
 		virtual void Destroy() override {

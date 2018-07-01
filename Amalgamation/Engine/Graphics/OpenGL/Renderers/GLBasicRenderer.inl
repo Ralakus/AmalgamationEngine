@@ -9,32 +9,14 @@
 
 namespace Amalgamation {
 
-	void Amalgamation::GLBasicRenderer::Begin()
-	{
-	}
-
-	void Amalgamation::GLBasicRenderer::Submit(Mesh* Mesh)
-	{
-		m_Meshes.push_back(Mesh);
-	}
-
-	void Amalgamation::GLBasicRenderer::End()
-	{
-	}
-
-	void Amalgamation::GLBasicRenderer::Flush()
-	{
-		m_BufferedTransform = glm::mat4(1.f);;
+	FORCEINLINE void GLBasicRenderer::Render() {
 
 		for (Mesh* MeshPtr : m_Meshes) {
+			m_BufferedTransform = glm::mat4(1.f);
 			GLMesh* CastMesh = static_cast<GLMesh*>(MeshPtr);
 			GLShader* CastShader = static_cast<GLShader*>(CastMesh->GetShader());
 			CastMesh->GetVertexArray().Bind();
 			CastMesh->GetElementBuffer().Bind();
-
-			/*m_BufferedTransform = Math::Matrix4::Translate(MeshPtr->GetTransform()->Position);
-			m_BufferedTransform *= MeshPtr->GetTransform()->Rotation;
-			m_BufferedTransform *= Math::Mat4::Scale(MeshPtr->GetTransform()->Scale);*/
 
 			CastShader->Bind();
 			CastShader->SetUniform("u_Model", Math::MakeModelMatrix(*MeshPtr->GetTransform()));
@@ -59,7 +41,8 @@ namespace Amalgamation {
 				size_t Si = 0;
 				size_t Di = 0;
 				for (size_t i = 0; i < m_Lights.size(); i++) {
-					if (m_Lights[i]->LightType == Light::Type::Point) {
+					switch (m_Lights[i]->LightType) {
+					case Light::Type::Point: {
 						GLPointLight* PLight = static_cast<GLPointLight*>(m_Lights[i]);
 						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Position").c_str(), PLight->GetTransform()->Position);
 
@@ -71,17 +54,17 @@ namespace Amalgamation {
 						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Diffuse").c_str(), PLight->Diffuse);
 						CastShader->SetUniform(("u_PointLights[" + std::to_string(Pi) + "].Specular").c_str(), PLight->Specular);
 						Pi++;
-					}
-					else if (m_Lights[i]->LightType == Light::Type::Directional) {
+					} break;
+					case Light::Type::Directional: {
 						GLDirectionalLight* DLight = static_cast<GLDirectionalLight*>(m_Lights[i]);
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Direction").c_str(), glm::eulerAngles(DLight->GetTransform()->Rotation));
 
-						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(),  DLight->Ambient);
-						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(),  DLight->Diffuse);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Ambient").c_str(), DLight->Ambient);
+						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Diffuse").c_str(), DLight->Diffuse);
 						CastShader->SetUniform(("u_DirLights[" + std::to_string(Di) + "].Specular").c_str(), DLight->Specular);
 						Di++;
-					}
-					else if (m_Lights[i]->LightType == Light::Type::Spot) {
+					} break;
+					case Light::Type::Spot: {
 						GLSpotLight* SLight = static_cast<GLSpotLight*>(m_Lights[i]);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Position").c_str(), SLight->GetTransform()->Position);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Direction").c_str(), glm::eulerAngles(SLight->GetTransform()->Rotation));
@@ -97,9 +80,8 @@ namespace Amalgamation {
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Diffuse").c_str(), SLight->Diffuse);
 						CastShader->SetUniform(("u_SpotLights[" + std::to_string(Si) + "].Specular").c_str(), SLight->Specular);
 						Si++;
-					}
-					else {
-
+					} break;
+					default: {} break;
 					}
 				}
 				if (Di == 0) {
@@ -119,61 +101,8 @@ namespace Amalgamation {
 
 			CastMesh->GetElementBuffer().Unbind();
 			CastMesh->GetVertexArray().Unbind();
-
-			m_BufferedTransform = glm::mat4(1);
 		}
 
-		m_Meshes.clear();
+
 	}
-
-
-	bool GLBasicRenderer::AddLight(Light* LightPtr) {
-		if (LightPtr->GetAPI() == API::OpenGL) {
-			if (m_Lights.size() > 0) {
-				for (Light* L : m_Lights) {
-					if (L != LightPtr) {
-						continue;
-					}
-					else {
-						m_Lights.emplace_back(LightPtr);
-						return true;
-					}
-				}
-				return false;
-			}
-			else {
-				m_Lights.emplace_back(LightPtr);
-				return true;
-			}
-		}
-		else{
-			return false;
-		}
-	}
-	
-	bool GLBasicRenderer::RemoveLight(Light* LightPtr) {
-		if (m_Lights.size() > 0) {
-			size_t i = 0;
-			bool Found = false;
-			for (Light* L : m_Lights) { i++;
-				if (L != LightPtr) {
-					continue;
-				}
-				else {
-					Found = true;
-					break;
-				}
-			}
-			if (Found) {
-				m_Lights.erase(m_Lights.begin() + i);
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		return false;
-	}
-
-
 }

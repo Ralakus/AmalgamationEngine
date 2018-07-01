@@ -27,11 +27,13 @@
     <None Include="Config.aesset">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Core\Data\TagContainer.inl" />
     <None Include="Core\Event\Event.inl" />
     <None Include="Core\Event\EventCallback.inl" />
     <None Include="Core\Event\EventHandler.inl" />
     <None Include="Core\Graphics\Material.inl" />
     <None Include="Core\Graphics\Mesh.inl" />
+    <None Include="Core\Graphics\Renderer.inl" />
     <None Include="Core\Graphics\Shader.inl" />
     <None Include="Core\Graphics\Window.inl" />
     <None Include="Core\Input\InputControl.inl" />
@@ -63,11 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Audio\Player.hpp" />
+    <ClInclude Include="Core\Data\TagContainer.hpp" />
     <ClInclude Include="Core\Event\Event.hpp" />
     <ClInclude Include="Core\Event\EventCallback.hpp" />
     <ClInclude Include="Core\Event\EventHandler.hpp" />
     <ClInclude Include="Core\Graphics\GraphicsClass.hpp" />
-    <ClInclude Include="Core\Graphics\GUI.hpp" />
     <ClInclude Include="Core\Graphics\Light.hpp" />
     <ClInclude Include="Core\Graphics\Material.hpp" />
     <ClInclude Include="Core\Graphics\Mesh.hpp" />

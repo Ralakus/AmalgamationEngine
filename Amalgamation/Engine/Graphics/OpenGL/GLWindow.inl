@@ -38,7 +38,7 @@ namespace Amalgamation {
 
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { ImGui_ImplGlfw_CharCallback(window, c); });
 
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<MATH_TYPE>(xpos), static_cast<MATH_TYPE>(ypos)); });
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<AE_MATH_TYPE>(xpos), static_cast<AE_MATH_TYPE>(ypos)); });
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			AE_LOG_ERROR("Failed to initlize GLAD!");

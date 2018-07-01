@@ -6,6 +6,9 @@
 
 namespace Amalgamation {
 
+	using AessetDataInfo = std::unordered_map<std::string, std::pair<size_t, size_t>>; //Property name, value header, value end
+	using AessetPropertyDataInfo = std::pair<std::string, std::pair<size_t, size_t>>;  //Property name, value header, value end
+
 	class Aesset {
 
 		/*
@@ -40,12 +43,12 @@ namespace Amalgamation {
 		static std::string ReadError();
 
 		FORCEINLINE Aesset();
-		FORCEINLINE Aesset(const std::string& Data, bool IsFile = true, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app);
+		FORCEINLINE Aesset(const std::string& Data, bool IsFile = true, bool ParseData = true, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app);
 		~Aesset();
 
-		FORCEINLINE void LoadFile(const std::string& Name, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app);
+		FORCEINLINE void LoadFile(const std::string& Name, bool ParseData = true, unsigned int Mode = std::ios::in | std::ios::out | std::ios::app);
 
-		FORCEINLINE void LoadDataString(const std::string& Data);
+		FORCEINLINE void LoadDataString(const std::string& Data, bool ParseData = true);
 
 		FORCEINLINE void Unload();
 
