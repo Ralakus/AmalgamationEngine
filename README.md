@@ -3,8 +3,9 @@ A C++/OpenGL game engine that I work on as a hobby project
 
 ## Naming: :blue_book:
 * Everything PascalCase
-* C++ headers use .hpp
 * Macros use SCREAMING_SNAKE_CASE
+* C++ headers use .hpp
+* Do not use .cpp files, use .inl in place
 
 # To do:
 ## Short term :arrow_down:
