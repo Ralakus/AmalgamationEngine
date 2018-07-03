@@ -2,7 +2,7 @@
 	<Name/Noice>
 	<Width/1920>
 	<Height/1080>
-	<Fullscreen/false>
+	<Fullscreen/False>
 	<CloseKey/Escape>
 	<ToggleMouseLockKey/LAlt>
 >

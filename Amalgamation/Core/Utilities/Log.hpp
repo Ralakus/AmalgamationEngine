@@ -1,5 +1,12 @@
 #pragma once
-#include "../Platform/Platform.hpp"
+
+#include "../Platform/OSDefines.hpp"
+
+#define AE_LOG_NOTE_STR    "[LOG_NOTE]:"
+#define AE_LOG_ERROR_STR   "[LOG_ERROR]:"
+#define AE_LOG_WARNING_STR "[LOG_WARNING]:"
+#define AE_LOG_SUCCESS_STR "[LOG_SUCCESS]:"
+#define AE_LOG_STR         "[LOG]:"
 
 #if   defined(AE_LINUX)
 

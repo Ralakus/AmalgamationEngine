@@ -278,7 +278,7 @@ namespace Amalgamation {
 			}
 			else {
 				Value = ReadError();
-				throw Error("Property not found!");
+				throw std::runtime_error("Property not found!");
 			}
 		}
 		catch (...) {
@@ -298,7 +298,7 @@ namespace Amalgamation {
 			}
 			else {
 				Value = ReadError();
-				throw Error("Property not found!");
+				throw std::runtime_error("Property not found!");
 			}
 			if (Value == "True" || Value == "true" || Value == "TRUE") {
 				return true;
@@ -307,7 +307,7 @@ namespace Amalgamation {
 				return false;
 			}
 			else {
-				throw Error("Property not bool!");
+				throw std::runtime_error("Property not bool!");
 			}
 		}
 		catch (...) {
@@ -349,7 +349,7 @@ namespace Amalgamation {
 				Value = std::stof(str);
 			}
 			else {
-				throw Error("ReadError");
+				throw std::runtime_error("ReadError");
 			}
 		}
 		catch (...) {
@@ -375,7 +375,7 @@ namespace Amalgamation {
 				Value = std::stoi(str);
 			}
 			else {
-				throw Error("ReadError");
+				throw std::runtime_error("ReadError");
 			}
 		}
 		catch (...) {
@@ -401,7 +401,7 @@ namespace Amalgamation {
 				Value = std::stod(str);
 			}
 			else {
-				throw Error("ReadError");
+				throw std::runtime_error("ReadError");
 			}
 		}
 		catch (...) {
@@ -427,7 +427,7 @@ namespace Amalgamation {
 				Value = std::stold(str);
 			}
 			else {
-				throw Error("ReadError");
+				throw std::runtime_error("ReadError");
 			}
 		}
 		catch (...) {
@@ -453,7 +453,7 @@ namespace Amalgamation {
 				Value = std::stol(str);
 			}
 			else {
-				throw Error("ReadError");
+				throw std::runtime_error("ReadError");
 			}
 		}
 		catch (...) {
@@ -473,7 +473,7 @@ namespace Amalgamation {
 			}
 			else {
 				Value = ReadError();
-				throw Error("Property not found!");
+				throw std::runtime_error("Property not found!");
 			}
 		}
 		catch (...) {
@@ -497,7 +497,7 @@ namespace Amalgamation {
 			}
 			else {
 				Value = ReadError();
-				throw Error("Property not found!");
+				throw std::runtime_error("Property not found!");
 			}
 			if (Value == "True" || Value == "true" || Value == "TRUE") {
 				return true;
@@ -506,7 +506,7 @@ namespace Amalgamation {
 				return false;
 			}
 			else {
-				throw Error("Property not bool!");
+				throw std::runtime_error("Property not bool!");
 			}
 		}
 		catch (...) {

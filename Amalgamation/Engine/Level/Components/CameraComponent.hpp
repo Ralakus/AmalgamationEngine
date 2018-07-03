@@ -106,9 +106,6 @@ namespace Amalgamation {
 
 			m_MouseDelta *= Sensitivity;
 
-			Pitch(m_MouseDelta.y * Delta);
-			Yaw(m_MouseDelta.x * Delta);
-
 			m_Front = glm::vec3(
 				2.0f * (m_TransformPtr->Rotation.x * m_TransformPtr->Rotation.z + m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.y),
 				2.0f * (m_TransformPtr->Rotation.y * m_TransformPtr->Rotation.z - m_TransformPtr->Rotation.w * m_TransformPtr->Rotation.x),

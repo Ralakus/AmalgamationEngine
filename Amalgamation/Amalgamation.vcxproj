@@ -94,6 +94,7 @@
     <ClInclude Include="Core\Math\Vector\Vector2.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
+    <ClInclude Include="Core\Platform\OSDefines.hpp" />
     <ClInclude Include="Core\Platform\Platform.hpp" />
     <ClInclude Include="Core\Task\ThreadPool.hpp" />
     <ClInclude Include="Core\Types\Noncopyable.hpp" />

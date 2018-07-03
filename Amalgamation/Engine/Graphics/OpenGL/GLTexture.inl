@@ -13,7 +13,7 @@ namespace Amalgamation {
 			m_Layer = Layer;
 		}
 		else {
-			throw Error("AE: Texture layer out of range!");
+			throw std::runtime_error("AE: Texture layer out of range!");
 		}
 		GLCall(glGenTextures(1, &m_TextureID));
 		GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));

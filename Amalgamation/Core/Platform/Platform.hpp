@@ -15,51 +15,18 @@ using float64 = double;
 
 using Byte = uint8;
 
-#if defined(__linux__)
-    #define AE_LINUX
-
-#elif defined(_WIN32) || defined(_WIN64)
-    #define AE_WINDOWS
-
-#elif defined(__APPLE__)
-    #define AE_APPLE
-
-#elif defined(BSD)
-    #define AE_BSD
-
-#endif // __linux__
-
-#if defined(__clang__)
-	#define AE_COMPILER_CLANG
-#elif defined(__GNUC__) || defined(__GNUG__)
-	#define AE_COMPILER_GCC
-#elif defined(_MSC_VER)
-	#define AE_COMPILER_MSVC
-#else
-	#define AE_COMPILER_OTHER
-#endif
+#include "OSDefines.hpp"
 
 #ifdef AE_COMPILER_MSVC
 	#define FORCEINLINE __forceinline
-#elif defined(AE_COMPILER_GCC) || defined(AE_COMPILER_CLANG)
-	#define FORCEINLINE inline __attribute__ ((always_inline))
-#else
-	#define FORCEINLINE inline
-#endif
-
-#ifdef AE_COMPILER_MSVC
 	#define FORCENOINLINE __declspec(noinline)
 #elif defined(AE_COMPILER_GCC) || defined(AE_COMPILER_CLANG)
+	#define FORCEINLINE inline __attribute__ ((always_inline))
 	#define FORCENOINLINE __attribute__(( noinline ))
 #else
+	#define FORCEINLINE inline
 	#define FORCENOINLINE
 #endif
-
-#define AE_LOG_NOTE_STR    "[LOG_NOTE]:"
-#define AE_LOG_ERROR_STR   "[LOG_ERROR]:"
-#define AE_LOG_WARNING_STR "[LOG_WARNING]:"
-#define AE_LOG_SUCCESS_STR "[LOG_SUCCESS]:"
-#define AE_LOG_STR         "[LOG]:"
 
 #define SafeDelete(x)   { if(x) { delete x; x = nullptr; } }
 #define SafeDeleteArr(x) { if(x) { delete[] x; x = nullptr; } }
@@ -75,15 +42,6 @@ namespace Amalgamation {
 	template<class Type>
 	struct IsEqual<Type, Type> { static const bool Value = true; };
 
-	class Error {
-		const char* Message;
-	public:
-		Error(const char* ErrMessage) : Message(ErrMessage) {}
-		~Error() {}
-		const char* What() const {
-			return Message;
-		}
-	};
 	class ID {
 	public:
 		static uint64 GetUnique() {

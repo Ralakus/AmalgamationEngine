@@ -27,7 +27,7 @@ namespace Amalgamation {
 				m_Mesh->PushData(Data);
 			}
 			else {
-				throw Error("AE: Invalid API");
+				throw std::runtime_error("AE: Invalid API");
 			}
 
 			if (static_cast<Entity*>(m_Parent)->GetComponentByType<TransformComponent>()) {

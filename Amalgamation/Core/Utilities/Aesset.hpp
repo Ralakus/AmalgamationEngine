@@ -29,6 +29,9 @@ namespace Amalgamation {
 		struct Property {
 			std::string Name = "";
 			std::string Value = "";
+			enum class Type {
+				String, Number, StringArray, NumberArray
+			};
 		};
 	private:
 

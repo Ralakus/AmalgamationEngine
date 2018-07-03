@@ -323,5 +323,8 @@
     <ClInclude Include="Core\Data\TagContainer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Platform\OSDefines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
