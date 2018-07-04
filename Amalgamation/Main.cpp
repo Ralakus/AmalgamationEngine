@@ -14,16 +14,32 @@
 #include <Engine/Graphics/OpenGL/Renderers/GLBasicRenderer.hpp>
 #include <Engine/Graphics/ImGui/Console.hpp>
 
+#include <Core/Scene/Scene.hpp>
+
 #include <imgui_impl_opengl3.h>
 
 #include <soloud_wav.h>
 #include <soloud_wavstream.h>
-#include <soloud_speech.h>
+
+#include <rang.hpp>
 
 using namespace Amalgamation;
 
-int main(int argc, char* args[]) {
+class Sausage : TComponent<Sausage> {
+public:
+	union {
+		float Arr[3];
+		struct { float X, Y, Z; };
+	};
+};
 
+class SausageSystem : ISystem {
+
+};
+
+#if 1
+int main(int argc, char* args[]) {
+	
 	try {
 
 #ifdef AE_WINDOWS
@@ -453,3 +469,5 @@ int main(int argc, char* args[]) {
 	return 0;
 
 }
+
+#endif

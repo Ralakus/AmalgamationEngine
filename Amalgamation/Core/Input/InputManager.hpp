@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Event/EventHandler.hpp"
-#include "../Types/Singleton.hpp"
 #include "../Utilities/Aesset.hpp"
 
 #include <glm/common.hpp>

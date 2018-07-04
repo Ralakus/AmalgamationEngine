@@ -132,6 +132,15 @@
     <None Include="Core\Graphics\Renderer.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Core\Scene\Component.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Scene\System.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Core\Scene\Scene.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Event\Event.hpp">
@@ -216,12 +225,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Platform\Platform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Types\Noncopyable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Types\Singleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utilities\Aesset.hpp">
@@ -324,6 +327,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Platform\OSDefines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Platform\IntTypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\System.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Scene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Platform\HelperMacros.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

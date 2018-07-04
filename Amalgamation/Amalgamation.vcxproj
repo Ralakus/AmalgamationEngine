@@ -47,6 +47,9 @@
     <None Include="Core\Math\Vector\Vector2.inl" />
     <None Include="Core\Math\Vector\Vector3.inl" />
     <None Include="Core\Math\Vector\Vector4.inl" />
+    <None Include="Core\Scene\Component.inl" />
+    <None Include="Core\Scene\Scene.inl" />
+    <None Include="Core\Scene\System.inl" />
     <None Include="Core\Task\ThreadPool.inl" />
     <None Include="Core\Utilities\Aesset.inl" />
     <None Include="Core\Utilities\File.inl" />
@@ -94,11 +97,14 @@
     <ClInclude Include="Core\Math\Vector\Vector2.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector3.hpp" />
     <ClInclude Include="Core\Math\Vector\Vector4.hpp" />
+    <ClInclude Include="Core\Platform\HelperMacros.hpp" />
+    <ClInclude Include="Core\Platform\IntTypes.hpp" />
     <ClInclude Include="Core\Platform\OSDefines.hpp" />
     <ClInclude Include="Core\Platform\Platform.hpp" />
+    <ClInclude Include="Core\Scene\Component.hpp" />
+    <ClInclude Include="Core\Scene\Scene.hpp" />
+    <ClInclude Include="Core\Scene\System.hpp" />
     <ClInclude Include="Core\Task\ThreadPool.hpp" />
-    <ClInclude Include="Core\Types\Noncopyable.hpp" />
-    <ClInclude Include="Core\Types\Singleton.hpp" />
     <ClInclude Include="Core\Utilities\Aesset.hpp" />
     <ClInclude Include="Core\Utilities\File.hpp" />
     <ClInclude Include="Core\Utilities\Log.hpp" />
@@ -194,25 +200,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb;$(SolutionDir)Dependencies/rang</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb;$(SolutionDir)Dependencies/rang</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x86;$(SolutionDir)Dependencies/glfw/x86/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb;$(SolutionDir)Dependencies/rang</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/</OutDir>
     <IntDir>$(SolutionDir)Bin/$(Configuration)/$(Platform)/Amalgamation/Intermediates/</IntDir>
-    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies/SoLoud/SoLoud/include;$(SolutionDir)Dependencies/ImGUI/src;$(SolutionDir)Dependencies/Lua 5.3.4/include;$(SolutionDir)Amalgamation/;$(SolutionDir)Dependencies/stb_image;$(SolutionDir)Dependencies/Bullet3/src;$(SolutionDir)Dependencies/glad/include;$(SolutionDir)Dependencies/glfw/include;$(SolutionDir)Dependencies/glm;$(SolutionDir)Dependencies/sol;$(IncludePath);$(SolutionDir)Dependencies/stb;$(SolutionDir)Dependencies/rang</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies/Lua 5.3.4/x64;$(SolutionDir)Dependencies/glfw/x64/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

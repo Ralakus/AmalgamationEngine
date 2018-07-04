@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Types/Noncopyable.hpp"
 #include "../Platform/Platform.hpp"
 
 #include <memory>
