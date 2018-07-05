@@ -10,7 +10,7 @@ that is meant to be mostly header only
 
 # To do:
 ## Short term :arrow_down:
-* Create CMake project
+* Create Premake project
 * Create Vulkan Instance and Window
 * Create Core Library
 

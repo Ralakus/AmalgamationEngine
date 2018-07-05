@@ -1,8 +1,39 @@
 -- premake5.lua
+
+function IncludeGlm() 
+   includedirs "lib/glm/"
+end
+
+function IncludeGLFW()
+   includedirs "lib/glfw/include"
+end
+
+function IncludeVulkan() --Vulkan SDK include
+   includedirs "C:/VulkanSDK/1.1.77.0/Include"
+end
+
+function LinkVulkan()
+	libdirs "C:/VulkanSDK/1.1.77.0/Lib"
+	
+	filter "kind:not StaticLib"
+		links "vulkan-1"
+	filter {}
+end
+
+function LinkGLFW()
+	libdirs "lib/glfw/"
+	
+	filter "kind:not StaticLib"
+		links "glfw3"
+	filter {}
+end
+
 workspace "Amalgamation"
    language "C++"
 
    location "build"
+
+   architecture "x86_64"
 
    configurations { "Debug", "Release" }
 
@@ -21,6 +52,12 @@ workspace "Amalgamation"
 project "Amalgamation"
 
    kind "ConsoleApp"
+
+   IncludeGLFW()
+   IncludeGlm()
+   IncludeVulkan()
+   LinkGLFW()
+   LinkVulkan()
 
    files { "**.hpp", "**.cpp", "**.inl" }
 
