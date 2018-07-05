@@ -20,8 +20,8 @@ namespace Amalgamation {
 		const TransformComponent* GetTransformComponent() const { return m_Transform; }
 		TransformComponent* GetTransformComponent() { return m_Transform; }
 
-		const Transform* GetTransform() const { return &m_Transform->GetTransform(); }
-		Transform* GetTransform() { return &m_Transform->GetTransform(); }
+		const TransformData* GetTransform() const { return &m_Transform->GetTransform(); }
+		TransformData* GetTransform() { return &m_Transform->GetTransform(); }
 
 		virtual void Awake() override {
 			AwakeComponets();

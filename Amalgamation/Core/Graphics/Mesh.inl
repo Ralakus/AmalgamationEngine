@@ -215,7 +215,7 @@ namespace Amalgamation {
 
 	};
 
-	FORCEINLINE void Mesh::SetTransform(Transform * TransformPtr) { m_TransformPtr = TransformPtr; }
+	FORCEINLINE void Mesh::SetTransform(TransformData * TransformPtr) { m_TransformPtr = TransformPtr; }
 
 	FORCEINLINE void Mesh::InterlaceData() {
 		m_InterlacedData.reserve(m_MeshData.Vertices.size() + m_MeshData.Normals.size() + m_MeshData.TextureCoords.size());
@@ -305,7 +305,7 @@ namespace Amalgamation {
 		m_HasDrawFunction = false;
 	}
 
-	FORCEINLINE const Transform* Mesh::GetTransform() const { return m_TransformPtr; }
+	FORCEINLINE const TransformData* Mesh::GetTransform() const { return m_TransformPtr; }
 
 	FORCEINLINE const std::vector<glm::vec3>& Mesh::GetVertices() const { return m_MeshData.Vertices; }
 

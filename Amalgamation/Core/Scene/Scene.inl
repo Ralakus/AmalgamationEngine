@@ -118,7 +118,7 @@ namespace Amalgamation {
 
 	template<class T>
 	FORCEINLINE T* Scene::GetComponent(EntityHandle Handle) {
-		GetComponentInternal(HandleToEntity(Handle), T::ID);
+		return reinterpret_cast<T*>(GetComponentInternal(HandleToEntity(Handle), T::ID));
 	}
 
 	FORCEINLINE IComponent* Scene::GetComponentInternal(EntityType & EntityComponents, uint32 ComponentID) {

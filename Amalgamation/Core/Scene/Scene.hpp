@@ -5,7 +5,7 @@
 #include "../Utilities/Log.hpp"
 
 #include <unordered_map>
-#include <string.h>
+#include <string>
 
 namespace Amalgamation {
 
@@ -29,7 +29,7 @@ namespace Amalgamation {
 		bool RemoveComponentInternal(EntityHandle Handle, uint32 ComponentID);
 		IComponent* GetComponentInternal(EntityType& EntityComponents, uint32 ComponentID);
 		
-		void UpdateSystemsWithMultipleComponents(uint32 Index, float Delta, const std::vector<uint32>& ComponentTypes, std::vector<IComponent*>& ComponentParams);
+		FORCEINLINE void UpdateSystemsWithMultipleComponents(uint32 Index, float Delta, const std::vector<uint32>& ComponentTypes, std::vector<IComponent*>& ComponentParams);
 
 	public:
 
@@ -46,7 +46,7 @@ namespace Amalgamation {
 		template<class T> // T being a derived class of TComponent
 		bool RemoveComponent(EntityHandle Entity);
 		template<class T> // T being a derived class of TComponent
-		T* GetComponent(EntityHandle);
+		T* GetComponent(EntityHandle Entity);
 
 		FORCEINLINE void AddSystem    (ISystem& System) { m_Systems.emplace_back(&System); }
 

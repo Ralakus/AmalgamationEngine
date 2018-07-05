@@ -7,15 +7,15 @@ namespace Amalgamation {
 
 	class TransformComponent : public Component {
 
-		Transform m_Transform;
+		TransformData m_Transform;
 
 	public:
 
 		TransformComponent() : Component() {}
 
-		const Transform& GetTransform() const { return m_Transform; }
+		const TransformData& GetTransform() const { return m_Transform; }
 
-		Transform& GetTransform() { return m_Transform; }
+		TransformData& GetTransform() { return m_Transform; }
 
 		virtual void Awake() override {
 		}

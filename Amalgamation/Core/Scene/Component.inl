@@ -41,13 +41,14 @@ namespace Amalgamation {
 		uint32 Index = Memory.size();
 		Memory.resize(Index + T::Size);
 
-		new(&Memory[Index]) T( *(reinterpret_cast<T*>(Component)) )->ParentEntity = Entity;
+		T* NewEntity = new(&Memory[Index]) T( *(reinterpret_cast<T*>(Component)) );
+		NewEntity->ParentEntity = Entity;
 		return Index;
 
 	}
 
 	template<class T> //T being TComponent
-	uint32 TComponentFreeFunction(IComponent* Component) {
+	void TComponentFreeFunction(IComponent* Component) {
 		T* CastedComponent = reinterpret_cast<T*>(Component);
 		CastedComponent->~T();
 

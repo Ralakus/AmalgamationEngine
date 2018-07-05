@@ -11,7 +11,7 @@ namespace Amalgamation {
 
 	class IComponent;
 	using TComponentCreateFunctionType = uint32(*)(std::vector<Byte>&, EntityHandle, IComponent*);
-	using TComponentFreeFunctionType = uint32(*)(IComponent*);
+	using TComponentFreeFunctionType = void(*)(IComponent*);
 
 	using ComponentType = std::tuple<TComponentCreateFunctionType, TComponentFreeFunctionType, size_t>;
 
@@ -31,7 +31,7 @@ namespace Amalgamation {
 	};
 
 	template<class T> // Inherit from this class for components using the component as the template param
-	class TComponent : IComponent {
+	class TComponent : public IComponent {
 	public:
 		static const uint32 ID;
 		static const size_t Size;

@@ -5,7 +5,7 @@
 
 namespace Amalgamation {
 
-	class Transform {
+	class TransformData {
 
 	public:
 
@@ -16,7 +16,7 @@ namespace Amalgamation {
 	};
 
 	namespace Math {
-		glm::mat4 MakeModelMatrix(const Transform& TransformData);
+		glm::mat4 MakeModelMatrix(const TransformData& TransformData);
 	}
 
 }

@@ -12,9 +12,9 @@ namespace Amalgamation {
 
 	protected:
 
-		Transform* m_TransformPtr = nullptr;
+		TransformData* m_TransformPtr = nullptr;
 
-		void Parent(Transform* TransformPtr) {
+		void Parent(TransformData* TransformPtr) {
 			m_TransformPtr = TransformPtr;
 		}
 
@@ -33,7 +33,7 @@ namespace Amalgamation {
 		glm::vec3 Ambient = { 0.05f, 0.05f, 0.05f };
 
 
-		Transform* GetTransform() {
+		TransformData* GetTransform() {
 			return m_TransformPtr;
 		}
 

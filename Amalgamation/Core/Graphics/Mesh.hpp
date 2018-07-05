@@ -29,14 +29,14 @@ namespace Amalgamation {
 
 		std::vector<Texture*> m_Textures;
 
-		Transform* m_TransformPtr;
+		TransformData* m_TransformPtr;
 
 		//void(*m_DrawFunction)(Mesh* M);
 		std::function<void(Mesh*)> m_DefaultDrawFunction;
 		std::function<void(Mesh*)> m_DrawFunction;
 		bool m_HasDrawFunction = false;
 
-		void SetTransform(Transform* TransformPtr);
+		void SetTransform(TransformData* TransformPtr);
 
 
 		void InterlaceData();
@@ -62,7 +62,7 @@ namespace Amalgamation {
 		bool HasDrawFunction() const;
 		void RemoveDrawFunction();
 
-		const Transform* GetTransform() const;
+		const TransformData* GetTransform() const;
 
 		const std::vector<glm::vec3>& GetVertices()       const;
 		const std::vector<glm::vec3>& GetNormals()        const;

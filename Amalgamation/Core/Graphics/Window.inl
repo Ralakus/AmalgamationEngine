@@ -14,6 +14,8 @@ namespace Amalgamation {
 		Input::Instance().UpdateMousePos(X, Y);
 	}
 
+	FORCEINLINE void Window::UpdateCursorStatus(int Status) { Input::Instance().UpdateCursorStatus(Status); }
+
 	FORCEINLINE Window::Window(const std::string & title, uint32 width, uint32 height, bool Fullscreen, API API) : GraphicsClass(API), m_Title(title), m_Width(width), m_Height(height), m_Fullscreen(Fullscreen) {}
 
 	FORCEINLINE Window::Window(API API) : GraphicsClass(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
@@ -35,6 +37,5 @@ namespace Amalgamation {
 	FORCEINLINE bool Window::IsFullscreen() const { return m_Fullscreen; }
 
 	FORCEINLINE bool Window::IsMouseLocked() const { return m_MouseLocked; }
-
 
 }

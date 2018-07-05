@@ -1,3 +1,6 @@
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_glfw.h>
 
 namespace Amalgamation {
 
@@ -25,20 +28,15 @@ namespace Amalgamation {
 		}
 
 		glfwMakeContextCurrent(m_Window);
-
 		glfwSetWindowUserPointer(m_Window, this);
-
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* Window, int Width, int Height) { GLCall(glViewport(0, 0, Width, Height)); });
-
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Window::UpdateButtonInput(button, action); ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods); });
-
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) { ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset); });
-
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::UpdateKeyInput(key, action); ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);  });
-
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { ImGui_ImplGlfw_CharCallback(window, c); });
-
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<AE_MATH_TYPE>(xpos), static_cast<AE_MATH_TYPE>(ypos)); });
+		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* Window, int Entered) { Window::UpdateCursorStatus(Entered); });
+
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			AE_LOG_ERROR("Failed to initlize GLAD!");
@@ -102,16 +100,10 @@ namespace Amalgamation {
 		if (Set != m_Fullscreen) {
 			m_Fullscreen = Set;
 			glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, m_Width, m_Height, NULL);
-			/*if (!m_Init()) {
-				AE_LOG_ERROR("Failed to create OpenGL Window!");
-				glfwDestroyWindow(m_Window);
-				throw Error("Failed to create OpenGL Window from function m_Init() called from function SetFullscreen(bool)");
-			}*/
 		}
 	}
 
 	/*ONLY INTEDED FOR DEBUG*/
-
 	FORCEINLINE GLFWwindow * GLWindow::GetGLFWWindowPtr() { return m_Window; }
 
 

@@ -15,18 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Graphics\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Platform\Unincludable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.aesset" />
     <None Include="Core\Event\Event.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -139,6 +138,16 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Core\Scene\Scene.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Graphics\OpenGL\Renderers\GLRenderingSystem.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Config.aesset" />
+    <None Include="WIP\Scene\Scene.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Engine\Application\AppPackage.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
@@ -317,12 +326,6 @@
     <ClInclude Include="Core\Task\ThreadPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Audio\Player.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\ImGui\Console.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Data\TagContainer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -342,6 +345,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Platform\HelperMacros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLRenderingSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\TransformComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MeshComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\Instance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\AppPackage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ImGui\ConsoleOld.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\ImGui\Console.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIP\Scene\Scene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WIP\Scene\System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

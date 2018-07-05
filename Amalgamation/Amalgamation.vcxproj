@@ -24,9 +24,6 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config.aesset">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Core\Data\TagContainer.inl" />
     <None Include="Core\Event\Event.inl" />
     <None Include="Core\Event\EventCallback.inl" />
@@ -56,6 +53,8 @@
     <None Include="Core\Utilities\Random.inl" />
     <None Include="Core\Utilities\Time.inl" />
     <None Include="Core\Utilities\Timer.inl" />
+    <None Include="Config.aesset" />
+    <None Include="Engine\Application\AppPackage.inl" />
     <None Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.inl" />
     <None Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.inl" />
     <None Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.inl" />
@@ -65,9 +64,11 @@
     <None Include="Engine\Graphics\OpenGL\GLTexture.inl" />
     <None Include="Engine\Graphics\OpenGL\GLWindow.inl" />
     <None Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.inl" />
+    <None Include="Engine\Graphics\OpenGL\Renderers\GLRenderingSystem.inl" />
+    <None Include="WIP\Scene\Scene.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Audio\Player.hpp" />
+    <ClInclude Include="Core\Audio\Instance.hpp" />
     <ClInclude Include="Core\Data\TagContainer.hpp" />
     <ClInclude Include="Core\Event\Event.hpp" />
     <ClInclude Include="Core\Event\EventCallback.hpp" />
@@ -112,7 +113,9 @@
     <ClInclude Include="Core\Utilities\Random.hpp" />
     <ClInclude Include="Core\Utilities\Time.hpp" />
     <ClInclude Include="Core\Utilities\Timer.hpp" />
+    <ClInclude Include="Engine\Application\AppPackage.hpp" />
     <ClInclude Include="Engine\Graphics\ImGui\Console.hpp" />
+    <ClInclude Include="Engine\Graphics\ImGui\ConsoleOld.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLArrayBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLElementBuffer.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Buffers\GLFrameBuffer.hpp" />
@@ -126,6 +129,7 @@
     <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLPointLight.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Lights\GLSpotLight.hpp" />
     <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLBasicRenderer.hpp" />
+    <ClInclude Include="Engine\Graphics\OpenGL\Renderers\GLRenderingSystem.hpp" />
     <ClInclude Include="Engine\Level\Components\CameraComponent.hpp" />
     <ClInclude Include="Engine\Level\Components\LightComponent.hpp" />
     <ClInclude Include="Engine\Level\Components\MeshComponent.hpp" />
@@ -134,6 +138,10 @@
     <ClInclude Include="Engine\Level\Entities\BasicEntity.hpp" />
     <ClInclude Include="Engine\Level\Entities\EmtpyEntity.hpp" />
     <ClInclude Include="Engine\Level\LevelPlugins\BulletPhysicsPlugin.hpp" />
+    <ClInclude Include="Engine\Scene\MeshComponent.hpp" />
+    <ClInclude Include="Engine\Scene\TransformComponent.hpp" />
+    <ClInclude Include="WIP\Scene\Scene.hpp" />
+    <ClInclude Include="WIP\Scene\System.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\Bullet3\Bullet3.vcxproj">

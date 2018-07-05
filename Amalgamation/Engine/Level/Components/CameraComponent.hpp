@@ -14,7 +14,7 @@ namespace Amalgamation {
 
 		TransformComponent* m_Transform;
 
-		Transform* m_TransformPtr;
+		TransformData* m_TransformPtr;
 
 		glm::mat4 m_Projection;
 
