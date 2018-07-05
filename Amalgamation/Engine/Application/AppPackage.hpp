@@ -33,10 +33,8 @@ namespace Amalgamation {
 
 		GLWindow RenderWindow;
 		Time EngineTime;
-		ImGuiConsole Console;
 
 		bool  ShowDebugMenu;
-		bool  ShowConsole;
 		bool  DebugMenuMoreInfo;
 		float DebugMenuEdgePadding;
 
@@ -45,6 +43,7 @@ namespace Amalgamation {
 		std::function<void()>      OnCleanUp;
 
 		std::function<void()> DebugMenuMoreInfoFunction;
+		std::function<void()> DebugPopupMenuFunction;
 
 		AppPackage(int argc, char* argv[], ConstructParams& Params);
 

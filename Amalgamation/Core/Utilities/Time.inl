@@ -1,15 +1,23 @@
-#include "Time.hpp"
 
 namespace Amalgamation {
 
-	FORCEINLINE Time::Time() { m_Timer.Start(); m_ElapsedTimer.Start(); }
+	FORCEINLINE Time::Time() { 
+#if !defined(AE_USE_GLFW_TIME)
+		m_Timer.Start(); m_ElapsedTimer.Start();
+#endif
+	}
 
 	FORCEINLINE Time::~Time() {}
 
 	FORCEINLINE void Time::Update() {
+#if !defined(AE_USE_GLFW_TIME)
 		m_Timer.Stop();
 		m_Delta = m_Timer.GetTimeSec();
 		m_Timer.Start();
+#else
+		m_Delta = glfwGetTime() - LastTime;
+		LastTime += m_Delta;
+#endif
 
 		m_OnSecond = false;
 
@@ -26,7 +34,13 @@ namespace Amalgamation {
 
 	FORCEINLINE float Time::GetDelta() const { return m_Delta; }
 
-	FORCEINLINE float Time::GetElapsed() const { return m_ElapsedTimer.GetTimeSec(); }
+	FORCEINLINE float Time::GetElapsed() const {
+#if !defined(AE_USE_GLFW_TIME)
+		return m_ElapsedTimer.GetTimeSec();
+#else
+		return glfwGetTime();
+#endif
+	}
 
 	FORCEINLINE bool Time::OnSecond() const { return m_OnSecond; }
 

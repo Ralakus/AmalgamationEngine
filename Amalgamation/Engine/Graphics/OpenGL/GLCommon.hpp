@@ -1,10 +1,6 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <Core/Math/Vector/Vector3.hpp>
-#include <Core/Math/Vector/Vector4.hpp>
-#include <Core/Math/Quaternion/Quaternion.hpp>
-#include <Core/Math/Matrix/Matrix4x4.hpp>
 #include <Core/Utilities/Log.hpp>
 #include <Core/Platform/Platform.hpp>
 

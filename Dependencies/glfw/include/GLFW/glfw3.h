@@ -168,7 +168,8 @@ extern "C" {
  #elif defined(GLFW_INCLUDE_VULKAN)
   #include <vulkan/vulkan.h>
  #elif !defined(GLFW_INCLUDE_NONE)
-  #include <GL/gl.h>
+  //#include <GL/gl.h>
+   #include <glad/glad.h>
   #if defined(GLFW_INCLUDE_GLEXT)
    #include <GL/glext.h>
   #endif

@@ -35,6 +35,7 @@ namespace Amalgamation {
 
 		uint32 GetHeight() const;
 		uint32 GetWidth()  const;
+		virtual void Resize(uint32 Width, uint32 Height) = 0;
 
 		virtual void SetTitle(const std::string& Title);
 		virtual void SetTitle(const char* Title);

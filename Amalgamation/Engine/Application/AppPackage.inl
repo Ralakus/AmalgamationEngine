@@ -10,10 +10,9 @@ namespace Amalgamation {
 		OnCleanUp([]() {}),
 		DebugMenuEdgePadding(10.f),
 		ShowDebugMenu(true),
-		ShowConsole(false),
-		Console(),
 		DebugMenuMoreInfo(true),
-		DebugMenuMoreInfoFunction([]() {})
+		DebugMenuMoreInfoFunction([]() {}),
+		DebugPopupMenuFunction([]() {})
 	{
 		if (argc > 0) {
 			for (int i = 0; i < argc; i++) {
@@ -39,7 +38,7 @@ namespace Amalgamation {
 		Style->FrameRounding = 1.0f;
 
 		ImVec2 DebugMenuPos; DebugMenuPos.y = DebugMenuEdgePadding;
-		const char* GLVersion = GLCall(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+		GLCall(const char* GLVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 
 		try {
 			OnAwake();
@@ -76,22 +75,21 @@ namespace Amalgamation {
 					DebugMenuMoreInfoFunction();
 				}
 				if (ImGui::BeginPopupContextWindow()) {
-					if (ImGui::MenuItem("Open Console")) { ShowConsole = !ShowConsole; }
 					if (DebugMenuMoreInfo) {
 						if (ImGui::MenuItem("Show Less Info")) { DebugMenuMoreInfo = false; }
 					}
 					else {
 						if (ImGui::MenuItem("Show More Info")) { DebugMenuMoreInfo = true; }
 					}
+
+					DebugPopupMenuFunction();
+
 					if (ImGui::MenuItem("Close Program")) { RenderWindow.Close(); }
 					ImGui::EndPopup();
 				}
 				ImGui::End();
 			}
 
-			if (ShowConsole) {
-				Console.Draw("Console", &ShowConsole);
-			}
 
 			try {
 				OnUpdate(EngineTime.GetDelta());

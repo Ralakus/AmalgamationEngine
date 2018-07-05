@@ -1,6 +1,7 @@
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
+#include "GLWindow.hpp"
 
 namespace Amalgamation {
 
@@ -14,6 +15,7 @@ namespace Amalgamation {
 
 		glfwWindowHint(GLFW_SAMPLES, 4);
 		m_Monitor = glfwGetPrimaryMonitor();
+		m_Mode    = glfwGetVideoMode(m_Monitor);
 
 		if (m_Fullscreen) {
 			m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), m_Monitor, nullptr);
@@ -34,11 +36,11 @@ namespace Amalgamation {
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) { ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset); });
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::UpdateKeyInput(key, action); ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);  });
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { ImGui_ImplGlfw_CharCallback(window, c); });
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<AE_MATH_TYPE>(xpos), static_cast<AE_MATH_TYPE>(ypos)); });
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(xpos , ypos); });
 		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* Window, int Entered) { Window::UpdateCursorStatus(Entered); });
 
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
 			AE_LOG_ERROR("Failed to initlize GLAD!");
 			return false;
 		}
@@ -99,8 +101,18 @@ namespace Amalgamation {
 	FORCEINLINE void GLWindow::SetFullscreen(bool Set) {
 		if (Set != m_Fullscreen) {
 			m_Fullscreen = Set;
-			glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, m_Width, m_Height, NULL);
+			glfwSetWindowMonitor(m_Window, Set ? m_Monitor : nullptr, 0, 0, m_Width, m_Height, m_Mode->refreshRate);
 		}
+	}
+
+	FORCEINLINE void GLWindow::Resize(uint32 Width, uint32 Height) {
+		if (!m_Fullscreen) {
+			glfwSetWindowSize(m_Window, Width, Height);
+		}
+		else {
+			glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, Width, Height, m_Mode->refreshRate);
+		}
+		m_Width = Width; m_Height = Height;
 	}
 
 	/*ONLY INTEDED FOR DEBUG*/

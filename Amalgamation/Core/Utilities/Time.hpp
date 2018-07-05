@@ -2,11 +2,19 @@
 
 #include "Timer.hpp"
 
+#if defined(AE_USE_GLFW_TIME) && !defined(_glfw3_h_)
+#include <GLFW/glfw3.h>
+#endif
+
 namespace Amalgamation {
 
 	class Time {
+#if !defined(AE_USE_GLFW_TIME)
 		Timer m_ElapsedTimer;
 		Timer m_Timer;
+#else
+		float LastTime = 0.f;
+#endif
 
 		bool m_OnSecond = false;
 		float m_Delta = 0.f;

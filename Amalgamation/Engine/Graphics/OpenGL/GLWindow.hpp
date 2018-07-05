@@ -2,6 +2,7 @@
 
 #include <Core/Graphics/Window.hpp>
 #include "GLCommon.hpp"
+
 #include <GLFW/glfw3.h>
 
 namespace Amalgamation {
@@ -10,6 +11,7 @@ namespace Amalgamation {
 
 		GLFWwindow* m_Window;
 		GLFWmonitor* m_Monitor;
+		const GLFWvidmode* m_Mode;
 
 		bool m_Init();
 
@@ -31,6 +33,8 @@ namespace Amalgamation {
 		void SetTitle(const char* Title) override;
 
 		void SetFullscreen(bool Set) override;
+
+		void Resize(uint32 Width, uint32 Height) override;
 
 		GLFWwindow* GetGLFWWindowPtr();
 
