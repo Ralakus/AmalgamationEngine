@@ -1,5 +1,6 @@
 # AmalgamationEngine :video_game:
 A C++/OpenGL game engine that I work on as a hobby project
+that is meant to be mostly header only
 
 ## Naming: :blue_book:
 * Everything PascalCase
@@ -9,11 +10,10 @@ A C++/OpenGL game engine that I work on as a hobby project
 
 # To do:
 ## Short term :arrow_down:
-* ~~Extend math library to remove glm as a dependency ( Fix Matrix4x4 and Quaternion Classes )~~
-* Split .hpp files into .hpp and .inl files to clean up code
-* Turn Level/Entity/Component System into an ECS
-* Add PBR
-* Make a better rendering system
+* Create CMake project
+* Create Vulkan Instance and Window
+* Create Core Library
 
 ## Long term :arrow_forward:
 * Make Editor / tools for engine
+* Rebuild old engine from scratch with Vulkan
