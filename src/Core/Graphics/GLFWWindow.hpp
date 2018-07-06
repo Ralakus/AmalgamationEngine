@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <functional>
 
 namespace Amalgamation {
 
@@ -22,6 +23,9 @@ namespace Amalgamation {
 			 m_CursorOnWindow, m_MouseLocked;
 		
 		std::string m_Title;
+
+		std::function<void()> m_PreInit;
+		std::function<void()> m_PostInit;
 
 	public:
 
@@ -47,9 +51,10 @@ namespace Amalgamation {
 		int  GetWidth()  const { return m_Width;  }
 		int  GetHeight() const { return m_Height; }
 
-		FORCEINLINE bool IsMouseLocked() const { return m_MouseLocked; }
-		FORCEINLINE bool IsFullScreen() const { return m_Fullscreen; }
-		FORCEINLINE bool IsValid() { return m_Valid; }
+		FORCEINLINE bool IsMouseLocked()    const { return m_MouseLocked; }
+		FORCEINLINE bool IsFullScreen()     const { return m_Fullscreen; }
+		FORCEINLINE bool IsValid()          const { return m_Valid; }
+		FORCEINLINE bool IsCursorOnWindow() const { return m_CursorOnWindow; }
 
 		const GLFWwindow* GetGLFWPtr() const { return m_Window; }
 

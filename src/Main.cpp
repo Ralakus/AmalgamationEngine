@@ -1,14 +1,22 @@
 #include <Core/Graphics/GLFWWindow.hpp>
 #include <Engine/Graphics/Vulkan/VKWindow.hpp>
+#include <Engine/Graphics/Vulkan/AEVK.hpp>
+
+#include <iostream>
 
 int main(int argc, char* argv[]) {
 
 	Amalgamation::VKWindow AEWindow;
-	AEWindow.CreateWindow("Noice", 1280, 720, false);
+	AEWindow.CreateWindow("AEVK", 1280, 720, false);
+
+	vk::Instance AEVKInstance;
+	Amalgamation::AEVK::CreateVKInstance(AEVKInstance);
 
 	while (AEWindow.IsValid()) {
 		AEWindow.Update();
 	}
+
+	AEVKInstance.destroy();
 
 	return 0;
 }

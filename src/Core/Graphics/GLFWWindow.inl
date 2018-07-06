@@ -3,7 +3,8 @@ namespace Amalgamation {
 	FORCEINLINE GLFWWindow::GLFWWindow()
 		: m_Window(nullptr), m_Monitor(nullptr), m_VidMode(nullptr),
 		  m_Width(800), m_Height(600), m_Valid(false), m_Fullscreen(false),
-		  m_CursorOnWindow(false), m_MouseLocked(false)
+		  m_CursorOnWindow(false), m_MouseLocked(false),
+		  m_PreInit([](){}), m_PostInit([](){})
 	{}
 
 	FORCEINLINE GLFWWindow::~GLFWWindow() { Terminate(); }
@@ -25,6 +26,8 @@ namespace Amalgamation {
 			m_Monitor = glfwGetPrimaryMonitor();
 			m_VidMode = glfwGetVideoMode(m_Monitor);
 
+			m_PreInit();
+
 			if (m_Fullscreen) {
 				m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), m_Monitor, nullptr);
 			}
@@ -43,6 +46,8 @@ namespace Amalgamation {
 			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Input::Instance().UpdateKeys(static_cast<Key>(key), static_cast<InputAction>(action));  });
 			glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Input::Instance().UpdateMousePos(static_cast<float>(xpos), static_cast<float>(ypos)); });
 			glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* Window, int Entered) {  GLFWWindow* AEWindow = static_cast<GLFWWindow*>(glfwGetWindowUserPointer(Window)); AEWindow->m_CursorOnWindow = Entered; });
+
+			m_PostInit();
 
 			m_Valid = true;
 

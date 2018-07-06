@@ -8,7 +8,10 @@ namespace Amalgamation {
 
     class VKWindow : public GLFWWindow {
 
-        
+	public:
+
+		 VKWindow();
+		~VKWindow();
 
     };
 
