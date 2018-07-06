@@ -53,6 +53,10 @@ project "Amalgamation"
 
    kind "ConsoleApp"
 
+   defines { "GLFW_INCLUDE_VULKAN" }
+
+   includedirs "src"
+
    IncludeGLFW()
    IncludeGlm()
    IncludeVulkan()
