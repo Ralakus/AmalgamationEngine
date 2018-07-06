@@ -1,8 +1,8 @@
 
 namespace Amalgamation {
 
-	FORCEINLINE void Event::AddListener(IEventCallback * Callback) {
-		std::vector<IEventCallback*>::iterator Index = std::find(m_Callbacks.begin(), m_Callbacks.end(), Callback);
+	FORCEINLINE void Event::AddListener(std::shared_ptr<IEventCallback> Callback) {
+		std::vector<std::shared_ptr<IEventCallback>>::iterator Index = std::find(m_Callbacks.begin(), m_Callbacks.end(), Callback);
 		if (Index != m_Callbacks.end()) {
 			return;
 		}
@@ -11,8 +11,8 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE void Event::RemoveListener(IEventCallback * Callback) {
-		std::vector<IEventCallback*>::iterator Index = std::find(m_Callbacks.begin(), m_Callbacks.end(), Callback);
+	FORCEINLINE void Event::RemoveListener(std::shared_ptr<IEventCallback> Callback) {
+		std::vector<std::shared_ptr<IEventCallback>>::iterator Index = std::find(m_Callbacks.begin(), m_Callbacks.end(), Callback);
 		if (Index == m_Callbacks.end()) {
 			return;
 		}

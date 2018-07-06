@@ -6,7 +6,7 @@ namespace Amalgamation {
 
 		mutable float m_Value = 0.f;
 		std::string m_InstanceStr;
-		std::vector<EventLambdaCallback*> m_Callbacks;
+		std::vector<std::shared_ptr<EventLambdaCallback>> m_Callbacks;
 
 	public:
 

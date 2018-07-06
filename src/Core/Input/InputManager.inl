@@ -29,9 +29,7 @@ namespace Amalgamation {
 		m_MousePos.y = Y;
 	}
 
-	FORCEINLINE void Input::UpdateCursorStatus(bool OnWindow) { m_CursorOnWindow = OnWindow; }
-
-	FORCEINLINE void Input::RegisterEvent(const std::string & Name, Event * EventPtr) {
+	FORCEINLINE void Input::RegisterEvent(const std::string & Name, std::shared_ptr<Event> EventPtr) {
 		if (m_Events.count(Name) < 1) {
 			m_Events[Name] = EventPtr;
 		}
@@ -48,20 +46,18 @@ namespace Amalgamation {
 	FORCEINLINE Input::~Input() {}
 
 	FORCEINLINE void Input::RegisterKeyAction(const std::string & Name, Key KeyCode, InputAction Action) {
-		RegisterEvent(Name, new Event);
+		RegisterEvent(Name, std::make_shared<Event>());
 		m_RKeys.emplace_back(KeyCode, Action, Name);
 	}
 
 	FORCEINLINE void Input::RegisterButtonAction(const std::string & Name, Button ButtonCode, InputAction Action) {
-		RegisterEvent(Name, new Event);
+		RegisterEvent(Name, std::make_shared<Event>());
 		m_RButtons.emplace_back(ButtonCode, Action, Name);
 	}
 
 	FORCEINLINE const glm::vec2 & Input::GetMousePos() const {
 		return m_MousePos;
 	}
-
-	FORCEINLINE bool Input::IsCursorOnWindow() const { return m_CursorOnWindow; }
 
 	FORCEINLINE Key Input::KeyFromAesset(const Aesset & File, const std::string & Name, Key Default = Key::Unknown) {
 		std::string KeyStr = File.Get<std::string>(Name, "Key Null");

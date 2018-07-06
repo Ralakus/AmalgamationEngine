@@ -8,15 +8,15 @@ namespace Amalgamation{
 
     class Event {
 
-        std::vector<IEventCallback*> m_Callbacks;
+        std::vector<std::shared_ptr<IEventCallback>> m_Callbacks;
 
     public:
 
         Event()  {}
         ~Event() {}
 
-		FORCEINLINE void AddListener(IEventCallback* Callback);
-		FORCEINLINE void RemoveListener(IEventCallback* Callback);
+		FORCEINLINE void AddListener(std::shared_ptr<IEventCallback> Callback);
+		FORCEINLINE void RemoveListener(std::shared_ptr<IEventCallback> Callback);
 		FORCEINLINE void Trigger();
     };
 

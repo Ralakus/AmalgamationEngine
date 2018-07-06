@@ -10,17 +10,17 @@ namespace Amalgamation{
 
 	protected:
 
-        std::unordered_map<std::string, Event*> m_Events;
+        std::unordered_map<std::string, std::shared_ptr<Event>> m_Events;
 
     public:
 
 		EventHandler();
 		virtual ~EventHandler();
 
-		FORCEINLINE void RegisterCallback(const std::string& Name, IEventCallback* Callback);
-		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr);
+		FORCEINLINE void RegisterCallback(const std::string& Name, std::shared_ptr<IEventCallback> Callback);
+		FORCEINLINE void RegisterEvent(const std::string& Name, std::shared_ptr<Event> EventPtr);
 		FORCEINLINE void TriggerEvent(const std::string& Name);
-		FORCEINLINE void DeregisterCallback(IEventCallback* Callback);
+		FORCEINLINE void DeregisterCallback(std::shared_ptr<IEventCallback> Callback);
     };
 }
 

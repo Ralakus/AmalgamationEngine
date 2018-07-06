@@ -66,7 +66,9 @@ project "Amalgamation"
    files { "**.hpp", "**.cpp", "**.inl" }
 
    filter "configurations:Debug"
+      defines { "DEBUG" }
       defines { "AE_DEBUG" }
 
    filter "configurations:Release"
+      defines { "NDEBUG" }
       defines { "AE_RELEASE" }

@@ -35,6 +35,8 @@ namespace Amalgamation {
 
 	class Input : public EventHandler {
 
+		friend class GLFWWindow;
+
 		std::vector<std::tuple<Key,    InputAction, std::string>> m_RKeys;
 		std::vector<std::tuple<Button, InputAction, std::string>> m_RButtons;
 
@@ -44,14 +46,11 @@ namespace Amalgamation {
 
 		FORCEINLINE void UpdateMousePos(float X, float Y);
 
-		FORCEINLINE void UpdateCursorStatus(bool OnWindow);
-
-		FORCEINLINE void RegisterEvent(const std::string& Name, Event* EventPtr);
+		FORCEINLINE void RegisterEvent(const std::string& Name, std::shared_ptr<Event> EventPtr);
 
 		FORCEINLINE void TriggerEvent(const std::string& Name);
 
 		glm::vec2 m_MousePos;
-		bool m_CursorOnWindow = true;
 
 	public:
 
@@ -64,7 +63,6 @@ namespace Amalgamation {
 		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 
 		FORCEINLINE const glm::vec2& GetMousePos() const;
-		FORCEINLINE bool  IsCursorOnWindow()       const;
 
 		Key KeyFromAesset(const Aesset& File, const std::string& Name, Key Default);
 
