@@ -35,7 +35,7 @@ namespace Amalgamation {
 
 	class Input : public EventHandler {
 
-		friend class GLFWWindow;
+		friend class Window;
 
 		std::vector<std::tuple<Key,    InputAction, std::string>> m_RKeys;
 		std::vector<std::tuple<Button, InputAction, std::string>> m_RButtons;
@@ -46,7 +46,7 @@ namespace Amalgamation {
 
 		FORCEINLINE void UpdateMousePos(float X, float Y);
 
-		FORCEINLINE void RegisterEvent(const std::string& Name, std::shared_ptr<Event> EventPtr);
+		FORCEINLINE void RegisterEvent(const std::string& Name, const std::shared_ptr<Event>& EventPtr);
 
 		FORCEINLINE void TriggerEvent(const std::string& Name);
 

@@ -15,8 +15,8 @@ namespace Amalgamation{
         Event()  {}
         ~Event() {}
 
-		FORCEINLINE void AddListener(std::shared_ptr<IEventCallback> Callback);
-		FORCEINLINE void RemoveListener(std::shared_ptr<IEventCallback> Callback);
+		FORCEINLINE void AddListener(const std::shared_ptr<IEventCallback>& Callback);
+		FORCEINLINE void RemoveListener(const std::shared_ptr<IEventCallback>& Callback);
 		FORCEINLINE void Trigger();
     };
 

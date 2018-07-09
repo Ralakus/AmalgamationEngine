@@ -1,10 +1,12 @@
 -- premake5.lua
 
-function IncludeGlm() 
+Is64bit = true  -- 32 bit if false
+
+function IncludeGlm()   --GLM include
    includedirs "lib/glm/"
 end
 
-function IncludeGLFW()
+function IncludeGLFW() --GLFW include
    includedirs "lib/glfw/include"
 end
 
@@ -12,15 +14,28 @@ function IncludeVulkan() --Vulkan SDK include
    includedirs "C:/VulkanSDK/1.1.77.0/Include"
 end
 
-function LinkVulkan()
-	libdirs "C:/VulkanSDK/1.1.77.0/Lib"
+function IncludeRang()
+   includedirs "lib/rang/"
+end
+
+function IncludeStb()
+        includedirs "lib/stb/"
+end
+
+function LinkVulkan() --Vulkan Static Link
+        filter { "architecture:x86_64" }
+           libdirs "C:/VulkanSDK/1.1.77.0/Lib"
+
+        filter { "architecture:x86" }
+           libdirs "C:/VulkanSDK/1.1.77.0/Lib32"
+        filter {}
 	
 	filter "kind:not StaticLib"
 		links "vulkan-1"
 	filter {}
 end
 
-function LinkGLFW()
+function LinkGLFW() --GLFW Static link
 	libdirs "lib/glfw/"
 	
 	filter "kind:not StaticLib"
@@ -33,17 +48,20 @@ workspace "Amalgamation"
 
    location "build"
 
-   architecture "x86_64"
+   if(Is64bit) then
+      architecture "x86_64"
+   else
+      architecture "x86"
+   end
 
    configurations { "Debug", "Release" }
 
-	filter { "configurations:Debug" }
-        symbols "On"
-	
-	filter { "configurations:Release" }
-		optimize "On"
+   filter { "configurations:Debug" }
+      symbols "On"
 
-	filter { }
+   filter { "configurations:Release" }
+      optimize "On"
+   filter { }
 	
    targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
 
@@ -60,6 +78,8 @@ project "Amalgamation"
    IncludeGLFW()
    IncludeGlm()
    IncludeVulkan()
+   IncludeRang()
+   IncludeStb()
    LinkGLFW()
    LinkVulkan()
 

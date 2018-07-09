@@ -1,4 +1,3 @@
-#include "InputManager.hpp"
 
 namespace Amalgamation {
 
@@ -29,7 +28,7 @@ namespace Amalgamation {
 		m_MousePos.y = Y;
 	}
 
-	FORCEINLINE void Input::RegisterEvent(const std::string & Name, std::shared_ptr<Event> EventPtr) {
+	FORCEINLINE void Input::RegisterEvent(const std::string & Name, const std::shared_ptr<Event>& EventPtr) {
 		if (m_Events.count(Name) < 1) {
 			m_Events[Name] = EventPtr;
 		}

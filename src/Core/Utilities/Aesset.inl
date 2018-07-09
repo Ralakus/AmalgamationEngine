@@ -1,5 +1,3 @@
-#include "Aesset.hpp"
-
 
 namespace Amalgamation {
 

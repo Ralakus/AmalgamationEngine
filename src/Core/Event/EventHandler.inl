@@ -6,7 +6,7 @@ namespace Amalgamation {
 
 	EventHandler::~EventHandler() {}
 
-	FORCEINLINE void EventHandler::RegisterCallback(const std::string & Name, std::shared_ptr<IEventCallback> Callback) {
+	FORCEINLINE void EventHandler::RegisterCallback(const std::string & Name, const std::shared_ptr<IEventCallback>& Callback) {
 		if (m_Events.count(Name) < 1) {
 			return;
 		}
@@ -16,7 +16,7 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE void EventHandler::RegisterEvent(const std::string & Name, std::shared_ptr<Event> EventPtr) {
+	FORCEINLINE void EventHandler::RegisterEvent(const std::string & Name, const std::shared_ptr<Event>& EventPtr) {
 		if (m_Events.count(Name) < 1) {
 			m_Events[Name] = EventPtr;
 		}
@@ -28,7 +28,7 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE void EventHandler::DeregisterCallback(std::shared_ptr<IEventCallback> Callback) {
+	FORCEINLINE void EventHandler::DeregisterCallback(const std::shared_ptr<IEventCallback>& Callback) {
 		if (m_Events.count(Callback->m_EventName) > 0) {
 			m_Events[Callback->m_EventName]->RemoveListener(Callback);
 		}

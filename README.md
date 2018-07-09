@@ -10,9 +10,9 @@ that is meant to be mostly header only
 
 # To do:
 ## Short term :arrow_down:
-* Create Premake project
-* Create Vulkan Instance and Window
+* Create Premake project :heavy_check_mark:
 * Create Core Library
+* Be able to render a mesh using Vulkan
 
 ## Long term :arrow_forward:
 * Make Editor / tools for engine

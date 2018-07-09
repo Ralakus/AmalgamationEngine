@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Platform/Platform.hpp"
 #include "Event.hpp"
 #include <string>
 #include <unordered_map>
@@ -17,10 +16,10 @@ namespace Amalgamation{
 		EventHandler();
 		virtual ~EventHandler();
 
-		FORCEINLINE void RegisterCallback(const std::string& Name, std::shared_ptr<IEventCallback> Callback);
-		FORCEINLINE void RegisterEvent(const std::string& Name, std::shared_ptr<Event> EventPtr);
+		FORCEINLINE void RegisterCallback(const std::string& Name, const std::shared_ptr<IEventCallback>& Callback);
+		FORCEINLINE void RegisterEvent(const std::string& Name, const std::shared_ptr<Event>& EventPtr);
 		FORCEINLINE void TriggerEvent(const std::string& Name);
-		FORCEINLINE void DeregisterCallback(std::shared_ptr<IEventCallback> Callback);
+		FORCEINLINE void DeregisterCallback(const std::shared_ptr<IEventCallback>& Callback);
     };
 }
 

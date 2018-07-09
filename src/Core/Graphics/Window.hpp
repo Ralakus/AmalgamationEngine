@@ -10,7 +10,7 @@
 
 namespace Amalgamation {
 
-	class GLFWWindow {
+	class Window {
 
 	protected:
 
@@ -24,30 +24,28 @@ namespace Amalgamation {
 		
 		std::string m_Title;
 
-		std::function<void()> m_PreInit;
-		std::function<void()> m_PostInit;
-
 	public:
 
-		 GLFWWindow();
-		~GLFWWindow();
+		 Window();
+		 Window(const std::string& Title, int Width, int Height, bool Fullscreen = false);
+		~Window();
 
-		bool CreateWindow(const std::string& Title, int Width, int Height, bool Fullscreen);
-		bool Close();
+		virtual bool Create(const std::string& Title, int Width, int Height, bool Fullscreen = false);
+		virtual bool Close();
 
-		void Update();
+		virtual void Update();
 
-		void Terminate();
+		virtual void Terminate();
 
 		void SetTitle(const std::string& Title);
 		void SetTitle(const char* Title);
 		FORCEINLINE const std::string& GetTitle() const { return m_Title; }
 
-		void SetFullscreen(bool Set);
+		virtual void SetFullscreen(bool Set);
 
 		void LockMouse(bool set);
 
-		void Resize(int Width, int Height);
+		virtual void Resize(int Width, int Height);
 		int  GetWidth()  const { return m_Width;  }
 		int  GetHeight() const { return m_Height; }
 
@@ -63,5 +61,5 @@ namespace Amalgamation {
 }
 
 #if !defined(AE_NO_IMPL)
-	#include "GLFWWindow.inl"
+	#include "Window.inl"
 #endif
