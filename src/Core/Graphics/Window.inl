@@ -1,122 +1,40 @@
 
 namespace Amalgamation {
-	FORCEINLINE Window::Window()
-		: m_Window(nullptr), m_Monitor(nullptr), m_VidMode(nullptr), m_Title("AEVK"),
-		  m_Width(800), m_Height(600), m_Valid(false), m_Fullscreen(false),
-		  m_CursorOnWindow(false), m_MouseLocked(false)
-		  //m_PreInit([](){}), m_PostInit([](){})
-	{}
 
-	FORCEINLINE Amalgamation::Window::Window(const std::string & Title, int Width, int Height, bool Fullscreen)
-		: m_Window(nullptr), m_Monitor(nullptr), m_VidMode(nullptr), m_Title(Title),
-		  m_Width(Width), m_Height(Height), m_Valid(false), m_Fullscreen(Fullscreen),
-		  m_CursorOnWindow(false), m_MouseLocked(false)
-	{ Create(m_Title, m_Width, m_Height, m_Fullscreen); }
-
-	FORCEINLINE Window::~Window() { Terminate(); }
-
-	FORCEINLINE bool Window::Create(const std::string& Title, int Width, int Height, bool Fullscreen) {
-		m_Title = Title; m_Width = Width; m_Height = Height; m_Fullscreen = Fullscreen;
-
-		if (m_Window) {
-			return false;
-		}
-		else {
-
-			if (!glfwInit()) {
-				return false;
-			}
-
-			//glfwWindowHint(GLFW_SAMPLES, 4);
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			m_Monitor = glfwGetPrimaryMonitor();
-			m_VidMode = glfwGetVideoMode(m_Monitor);
-
-			//m_PreInit();
-
-			if (m_Fullscreen) {
-				m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), m_Monitor, nullptr);
-			}
-			else {
-				m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), nullptr, nullptr);
-			}
-
-			if (!m_Window) {
-				return false;
-			}
-
-			glfwMakeContextCurrent(m_Window);
-			glfwSetWindowUserPointer(m_Window, this);
-
-			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Input::Instance().UpdateButtons(static_cast<Button>(button), static_cast<InputAction>(action)); });
-			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Input::Instance().UpdateKeys(static_cast<Key>(key), static_cast<InputAction>(action));  });
-			glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Input::Instance().UpdateMousePos(static_cast<float>(xpos), static_cast<float>(ypos)); });
-			glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered) {  Window* AEWindow = static_cast<Window*>(glfwGetWindowUserPointer(window)); AEWindow->m_CursorOnWindow = entered; });
-
-			//m_PostInit();
-
-			m_Valid = true;
-
-			return true;
-
-		}
-
-
-		return false;
+	FORCEINLINE void Window::UpdateKeyInput(int KeyCode, int Action) {
+		Input::Instance().UpdateKeys(static_cast<Key>(KeyCode), static_cast<InputAction>(Action));
 	}
 
-	FORCEINLINE bool Window::Close() {
-		if (m_Valid) {
-			glfwSetWindowShouldClose(m_Window, GLFW_TRUE);
-			m_Valid = false;
-			return true;
-		}
-		else {
-			return false;
-		}
+	FORCEINLINE void Window::UpdateButtonInput(int ButtonCode, int Action) {
+		Input::Instance().UpdateButtons(static_cast<Button>(ButtonCode), static_cast<InputAction>(Action));
 	}
 
-	FORCEINLINE void Window::Update() {
-
-		if (!glfwWindowShouldClose(m_Window) && m_Valid) {
-			glfwGetFramebufferSize(m_Window, reinterpret_cast<int*>(&m_Width), reinterpret_cast<int*>(&m_Height));
-			glfwSwapBuffers(m_Window);
-			glfwPollEvents();
-		}
-		else {
-			m_Valid = false;
-		}
-
+	FORCEINLINE void Window::UpdateMousePos(float X, float Y) {
+		Input::Instance().UpdateMousePos(X, Y);
 	}
 
-	FORCEINLINE void Window::Terminate() {
-		glfwDestroyWindow(m_Window);
-	}
+	FORCEINLINE Window::Window(const std::string & title, uint32_t width, uint32_t height, bool Fullscreen, API API) : GraphicsClass(API), m_Title(title), m_Width(width), m_Height(height), m_Fullscreen(Fullscreen) {}
 
-	FORCEINLINE void Window::SetTitle(const std::string & Title) { m_Title = Title; glfwSetWindowTitle(m_Window, Title.c_str()); }
+	FORCEINLINE Window::Window(API API) : GraphicsClass(API), m_Title("Amalgamation Default"), m_Width(1280), m_Height(720) {}
 
-	FORCEINLINE void Window::SetTitle(const char * Title) { m_Title = Title; glfwSetWindowTitle(m_Window, Title);  }
+	FORCEINLINE Window::~Window() {}
 
-	FORCEINLINE void Window::SetFullscreen(bool Set) {
-		if (Set != m_Fullscreen) {
-			m_Fullscreen = Set;
-			glfwSetWindowMonitor(m_Window, Set ? m_Monitor : nullptr, 0, 0, m_Width, m_Height, m_VidMode->refreshRate);
-		}
-	}
+	FORCEINLINE uint32_t Window::GetHeight() const { return m_Height; }
 
-	FORCEINLINE void Window::LockMouse(bool set) {
-		if (set) { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); }
-		else { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); } m_MouseLocked = set;
-	}
+	FORCEINLINE uint32_t Window::GetWidth() const { return m_Width; }
 
-	FORCEINLINE void Window::Resize(int Width, int Height) {
-		if (!m_Fullscreen) {
-			glfwSetWindowSize(m_Window, Width, Height);
-		}
-		else {
-			glfwSetWindowMonitor(m_Window, m_Monitor, 0, 0, Width, Height, m_VidMode->refreshRate);
-		}
-		m_Width = Width; m_Height = Height;
-	}
+	FORCEINLINE void Window::SetTitle(const std::string & Title) { m_Title = Title; }
+
+	FORCEINLINE void Window::SetTitle(const char * Title) { m_Title = Title; }
+
+	FORCEINLINE const std::string & Window::GetTitle() const { return m_Title; }
+
+	FORCEINLINE bool Window::IsValid() const { return m_Valid; }
+
+	FORCEINLINE bool Window::IsFullscreen() const { return m_Fullscreen; }
+
+	FORCEINLINE bool Window::IsMouseLocked() const { return m_MouseLocked; }
+
+	FORCEINLINE bool Window::IsCursorOnWindow() const { return m_CursorOnWindow; }
 
 }

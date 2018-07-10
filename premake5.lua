@@ -19,7 +19,31 @@ function IncludeRang()
 end
 
 function IncludeStb()
-        includedirs "lib/stb/"
+   includedirs "lib/stb/"
+end
+
+function IncludeGlad()
+   includedirs "lib/glad/include"
+end
+
+function IncludeImGui()
+   includedirs "lib/ImGui"
+end
+
+function LinkImGui()
+   links "ImGui"
+end
+
+function LinkGlad()
+
+   links "Glad"
+
+   filter { "system:windows" }
+      links { "OpenGL32" }
+        
+   filter { "system:not windows" }
+      links { "GL" }
+   filter {}
 end
 
 function LinkVulkan() --Vulkan Static Link
@@ -36,7 +60,9 @@ function LinkVulkan() --Vulkan Static Link
 end
 
 function LinkGLFW() --GLFW Static link
-	libdirs "lib/glfw/"
+        if(Is64bit) then
+           libdirs "lib/glfw/"
+        end
 	
 	filter "kind:not StaticLib"
 		links "glfw3"
@@ -71,7 +97,7 @@ project "Amalgamation"
 
    kind "ConsoleApp"
 
-   defines { "GLFW_INCLUDE_VULKAN" }
+   --defines { "GLFW_INCLUDE_VULKAN" }
 
    includedirs "src"
 
@@ -80,15 +106,48 @@ project "Amalgamation"
    IncludeVulkan()
    IncludeRang()
    IncludeStb()
+   IncludeGlad()
+   IncludeImGui()
+
    LinkGLFW()
    LinkVulkan()
+   LinkGlad()
+   LinkImGui()
 
-   files { "**.hpp", "**.cpp", "**.inl" }
+   files { "src/**.hpp", "src/**.cpp", "src/**.inl" }
 
    filter "configurations:Debug"
       defines { "DEBUG" }
-      defines { "AE_DEBUG" }
 
    filter "configurations:Release"
       defines { "NDEBUG" }
-      defines { "AE_RELEASE" }
+
+project "ImGui"
+   kind "StaticLib"
+
+   IncludeGlad()
+   IncludeGLFW()
+
+   files { "lib/ImGui/**" }
+
+   filter "configurations:Debug"
+      defines { "DEBUG" }
+
+   filter "configurations:Release"
+      defines { "NDEBUG" }
+   filter {}
+
+project "Glad"
+
+   kind "StaticLib"
+
+   IncludeGlad()
+
+   files { "lib/glad/src/**" }
+
+   filter "configurations:Debug"
+      defines { "DEBUG" }
+
+   filter "configurations:Release"
+      defines { "NDEBUG" }
+   filter {}

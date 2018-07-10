@@ -1,65 +1,58 @@
 #pragma once
 
-#include <Core/Platform/HelperMacros.hpp>
-#include <Core/Input/InputManager.hpp>
-
-#include <GLFW/glfw3.h>
+#include "../Platform/Platform.hpp"
+#include "GraphicsClass.hpp"
+#include "../Input/InputManager.hpp"
 
 #include <string>
-#include <functional>
 
 namespace Amalgamation {
 
-	class Window {
+
+	class Window : public GraphicsClass {
 
 	protected:
 
-		GLFWwindow*        m_Window;
-		GLFWmonitor*       m_Monitor;
-		const GLFWvidmode* m_VidMode;
-
-		int  m_Width, m_Height;
-		bool m_Valid, m_Fullscreen,
-			 m_CursorOnWindow, m_MouseLocked;
-		
+		uint32_t m_Width, m_Height;
 		std::string m_Title;
+
+		bool m_Valid          = false;
+		bool m_Fullscreen     = false;
+		bool m_MouseLocked    = false;
+		bool m_CursorOnWindow = false;
+
+		static void UpdateKeyInput(int KeyCode, int Action);
+		static void UpdateButtonInput(int ButtonCode, int Action);
+		static void UpdateMousePos(float X, float Y);
 
 	public:
 
-		 Window();
-		 Window(const std::string& Title, int Width, int Height, bool Fullscreen = false);
-		~Window();
+		Window(const std::string& title, uint32_t width, uint32_t height, bool Fullscreen, API API);
+		Window(API API);
+		virtual ~Window();
 
-		virtual bool Create(const std::string& Title, int Width, int Height, bool Fullscreen = false);
-		virtual bool Close();
+		uint32_t GetHeight() const;
+		uint32_t GetWidth()  const;
+		virtual void Resize(uint32_t Width, uint32_t Height) = 0;
 
-		virtual void Update();
+		virtual void SetTitle(const std::string& Title);
+		virtual void SetTitle(const char* Title);
+		const std::string& GetTitle() const;
 
-		virtual void Terminate();
+		bool IsValid()          const;
+		bool IsFullscreen()     const;
+		bool IsMouseLocked()    const;
+		bool IsCursorOnWindow() const;
 
-		void SetTitle(const std::string& Title);
-		void SetTitle(const char* Title);
-		FORCEINLINE const std::string& GetTitle() const { return m_Title; }
-
-		virtual void SetFullscreen(bool Set);
-
-		void LockMouse(bool set);
-
-		virtual void Resize(int Width, int Height);
-		int  GetWidth()  const { return m_Width;  }
-		int  GetHeight() const { return m_Height; }
-
-		FORCEINLINE bool IsMouseLocked()    const { return m_MouseLocked; }
-		FORCEINLINE bool IsFullScreen()     const { return m_Fullscreen; }
-		FORCEINLINE bool IsValid()          const { return m_Valid; }
-		FORCEINLINE bool IsCursorOnWindow() const { return m_CursorOnWindow; }
-
-		const GLFWwindow* GetGLFWPtr() const { return m_Window; }
+		virtual void SetFullscreen(bool Set) = 0;
+		virtual void LockMouse(bool Set)     = 0;
+		virtual void Update()    = 0;
+		virtual void Close()     = 0;
+		virtual void Terminate() = 0;
 
 	};
 
+
 }
 
-#if !defined(AE_NO_IMPL)
-	#include "Window.inl"
-#endif
+#include "Window.inl"

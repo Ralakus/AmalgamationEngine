@@ -1,27 +1,26 @@
 #pragma once
 
 #include <Core/Graphics/Window.hpp>
-#include "VKInstancePackage.hpp"
+#include "GLCommon.hpp"
 
+#include <GLFW/glfw3.h>
 
 namespace Amalgamation {
 
-    class VKWindow : public Window {
-		
+	class GLWindow : public Window {
+
 		GLFWwindow* m_Window;
 		GLFWmonitor* m_Monitor;
 		const GLFWvidmode* m_Mode;
 
-		bool Create();
-
-		AEVK Vulkan;
+		bool m_Init();
 
 	public:
 
-		VKWindow();
-		VKWindow(const std::string& title, uint32_t width, uint32_t height, bool Fullscreen = false);
+		GLWindow();
+		GLWindow(const std::string& title, uint32_t width, uint32_t height, bool Fullscreen = false);
 
-		~VKWindow();
+		~GLWindow();
 
 		void LockMouse(bool set) override;
 
@@ -39,10 +38,8 @@ namespace Amalgamation {
 
 		GLFWwindow* GetGLFWWindowPtr();
 
-    };
+	};
 
 }
 
-#if !defined(AE_NO_IMPL)
-    #include "VKWindow.inl"
-#endif
+#include "GLWindow.inl"
