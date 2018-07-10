@@ -6,7 +6,7 @@ namespace Amalgamation {
 
 	class GLFrameBuffer {
 
-		uint32 m_BufferID;
+		uint32_t m_BufferID;
 
 		mutable bool m_Bound;
 

@@ -5,10 +5,10 @@ namespace Amalgamation {
 		GLCall(glGenBuffers(1, &m_BufferID));
 	}
 
-	FORCEINLINE GLElementBuffer::GLElementBuffer(const uint32 * Data, size_t Count) : m_Count(Count) {
+	FORCEINLINE GLElementBuffer::GLElementBuffer(const uint32_t * Data, size_t Count) : m_Count(Count) {
 		GLCall(glGenBuffers(1, &m_BufferID));
 		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
-		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
+		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32_t), Data, GL_STATIC_DRAW));
 	}
 
 	FORCEINLINE GLElementBuffer::~GLElementBuffer() {
@@ -21,10 +21,10 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE void GLElementBuffer::PushData(const uint32 * Data, size_t Count) {
+	FORCEINLINE void GLElementBuffer::PushData(const uint32_t * Data, size_t Count) {
 		m_Count = Count;
 		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID));
-		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32), Data, GL_STATIC_DRAW));
+		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Count * sizeof(uint32_t), Data, GL_STATIC_DRAW));
 	}
 
 	FORCEINLINE void GLElementBuffer::Bind() const { if (!m_Bound) { GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferID)); } }
@@ -33,7 +33,7 @@ namespace Amalgamation {
 
 	FORCEINLINE size_t GLElementBuffer::GetCount() const { return m_Count; }
 
-	FORCEINLINE uint32 GLElementBuffer::GetID() const { return m_BufferID; }
+	FORCEINLINE uint32_t GLElementBuffer::GetID() const { return m_BufferID; }
 
 
 }

@@ -8,7 +8,7 @@ namespace Amalgamation {
 	class GLVertexArray {
 	private:
 
-		uint32 m_ArrayID;
+		uint32_t m_ArrayID;
 
 		mutable bool m_Bound;
 
@@ -19,7 +19,7 @@ namespace Amalgamation {
 
 		inline void Bind() const;
 		inline void Unbind() const;
-		inline uint32 GetID() const;
+		inline uint32_t GetID() const;
 
 		void SetBuffer(const GLArrayBuffer& Buffer);
 

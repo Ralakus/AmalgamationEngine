@@ -8,7 +8,7 @@ namespace Amalgamation {
 
 	FORCEINLINE GLTexture::~GLTexture() {}
 
-	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) {
+	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32_t LODLevel, int Layer, const std::function<void()>& LoadFunction) {
 		if (Layer >= 0 && Layer <= 31) {
 			m_Layer = Layer;
 		}
@@ -45,7 +45,7 @@ namespace Amalgamation {
 		return true;
 	}
 
-	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32 LODLevel, int Layer) {
+	FORCEINLINE bool GLTexture::LoadTexture(const std::string & FilePath, bool Flip, uint32_t LODLevel, int Layer) {
 		m_Layer = Layer;
 		GLCall(glGenTextures(1, &m_TextureID));
 		GLCall(glBindTexture(GL_TEXTURE_2D, m_TextureID));
@@ -104,7 +104,7 @@ namespace Amalgamation {
 		return true;
 	}
 
-	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32 LODLevel, int Layer) {
+	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32_t LODLevel, int Layer) {
 		m_Channels = Channels;
 		m_Width = Width;
 		m_Height = Height;
@@ -131,7 +131,7 @@ namespace Amalgamation {
 		return true;
 	}
 
-	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32 LODLevel, int Layer, const std::function<void()>& LoadFunction) {
+	FORCEINLINE bool GLTexture::LoadTextureData(const unsigned char * Data, int Width, int Height, int Channels, uint32_t LODLevel, int Layer, const std::function<void()>& LoadFunction) {
 		m_Channels = Channels;
 		m_Width = Width;
 		m_Height = Height;

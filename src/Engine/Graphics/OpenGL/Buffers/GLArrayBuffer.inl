@@ -5,13 +5,13 @@ namespace Amalgamation {
 	//OpenGL Array Element
 	//============================================
 
-	FORCEINLINE GLArrayElement::GLArrayElement(uint32 Type, uint32 Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
+	FORCEINLINE GLArrayElement::GLArrayElement(uint32_t Type, uint32_t Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
 
 	//============================================
 	//OpenGL Array Buffer Layout
 	//============================================
 
-	FORCEINLINE uint32 GLArrayBufferLayout::GetSizeOfType(uint32 Type) {
+	FORCEINLINE uint32_t GLArrayBufferLayout::GetSizeOfType(uint32_t Type) {
 		switch (Type) {
 		case GL_FLOAT:         return sizeof(GLfloat);
 		case GL_INT:           return sizeof(GLint);
@@ -26,7 +26,7 @@ namespace Amalgamation {
 
 	FORCEINLINE const std::vector<GLArrayElement>& GLArrayBufferLayout::GetElements() const { return m_Elements; }
 
-	FORCEINLINE uint32 GLArrayBufferLayout::GetStride() const { return m_Stride; }
+	FORCEINLINE uint32_t GLArrayBufferLayout::GetStride() const { return m_Stride; }
 
 	//============================================
 	//OpenGL Array Buffer
@@ -73,7 +73,7 @@ namespace Amalgamation {
 
 	FORCEINLINE const GLArrayBufferLayout & GLArrayBuffer::GetLayout() const { return m_Layout; }
 
-	FORCEINLINE uint32 GLArrayBuffer::GetID() const { return m_BufferID; }
+	FORCEINLINE uint32_t GLArrayBuffer::GetID() const { return m_BufferID; }
 
 	template<typename Type>
 	FORCEINLINE void GLArrayBufferLayout::Push(int Count) {
@@ -93,7 +93,7 @@ namespace Amalgamation {
 	}
 
 	template<>
-	FORCEINLINE void GLArrayBufferLayout::Push<uint32>(int Count) {
+	FORCEINLINE void GLArrayBufferLayout::Push<uint32_t>(int Count) {
 		m_Elements.emplace_back(GL_UNSIGNED_INT, Count, GL_FALSE);
 		m_Stride += Count * GetSizeOfType(GL_UNSIGNED_INT);
 	}

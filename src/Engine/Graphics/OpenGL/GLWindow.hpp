@@ -3,6 +3,7 @@
 #include <Core/Graphics/Window.hpp>
 #include "GLCommon.hpp"
 
+#undef APIENTRY
 #include <GLFW/glfw3.h>
 
 namespace Amalgamation {

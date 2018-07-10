@@ -7,9 +7,9 @@ namespace Amalgamation {
 
 	class GLArrayElement {
 	public:
-		GLArrayElement(uint32 Type, uint32 Count, int8 Normalized);
-		uint32 Type;
-		uint32 Count;
+		GLArrayElement(uint32_t Type, uint32_t Count, int8 Normalized);
+		uint32_t Type;
+		uint32_t Count;
 		int8 Normalized;
 	};
 
@@ -19,11 +19,11 @@ namespace Amalgamation {
 
 	class GLArrayBufferLayout {
 	public:
-		static uint32 GetSizeOfType(uint32 Type);
+		static uint32_t GetSizeOfType(uint32_t Type);
 
 	private:
 		std::vector<GLArrayElement> m_Elements;
-		uint32 m_Stride;
+		uint32_t m_Stride;
 	public:
 
 		GLArrayBufferLayout();
@@ -35,12 +35,12 @@ namespace Amalgamation {
 		template<>
 		void Push<int>(int Count);
 		template<>
-		void Push<uint32>(int Count);
+		void Push<uint32_t>(int Count);
 		template<>
 		void Push<uint8>(int Count);
 
 		inline const std::vector<GLArrayElement>& GetElements() const;
-		inline uint32 GetStride() const;
+		inline uint32_t GetStride() const;
 
 	};
 
@@ -52,7 +52,7 @@ namespace Amalgamation {
 	*/
 	class GLArrayBuffer {
 
-		uint32 m_BufferID;
+		uint32_t m_BufferID;
 
 		GLArrayBufferLayout m_Layout;
 
@@ -72,7 +72,7 @@ namespace Amalgamation {
 		GLArrayBufferLayout& GetLayout();
 		const GLArrayBufferLayout& GetLayout() const;
 
-		uint32 GetID() const;
+		uint32_t GetID() const;
 
 	};
 

@@ -14,9 +14,9 @@ namespace Amalgamation {
 
 	FORCEINLINE void GLShader::AfterLoad() {
 		GLCall(m_ShaderID = glCreateProgram());
-		GLCall(uint32 VertexID = glCreateShader(GL_VERTEX_SHADER));
-		GLCall(uint32 FragmentID = glCreateShader(GL_FRAGMENT_SHADER));
-		GLCall(uint32 GeometryID = glCreateShader(GL_GEOMETRY_SHADER));
+		GLCall(uint32_t VertexID = glCreateShader(GL_VERTEX_SHADER));
+		GLCall(uint32_t FragmentID = glCreateShader(GL_FRAGMENT_SHADER));
+		GLCall(uint32_t GeometryID = glCreateShader(GL_GEOMETRY_SHADER));
 
 		bool AddingToString = false;
 

@@ -23,10 +23,12 @@ namespace Amalgamation {
 
 		m_OnSecondTimer += m_Delta;
 		m_FPSIS += 1.f / m_Delta;
+		m_FTIS += m_Delta;
 		m_FramesInSecond++;
 
 		if (m_OnSecondTimer > 1.f) {
 			m_AVGFPS = m_FPSIS / static_cast<float>(m_FramesInSecond);
+			m_AvgFrameTime = m_FTIS / static_cast<float>(m_FramesInSecond);
 			m_OnSecondTimer = 0.f;
 			m_OnSecond = true;
 		}
@@ -47,5 +49,7 @@ namespace Amalgamation {
 	FORCEINLINE float Time::GetAvgFPS() const { return m_AVGFPS; }
 
 	FORCEINLINE float Time::GetFPS() const { return 1.f / m_Delta; }
+
+	FORCEINLINE float Time::GetAvgDelta() const { return m_AvgFrameTime; }
 
 }

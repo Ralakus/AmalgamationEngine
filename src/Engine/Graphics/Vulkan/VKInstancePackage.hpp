@@ -1,6 +1,7 @@
 #pragma once
 
 #define GLFW_INCLUDE_VULKAN
+#undef APIENTRY
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.hpp>
 #include <iostream>

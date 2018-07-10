@@ -22,6 +22,8 @@ namespace Amalgamation {
 		float m_AVGFPS = 0.f;
 		uint32_t m_FramesInSecond = 0;
 		float m_FPSIS = 0.f;
+		float m_FTIS = 0.f;
+		float m_AvgFrameTime = 0.f;
 
 		float m_OnSecondTimer = 0.f;
 
@@ -32,15 +34,17 @@ namespace Amalgamation {
 
 		FORCEINLINE void Update();
 
-		FORCEINLINE float GetDelta()   const;
+		FORCEINLINE float GetDelta()    const;
 
-		FORCEINLINE float GetElapsed() const;
+		FORCEINLINE float GetElapsed()  const;
 
-		FORCEINLINE bool  OnSecond()   const;
+		FORCEINLINE bool  OnSecond()    const;
 
-		FORCEINLINE float GetAvgFPS()  const;
+		FORCEINLINE float GetAvgFPS()   const;
 
-		FORCEINLINE float GetFPS()     const;
+		FORCEINLINE float GetFPS()      const;
+
+		FORCEINLINE float GetAvgDelta() const;
 
 	};
 

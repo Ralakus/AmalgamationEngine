@@ -133,7 +133,7 @@ namespace Amalgamation {
 			{ 0.0f, 0.0f },
 			{ 0.0f, 1.0f }
 		};
-		std::vector<uint32> Indices = {
+		std::vector<uint32_t> Indices = {
 			0,  1,  2,
 			3,  4,  5,
 			6,  7,  8,
@@ -170,7 +170,7 @@ namespace Amalgamation {
 			{ 1,1 },
 			{ 0,1 }
 		};
-		std::vector<uint32> Indices = {
+		std::vector<uint32_t> Indices = {
 			0, 1, 2,
 			2, 3, 0
 		};
@@ -200,7 +200,7 @@ namespace Amalgamation {
 			{ 0,1 },
 			{ 0.5f, 0.5f},
 		};
-		std::vector<uint32> Indices = {
+		std::vector<uint32_t> Indices = {
 			0, 1, 2,
 			2, 3, 0,
 
@@ -248,7 +248,7 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE MeshData Mesh::MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices) {
+	FORCEINLINE MeshData Mesh::MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32_t>& Indices) {
 		return { Verticies, Normals, TextureCoords, Indices };
 	}
 
@@ -313,7 +313,7 @@ namespace Amalgamation {
 
 	FORCEINLINE const std::vector<glm::vec2>& Mesh::GetTextureCoords() const { return m_MeshData.TextureCoords; }
 
-	FORCEINLINE const std::vector<uint32>& Mesh::GetIndices() const { return m_MeshData.Indices; }
+	FORCEINLINE const std::vector<uint32_t>& Mesh::GetIndices() const { return m_MeshData.Indices; }
 
 	FORCEINLINE const std::vector<float>& Mesh::GetInterlacedData() const { return m_InterlacedData; }
 

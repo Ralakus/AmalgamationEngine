@@ -1,9 +1,4 @@
-#include <Engine/Graphics/Vulkan/VKInstancePackage.hpp>
 #include <Engine/Graphics/Vulkan/VKWindow.hpp>
-
-#include <Engine/Graphics/OpenGL/GLWindow.hpp>
-
-#include <iostream>
 
 
 int main(int argc, char* argv[]) {
@@ -15,4 +10,5 @@ int main(int argc, char* argv[]) {
 	}
 
 	return 0;
+
 }

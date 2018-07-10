@@ -7,7 +7,7 @@ namespace Amalgamation {
 		m_Window = nullptr;
 
 		if (!glfwInit()) {
-			std::cerr << rang::fgB::red << "[ gl::error ]: " << rang::fg::reset << "Failed to initialize glfw!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
+			std::cerr << rang::fgB::red << "[ vk::error ]: " << rang::fg::reset << "Failed to initialize glfw!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
 			return false;
 		}
 
@@ -19,7 +19,7 @@ namespace Amalgamation {
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.c_str(), m_Fullscreen ? m_Monitor : nullptr, nullptr);
 
 		if (!m_Window) {
-			std::cerr << rang::fgB::red << "[ gl::error ]: " << rang::fg::reset << "Failed to assign window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
+			std::cerr << rang::fgB::red << "[ vk::error ]: " << rang::fg::reset << "Failed to assign window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
 			return false;
 		}
 
@@ -40,18 +40,18 @@ namespace Amalgamation {
 		return true;
 	}
 
-	FORCEINLINE VKWindow::VKWindow() : Window(API::OpenGL) {
+	FORCEINLINE VKWindow::VKWindow() : Window(API::Vulkan) {
 		if (!Create()) {
-			std::cerr << rang::fgB::red << "[ gl::error ]: " << rang::fg::reset << "Failed to create OpenGL window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
+			std::cerr << rang::fgB::red << "[ vk::error ]: " << rang::fg::reset << "Failed to create OpenGL window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
 			glfwDestroyWindow(m_Window);
 		}
 	}
 
 	FORCEINLINE VKWindow::VKWindow(const std::string & title, uint32_t width, uint32_t height, bool Fullscreen)
-		: Window(title, width, height, Fullscreen, API::OpenGL)
+		: Window(title, width, height, Fullscreen, API::Vulkan)
 	{
 		if (!Create()) {
-			std::cerr << rang::fgB::red << "[ gl::error ]: " << rang::fg::reset << "Failed to create OpenGL window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
+			std::cerr << rang::fgB::red << "[ vk::error ]: " << rang::fg::reset << "Failed to create OpenGL window!" << rang::fgB::yellow << "\nEND" << rang::fg::reset << std::endl;
 			glfwDestroyWindow(m_Window);
 		}
 	}

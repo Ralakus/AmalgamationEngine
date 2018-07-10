@@ -8,7 +8,7 @@
 namespace Amalgamation {
 	class GLShader : public Shader {
 
-		uint32 m_ShaderID;
+		uint32_t m_ShaderID;
 		std::string m_VertexShader, m_FragmentShader, m_GeometryShader;
 		std::unordered_map<std::string, int32> m_UniformLocationCahce;
 

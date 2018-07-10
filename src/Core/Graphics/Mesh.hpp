@@ -14,7 +14,7 @@ namespace Amalgamation {
 		std::vector<glm::vec3> Vertices;
 		std::vector<glm::vec3> Normals;
 		std::vector<glm::vec2> TextureCoords;
-		std::vector<uint32> Indices;
+		std::vector<uint32_t> Indices;
 	};
 
 	class Mesh : public GraphicsClass {
@@ -52,7 +52,7 @@ namespace Amalgamation {
 
 		virtual bool PushData(const MeshData& Data);
 
-		static MeshData MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32>& Indices);
+		static MeshData MakeMeshData(const std::vector<glm::vec3>& Verticies, const std::vector<glm::vec3>& Normals, const std::vector<glm::vec2>& TextureCoords, const std::vector<uint32_t>& Indices);
 		static MeshData MakeMeshData(Primitive Shape);
 
 		void Draw();
@@ -67,7 +67,7 @@ namespace Amalgamation {
 		const std::vector<glm::vec3>& GetVertices()       const;
 		const std::vector<glm::vec3>& GetNormals()        const;
 		const std::vector<glm::vec2>& GetTextureCoords()  const;
-		const std::vector<uint32>&     GetIndices()        const;
+		const std::vector<uint32_t>&     GetIndices()        const;
 
 		const std::vector<float>&      GetInterlacedData() const;
 
