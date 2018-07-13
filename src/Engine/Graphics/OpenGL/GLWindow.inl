@@ -1,6 +1,8 @@
+#ifndef AE_NO_GLIMGUI
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_glfw.h>
+#endif
 #include "GLWindow.hpp"
 
 namespace Amalgamation {
@@ -27,11 +29,22 @@ namespace Amalgamation {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, this);
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* Window, int Width, int Height) { GLCall(glViewport(0, 0, Width, Height)); });
-		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Window::UpdateButtonInput(button, action); ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods); });
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) { ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset); });
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::UpdateKeyInput(key, action); ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);  });
-		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { ImGui_ImplGlfw_CharCallback(window, c); });
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<float>(xpos) , static_cast<float>(ypos)); });
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
+			GLWindow* AEWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateButtonInput(button, action);
+		});
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) {
+		});
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			GLWindow* AEWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateKeyInput(key, action);
+		});
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { 
+		});
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { 
+			GLWindow* AEWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateMousePos(static_cast<float>(xpos), static_cast<float>(ypos));
+		});
 		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered) { GLWindow* AEWindow = static_cast<GLWindow*>(glfwGetWindowUserPointer(window)); AEWindow->m_CursorOnWindow = entered; });
 
 

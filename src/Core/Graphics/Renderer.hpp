@@ -31,4 +31,6 @@ namespace Amalgamation {
 
 }
 
-#include "Renderer.inl"
+#ifndef AE_NO_IMPL
+	#include "Renderer.inl"
+#endif

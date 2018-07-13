@@ -10,7 +10,9 @@ namespace Amalgamation {
 
 	public:
 
-		InputControl();
+		Input* InputManager;
+
+		 InputControl();
 		~InputControl();
 
 		void AddInput(Key KeyCode, float Value);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Types/Singleton.hpp"
-
 #include <thread>
 #include <mutex>
 #include <atomic>
@@ -35,5 +33,6 @@ namespace Amalgamation {
 	};
 
 }
-
-#include "ThreadPool.inl"
+#ifndef AE_NO_IMPL
+	#include "ThreadPool.inl"
+#endif

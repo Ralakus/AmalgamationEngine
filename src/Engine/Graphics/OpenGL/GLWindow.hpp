@@ -43,4 +43,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLWindow.inl"
+#ifndef AE_NO_IMPL
+	#include "GLWindow.inl"
+#endif

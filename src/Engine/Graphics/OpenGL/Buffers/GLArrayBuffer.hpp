@@ -7,10 +7,10 @@ namespace Amalgamation {
 
 	class GLArrayElement {
 	public:
-		GLArrayElement(uint32_t Type, uint32_t Count, int8 Normalized);
+		GLArrayElement(uint32_t Type, uint32_t Count, int8_t Normalized);
 		uint32_t Type;
 		uint32_t Count;
-		int8 Normalized;
+		int8_t Normalized;
 	};
 
 	using GLVertexElement = GLArrayElement;
@@ -37,7 +37,7 @@ namespace Amalgamation {
 		template<>
 		void Push<uint32_t>(int Count);
 		template<>
-		void Push<uint8>(int Count);
+		void Push<uint8_t>(int Count);
 
 		inline const std::vector<GLArrayElement>& GetElements() const;
 		inline uint32_t GetStride() const;
@@ -81,4 +81,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLArrayBuffer.inl"
+#ifndef AE_NO_IMPL
+	#include "GLArrayBuffer.inl"
+#endif

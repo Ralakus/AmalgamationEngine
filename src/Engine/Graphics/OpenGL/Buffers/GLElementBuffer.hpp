@@ -31,4 +31,6 @@ namespace Amalgamation {
 	//typedef GLElementBuffer IndexBuffer;
 }
 
-#include "GLElementBuffer.inl"
+#ifndef AE_NO_IMPL
+	#include "GLElementBuffer.inl"
+#endif

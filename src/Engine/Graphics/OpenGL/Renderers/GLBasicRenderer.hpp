@@ -27,4 +27,7 @@ namespace Amalgamation {
 	};
 
 }
-#include "GLBasicRenderer.inl"
+
+#ifndef AE_NO_IMPL
+	#include "GLBasicRenderer.inl"
+#endif

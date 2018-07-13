@@ -22,4 +22,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLFrameBuffer.inl"
+#ifndef AE_NO_IMPL
+	#include "GLFrameBuffer.inl"
+#endif

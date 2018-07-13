@@ -39,4 +39,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLShader.inl"
+#ifndef AE_NO_IMPL
+	#include "GLShader.inl"
+#endif

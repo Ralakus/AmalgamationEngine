@@ -27,4 +27,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLVertexArray.inl"
+#ifndef AE_NO_IMPL
+	#include "GLVertexArray.inl"
+#endif

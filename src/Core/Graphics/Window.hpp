@@ -21,11 +21,13 @@ namespace Amalgamation {
 		bool m_MouseLocked    = false;
 		bool m_CursorOnWindow = false;
 
-		static void UpdateKeyInput(int KeyCode, int Action);
-		static void UpdateButtonInput(int ButtonCode, int Action);
-		static void UpdateMousePos(float X, float Y);
+		void UpdateKeyInput(int KeyCode, int Action);
+		void UpdateButtonInput(int ButtonCode, int Action);
+		void UpdateMousePos(float X, float Y);
 
 	public:
+
+		Input* InputManager = nullptr;
 
 		Window(const std::string& title, uint32_t width, uint32_t height, bool Fullscreen, API API);
 		Window(API API);
@@ -54,5 +56,6 @@ namespace Amalgamation {
 
 
 }
-
-#include "Window.inl"
+#ifndef AE_NO_IMPL
+	#include "Window.inl"
+#endif

@@ -5,7 +5,7 @@ namespace Amalgamation {
 	//OpenGL Array Element
 	//============================================
 
-	FORCEINLINE GLArrayElement::GLArrayElement(uint32_t Type, uint32_t Count, int8 Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
+	FORCEINLINE GLArrayElement::GLArrayElement(uint32_t Type, uint32_t Count, int8_t Normalized) : Type(Type), Count(Count), Normalized(Normalized) {}
 
 	//============================================
 	//OpenGL Array Buffer Layout

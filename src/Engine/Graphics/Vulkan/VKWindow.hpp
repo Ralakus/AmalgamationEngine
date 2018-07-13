@@ -3,7 +3,6 @@
 #include <Core/Graphics/Window.hpp>
 #include "VKInstancePackage.hpp"
 
-
 namespace Amalgamation {
 
     class VKWindow : public Window {
@@ -17,6 +16,7 @@ namespace Amalgamation {
 		AEVK Vulkan;
 
 	public:
+		
 
 		VKWindow();
 		VKWindow(const std::string& title, uint32_t width, uint32_t height, bool Fullscreen = false);

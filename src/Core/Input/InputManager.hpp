@@ -57,8 +57,6 @@ namespace Amalgamation {
 		Input();
 		~Input();
 
-		SINGLETON_INSTANCE(Input)
-
 		FORCEINLINE void RegisterKeyAction(const std::string& Name, Key KeyCode, InputAction Action);
 		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 

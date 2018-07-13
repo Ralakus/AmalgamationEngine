@@ -36,4 +36,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLMesh.inl"
+#ifndef AE_NO_IMPL
+	#include "GLMesh.inl"
+#endif

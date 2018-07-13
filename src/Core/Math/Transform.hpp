@@ -21,4 +21,6 @@ namespace Amalgamation {
 
 }
 
-#include "Transform.inl"
+#ifndef AE_NO_IMPL
+	#include "Transform.inl"
+#endif

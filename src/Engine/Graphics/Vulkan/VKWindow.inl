@@ -1,5 +1,12 @@
+#ifndef AE_NO_VKIMGUI
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
+#endif
+
+#undef APIENTRY
+#include <rang.hpp>
+#undef max
+#undef min
 
 namespace Amalgamation {
 
@@ -26,12 +33,29 @@ namespace Amalgamation {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, this);
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* Window, int Width, int Height) {});
-		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { Window::UpdateButtonInput(button, action); ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods); });
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) { ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset); });
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) { Window::UpdateKeyInput(key, action); ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);  });
-		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) { ImGui_ImplGlfw_CharCallback(window, c); });
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) { Window::UpdateMousePos(static_cast<float>(xpos), static_cast<float>(ypos)); });
-		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered) { VKWindow* AEWindow = static_cast<VKWindow*>(glfwGetWindowUserPointer(window)); AEWindow->m_CursorOnWindow = entered; });
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) { 
+			VKWindow* AEWindow = static_cast<VKWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateButtonInput(button, action);
+		});
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) { 
+		});
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			VKWindow* AEWindow = static_cast<VKWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateKeyInput(key, action);
+		});
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int c) {
+		});
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
+			VKWindow* AEWindow = static_cast<VKWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->UpdateMousePos(static_cast<float>(xpos), static_cast<float>(ypos));
+		});
+
+		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered) {
+			VKWindow* AEWindow = static_cast<VKWindow*>(glfwGetWindowUserPointer(window));
+			AEWindow->m_CursorOnWindow = entered; 
+		});
 
 		Vulkan.InitVulkan(m_Window, m_Width, m_Height);
 
@@ -56,7 +80,7 @@ namespace Amalgamation {
 		}
 	}
 
-	FORCEINLINE VKWindow::~VKWindow() { Vulkan.VulkanCleanUp(); glfwTerminate(); }
+	FORCEINLINE VKWindow::~VKWindow() { if (m_Valid) { Terminate(); }; }
 
 	FORCEINLINE void VKWindow::LockMouse(bool set) { if (set) { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); } else { glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); } m_MouseLocked = set; }
 
@@ -70,11 +94,13 @@ namespace Amalgamation {
 		}
 		else {
 			m_Valid = false;
+			Vulkan.VulkanCleanUp();
 		}
 	}
 
 	FORCEINLINE void VKWindow::Terminate() {
 		m_Valid = false;
+		Vulkan.VulkanCleanUp();
 		glfwDestroyWindow(m_Window);
 	}
 

@@ -32,4 +32,6 @@ namespace Amalgamation {
 
 }
 
-#include "GLTexture.inl"
+#ifndef AE_NO_IMPL
+	#include "GLTexture.inl"
+#endif

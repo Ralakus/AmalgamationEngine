@@ -28,5 +28,6 @@ namespace Amalgamation {
 	};
 
 }
-
-#include "Shader.inl"
+#ifndef AE_NO_IMPL
+	#include "Shader.inl"
+#endif

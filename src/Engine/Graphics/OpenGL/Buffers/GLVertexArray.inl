@@ -24,7 +24,7 @@ namespace Amalgamation {
 		Bind();
 		Buffer.Bind();
 		const auto& Elements = Buffer.GetLayout().GetElements();
-		uint64 Offset = 0;
+		size_t Offset = 0;
 		for (uint32_t i = 0; i < Elements.size(); i++) {
 			GLCall(glEnableVertexAttribArray(i));
 			GLCall(glVertexAttribPointer(i, Elements[i].Count, Elements[i].Type, Elements[i].Normalized, Buffer.GetLayout().GetStride(), (const void*)Offset);

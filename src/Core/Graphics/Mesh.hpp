@@ -82,4 +82,6 @@ namespace Amalgamation {
 	};
 }
 
-#include "Mesh.inl"
+#ifndef AE_NO_IMPL
+	#include "Mesh.inl"
+#endif
