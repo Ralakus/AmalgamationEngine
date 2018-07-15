@@ -1,0 +1,5 @@
+
+
+namespace Amalgamation { namespace Detail {
+    
+} }

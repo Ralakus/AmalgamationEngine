@@ -10,6 +10,7 @@ that is meant to be mostly header only
 
 # To do:
 ## Short term :arrow_down:
+* Port over to linux
 * Be able to render a mesh using Vulkan
 * Make a simple to use ECS
 * 32 bit support

@@ -11,7 +11,7 @@ function IncludeGLFW() --GLFW include
 end
 
 function IncludeVulkan() --Vulkan SDK include
-   includedirs "C:/VulkanSDK/1.1.77.0/Include"
+   includedirs "$VULKAN_SDK/Include"
 end
 
 function IncludeRang()
@@ -48,10 +48,10 @@ end
 
 function LinkVulkan() --Vulkan Static Link
         filter { "architecture:x86_64" }
-           libdirs "C:/VulkanSDK/1.1.77.0/Lib"
+           libdirs "$VULKAN_SDK/Lib"
 
         filter { "architecture:x86" }
-           libdirs "C:/VulkanSDK/1.1.77.0/Lib32"
+           libdirs "$VULKAN_SDK/Lib32"
         filter {}
 	
 	filter "kind:not StaticLib"
