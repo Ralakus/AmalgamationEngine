@@ -1,160 +1,157 @@
 -- premake5.lua
 
 Is64bit = true  -- 32 bit if false
+VulkanSDKPath = os.getenv("VULKAN_SDK")
 
-function IncludeGlm()   --GLM include
-   includedirs "lib/glm/"
-end
+IncludePaths = {}
+IncludePaths["glm"] = "lib/glm"
+IncludePaths["glfw"] = "lib/glfw/include"
+IncludePaths["vulkan"] = (VulkanSDKPath .. "/Include")
+IncludePaths["rang"] = "lib/rang"
+IncludePaths["stb"] = "lib/stb"
+IncludePaths["glad"] = "lib/glad/include"
+IncludePaths["imgui"] = "lib/ImGui"
 
-function IncludeGLFW() --GLFW include
-   includedirs "lib/glfw/include"
-end
+LinkerPathsx86 = {}
+LinkerPathsx86["vulkan"] = (VulkanSDKPath.."/Lib32")
+LinkerPathsx86["glfw"] = "lib/glfw"
+LinkerPathsx86["glad"] = "Glad"
+LinkerPathsx86["imgui"] = "ImGui"
 
-function IncludeVulkan() --Vulkan SDK include
+LinkerPathsx64 = {}
+LinkerPathsx64["vulkan"] = (VulkanSDKPath.."/Lib")
+LinkerPathsx64["glfw"] = "lib/glfw"
+LinkerPathsx64["glad"] = "Glad"
+LinkerPathsx64["imgui"] = "ImGui"
 
-   filter { "system:windows" }
-      includedirs "C:/VulkanSDK/1.1.77.0/Include"
-        
-   filter { "system:not windows" }
-      includedirs "/usr/include/"
-   filter {}
 
-end
-
-function IncludeRang()
-   includedirs "lib/rang/"
-end
-
-function IncludeStb()
-   includedirs "lib/stb/"
-end
-
-function IncludeGlad()
-   includedirs "lib/glad/include"
-end
-
-function IncludeImGui()
-   includedirs "lib/ImGui"
-end
+--Linker functions ========================================================================
 
 function LinkImGui()
-   links "ImGui"
+        links "ImGui"
 end
 
 function LinkGlad()
 
-   links "Glad"
+        links (LinkerPathsx64["glad"])
 
-   filter { "system:windows" }
-      links { "OpenGL32" }
-        
-   filter { "system:not windows" }
-      links { "GL" }
-   filter {}
+        filter { "system:windows" }
+                links { "OpenGL32" }
+
+        filter { "system:not windows" }
+                links { "GL" }
+        filter {}
 end
 
 function LinkVulkan() --Vulkan Static Link
         filter { "architecture:x86_64" }
-           libdirs "C:/VulkanSDK/1.1.77.0/Lib"
+                libdirs (LinkerPathsx64["vulkan"])
 
         filter { "architecture:x86" }
-           libdirs "C:/VulkanSDK/1.1.77.0/Lib32"
-	
-	filter "kind:not StaticLib"
-		links "vulkan-1"
-	filter {}
+                libdirs (LinkerPathsx86["vulkan"])
+
+        filter "kind:not StaticLib"
+                links "vulkan-1"
+        filter {}
 end
 
 function LinkGLFW() --GLFW Static link
-        if(Is64bit) then
-           libdirs "lib/glfw/"
-        end
-	
-	filter "kind:not StaticLib"
-		links "glfw3"
-	filter {}
+        filter { "architecture:x86_64" }
+                libdirs (LinkerPathsx64["glfw"])
+
+        filter { "architecture:x86" }
+                libdirs (LinkerPathsx86["glfw"])
+
+        filter "kind:not StaticLib"
+                links "glfw3"
+        filter {}
 end
 
+--Project Setup ========================================================================
+
 workspace "Amalgamation"
-   language "C++"
-   flags { "C++14" } 
+        language "C++"
+        cppdialect "C++14" 
 
-   location "build"
+        location "build"
 
-   if(Is64bit) then
-      architecture "x86_64"
-   else
-      architecture "x86"
-   end
+        if(Is64bit) then
+                architecture "x86_64"
+        else
+                architecture "x86"
+        end
 
-   configurations { "Debug", "Release" }
+        configurations { "Debug", "Release" }
 
-   filter { "configurations:Debug" }
-      symbols "On"
+        filter { "configurations:Debug" }
+                symbols "On"
 
-   filter { "configurations:Release" }
-      optimize "On"
-   filter { }
-	
-   targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
+        filter { "configurations:Release" }
+                optimize "On"
+        filter { }
 
-   objdir ("build/obj/%{prj.name}/%{cfg.longname}")
+        targetdir ("build/bin/%{prj.name}/%{cfg.longname}")
+
+        objdir ("build/obj/%{prj.name}/%{cfg.longname}")
+
+--Engine project ========================================================================
 
 project "Amalgamation"
 
-   kind "ConsoleApp"
+        kind "ConsoleApp"
 
-   --defines { "GLFW_INCLUDE_VULKAN" }
+        includedirs "src"
 
-   includedirs "src"
+        includedirs (IncludePaths["glfw"])
+        includedirs (IncludePaths["glm"])
+        includedirs (IncludePaths["vulkan"])
+        includedirs (IncludePaths["rang"])
+        includedirs (IncludePaths["stb"])
+        includedirs (IncludePaths["glad"])
+        includedirs (IncludePaths["imgui"])
 
-   IncludeGLFW()
-   IncludeGlm()
-   IncludeVulkan()
-   IncludeRang()
-   IncludeStb()
-   IncludeGlad()
-   IncludeImGui()
+        LinkGLFW()
+        LinkVulkan()
+        LinkGlad()
+        LinkImGui()
 
-   LinkGLFW()
-   LinkVulkan()
-   LinkGlad()
-   LinkImGui()
+        files { "src/**.hpp", "src/**.cpp", "src/**.inl" }
 
-   files { "src/**.hpp", "src/**.cpp", "src/**.inl" }
+        filter "configurations:Debug"
+                defines { "DEBUG" }
 
-   filter "configurations:Debug"
-      defines { "DEBUG" }
+        filter "configurations:Release"
+                defines { "NDEBUG" }
 
-   filter "configurations:Release"
-      defines { "NDEBUG" }
+
+-- Dependency projects ========================================================================
 
 project "ImGui"
-   kind "StaticLib"
+        kind "StaticLib"
 
-   IncludeGlad()
-   IncludeGLFW()
+        includedirs (IncludePaths["glad"])
+        includedirs (IncludePaths["glfw"])
 
-   files { "lib/ImGui/**" }
+        files { "lib/ImGui/**" }
 
-   filter "configurations:Debug"
-      defines { "DEBUG" }
+        filter "configurations:Debug"
+                defines { "DEBUG" }
 
-   filter "configurations:Release"
-      defines { "NDEBUG" }
-   filter {}
+        filter "configurations:Release"
+                defines { "NDEBUG" }
+        filter {}
 
-project "Glad"
+        project "Glad"
 
-   kind "StaticLib"
+        kind "StaticLib"
 
-   IncludeGlad()
+        includedirs (IncludePaths["glad"])
 
-   files { "lib/glad/src/**" }
+        files { "lib/glad/src/**" }
 
-   filter "configurations:Debug"
-      defines { "DEBUG" }
+        filter "configurations:Debug"
+                defines { "DEBUG" }
 
-   filter "configurations:Release"
-      defines { "NDEBUG" }
-   filter {}
+        filter "configurations:Release"
+                defines { "NDEBUG" }
+        filter {}
