@@ -3,8 +3,8 @@ namespace Amalgamation {
 
 	Aesset2& Aesset2::operator[](const std::string & Property) {
 		if (m_PropertyMap.count(Property) < 1) { return GetInvalidAesset(); }
-		if (!m_PropertyMap[Property].m_IsParsed) { m_PropertyMap[Property].ParseAesset(); }
-		return m_PropertyMap[Property];
+		if (!m_PropertyMap[Property]->m_IsParsed) { m_PropertyMap[Property]->ParseAesset(); }
+		return *m_PropertyMap[Property];
 	}
 
 	int Aesset2::ParseAesset() {
@@ -62,9 +62,10 @@ namespace Amalgamation {
 							//Buffer.Value = m_Buffer;
 							ValueBuffer = m_Buffer;
 							m_Buffer.clear();
-							m_PropertyMap[NameBuffer].m_Content = ValueBuffer;
-							if (m_PropertyMap[NameBuffer].m_Type == Type::Aesset) {
-								m_PropertyMap[NameBuffer].ParseAesset();
+							m_PropertyMap[NameBuffer] = std::make_unique<Aesset2>();
+							m_PropertyMap[NameBuffer]->m_Content = ValueBuffer;
+							if (m_PropertyMap[NameBuffer]->m_Type == Type::Aesset) {
+								m_PropertyMap[NameBuffer]->ParseAesset();
 							}
 							ParseState = State::Scanning;
 						}

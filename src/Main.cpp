@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
 	Amalgamation::Input InputManager;
 	Amalgamation::VKWindow AEWindow(
-		Config["Window"]["Name"]      .As<std::string>("Noice"),
+		Config["Window"]["Name"]      .AsString("Noice"),
 		Config["Window"]["Width"]     .As<unsigned int>(1280),
 		Config["Window"]["Height"]    .As<unsigned int>(720),
 		Config["Window"]["Fullscreen"].As<bool>(false)

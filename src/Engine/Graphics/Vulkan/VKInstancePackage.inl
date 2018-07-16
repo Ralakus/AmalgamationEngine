@@ -98,8 +98,9 @@ namespace Amalgamation {
 		CreateInfo.pfnCallback = DebugCallback;
 
 		//ValidationCallback =  Instance.createDebugReportCallbackEXT(CreateInfo);
+		VkDebugReportCallbackCreateInfoEXT cCallback = CreateInfo;
 
-		if (CreateDebugReportCallbackEXT(Instance, &static_cast<VkDebugReportCallbackCreateInfoEXT>(CreateInfo),
+		if (CreateDebugReportCallbackEXT(Instance, &cCallback,
 			nullptr, reinterpret_cast<VkDebugReportCallbackEXT*>(&ValidationCallback)) != VK_SUCCESS) {
 
 		}

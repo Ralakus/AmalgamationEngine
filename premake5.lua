@@ -77,6 +77,7 @@ end
 
 workspace "Amalgamation"
    language "C++"
+   flags { "C++14" } 
 
    location "build"
 

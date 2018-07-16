@@ -6,7 +6,8 @@ namespace Amalgamation { namespace Detail {
 
 	template<class T>
 	T FromString(const std::string& Value) {
-		static_assert(false, "Type conversion not supported");
+		//static_assert(false, "Type conversion not supported");
+		return Value;
 	}
 
 	template<>
@@ -35,9 +36,6 @@ namespace Amalgamation { namespace Detail {
 
 	template<>
 	long double FromString<long double>(const std::string& Value) { return std::stold(Value); }
-
-	template<>
-	const std::string& FromString<const std::string&>(const std::string& Value) { return Value; }
 
 	template<>
 	std::string FromString<std::string>(const std::string& Value) { return Value; }

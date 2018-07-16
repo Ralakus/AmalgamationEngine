@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #define AE_INVALID_AESSET "INVALID_AESSET"
 
@@ -51,7 +52,7 @@ namespace Amalgamation {
 	private:
 
 		bool m_IsParsed = false;
-		std::unordered_map<std::string, Aesset2> m_PropertyMap;
+		std::unordered_map<std::string, std::unique_ptr<Aesset2>> m_PropertyMap;
 		std::string m_Content;
 		Type m_Type;
 
@@ -73,10 +74,13 @@ namespace Amalgamation {
 
 		const std::string& GetRaw() const { return m_Content; }
 
+		const std::string& AsString(const std::string& Default) const { return m_Content == AE_INVALID_AESSET ? Default : m_Content; }
+		const std::string& AsString() const { return m_Content; }
+
 		template<class T>
 		T As() {
 			T R;
-			if (!m_Content.empty() && m_Content() != AE_INVALID_AESSET) {
+			if (!m_Content.empty() && m_Content != AE_INVALID_AESSET) {
 				try {
 					R = Detail::FromString<T>(m_Content);
 				}
