@@ -1,8 +1,13 @@
 #pragma once 
 
-#include <Core/Utilities/File.hpp>
+#include <Core/Platform/Platform.hpp>
+#include <Core/Detail/StringFunctions.hpp>
+
+#include <fstream>
 #include <string>
 #include <unordered_map>
+
+#define AE_INVALID_AESSET "INVALID_AESSET"
 
 namespace Amalgamation {
 
@@ -11,7 +16,7 @@ namespace Amalgamation {
 	Goal for new Aesset reader is to have an API like
 
 	Aesset Config("File.txt");
-	float  FOV = Config["UserSettings"]["Graphics"]["FOV"].as<float>(90.f); //The 90.f is there incase the property doesn't exist
+	float  FOV = Config["UserSettings"]["Graphics"]["FOV"].As<float>(90.f); //The 90.f is there incase the property doesn't exist
 	//The class will automatically write the property and it's default value if it doesn't exist
 
 	//Or you could do it manually
@@ -37,21 +42,64 @@ namespace Amalgamation {
 		> = Closing statement
 
 		*/
+	public:
+
+		enum class Type : unsigned char {
+			Aesset = 0, Other = 1
+		};
 
 	private:
 
-		File m_File;
 		bool m_IsParsed = false;
-		std::unordered_map<std::string, Aesset2> m_PropertMap;
+		std::unordered_map<std::string, Aesset2> m_PropertyMap;
+		std::string m_Content;
+		Type m_Type;
 
 		mutable std::string m_Buffer;
 
 
 	public:
 
+		void LoadFile(const std::string& Name);
+		void LoadStr(const std::string& Data);
+		void Unload() { m_PropertyMap.clear(); m_Content.clear(); }
 
-		Aesset2 operator[](const std::string& Property);
+		Aesset2& operator[](const std::string& Property);
 
+		int ParseAesset();
+
+		static std::vector<char> ReadFile(const std::string& Filename);
+		static Aesset2& GetInvalidAesset();
+
+		const std::string& GetRaw() const { return m_Content; }
+
+		template<class T>
+		T As() {
+			T R;
+			if (!m_Content.empty() && m_Content() != AE_INVALID_AESSET) {
+				try {
+					R = Detail::FromString<T>(m_Content);
+				}
+				catch (std::exception& e) {
+
+				}
+			}
+			return R;
+		}
+
+		template<class T>
+		T As(T Default) {
+			T R = Default;
+			if (!m_Content.empty() && m_Content != AE_INVALID_AESSET) {
+				try {
+					R = Detail::FromString<T>(m_Content);
+				}
+				catch (std::exception& e) {
+
+				}
+			}
+			return R;
+		}
 
 	};
 

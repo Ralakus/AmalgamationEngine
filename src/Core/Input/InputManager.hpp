@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Event/EventHandler.hpp"
-#include "../Utilities/Aesset.hpp"
 
 #include <glm/common.hpp>
 #include <tuple>
@@ -61,8 +60,6 @@ namespace Amalgamation {
 		FORCEINLINE void RegisterButtonAction(const std::string& Name, Button ButtonCode, InputAction Action);
 
 		FORCEINLINE const glm::vec2& GetMousePos() const;
-
-		Key KeyFromAesset(const Aesset& File, const std::string& Name, Key Default);
 
 	};
 
