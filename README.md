@@ -2,6 +2,10 @@
 A C++/OpenGL game engine that I work on as a hobby project
 that is meant to be mostly header only
 
+# NOTICE:
+* This project is put on hold until I get a new framework for the engine up and running
+* The new framework will be the Labyrinth Famework that I'm working on
+
 ## Naming: :blue_book:
 * Everything PascalCase
 * Macros use SCREAMING_SNAKE_CASE

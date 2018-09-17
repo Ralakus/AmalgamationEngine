@@ -42,7 +42,7 @@ namespace Amalgamation { namespace Detail {
 
 	template<>
 	bool FromString<bool>(const std::string& Value) {
-		if (Value == "true") {
+		if (Value == "true" || Value == "TRUE" || Value == "True") {
 			return true;
 		}
 		else {
