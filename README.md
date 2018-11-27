@@ -3,8 +3,7 @@ A C++/OpenGL game engine that I work on as a hobby project
 that is meant to be mostly header only
 
 # NOTICE:
-* This project is put on hold until I get a new framework for the engine up and running
-* The new framework will be the Labyrinth Famework that I'm working on
+* This project is put on hold until I get the time and motivation to work on it again
 
 ## Naming: :blue_book:
 * Everything PascalCase
