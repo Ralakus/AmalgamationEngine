@@ -12,13 +12,19 @@ bin_dir   = build_dir .. "bin/"
 
 src            = {
     "src/Main.cpp",
+    "lib/glad/src/glad.c"
 }
 include_dirs   = {
     "lib/cxxopts/include",
+    "lib/nuklear/src",
+    "lib/nuklear/demo/glfw_opengl3",
+    "lib/glad/include",
 }
 lib_paths      = {
 }
 link_libraries = {
+    "glfw",
+    "GL"
 }
 
 compiler = "clang++"
@@ -46,17 +52,17 @@ end
 
 build_include_dir_str = ""
 for i = 1, #include_dirs do
-    build_include_dir_str = build_include_dir_str .. "-I" .. include_dirs[i]
+    build_include_dir_str = build_include_dir_str .. " -I" .. include_dirs[i]
 end
 
 link_link_paths_str = ""
 for i = 1, #lib_paths do 
-    link_link_paths_str = link_link_paths_str .. "-L".. lib_paths[i] 
+    link_link_paths_str = link_link_paths_str .. " -L".. lib_paths[i] 
 end
 
 link_link_libs_str = ""
 for i = 1, #link_libraries do 
-    link_link_libs_str = link_link_libs_str .. "-l".. link_libraries[i] 
+    link_link_libs_str = link_link_libs_str .. " -l".. link_libraries[i] 
 end
 
 build_command = compiler .. " -c %f " .. build_include_dir_str .. compile_args .. " -o %o"
