@@ -1,36 +1,40 @@
+#include <iostream>
+#include <cxxopts.hpp>
 
-#include <Core/Input/InputControl.hpp>
-#include <Engine/Graphics/Vulkan/VKWindow.hpp>
-#include <WIP/Aesset2.hpp>
+namespace Amalgamation {
+    constexpr auto version = "0.1.0";
+}
 
 int main(int argc, char* argv[]) {
 
-	Amalgamation::Aesset2 Config;
-	Config.LoadFile("Config.aesset");
+    cxxopts::Options options("Amalgamation", "This is a project made using the Amalgamation Engine");
 
-	Amalgamation::Input InputManager;
-	Amalgamation::VKWindow AEWindow(
-		Config["Window"]["Name"]      .AsString("Noice"),
-		Config["Window"]["Width"]     .As<unsigned int>(1280),
-		Config["Window"]["Height"]    .As<unsigned int>(720),
-		Config["Window"]["Fullscreen"].As<bool>(false)
-	);
-	AEWindow.InputManager = &InputManager;
+    options.add_options()
+        ("v,version", "Displays version")
+        ("h,help", "Prints help")
+    ;
 
-	Amalgamation::InputControl ICKeyF;
-	ICKeyF.InputManager = &InputManager;
-	ICKeyF.AddInput(Amalgamation::Key::F, 1.f);
+    options.help({""});
 
-	std::shared_ptr<Amalgamation::EventLambdaCallback> ECCloseWindow = std::make_shared<Amalgamation::EventLambdaCallback>([&]() { AEWindow.Close(); });
-	InputManager.RegisterKeyAction("ECCloseWindow", Amalgamation::Key::Escape, Amalgamation::InputAction::Held);
-	InputManager.RegisterCallback("ECCloseWindow", ECCloseWindow);
+    try {
+        auto cxxresult = options.parse(argc, argv);
 
-	while (AEWindow.IsValid()) {
-		AEWindow.Update();
-		if (ICKeyF.Value()) {
-			std::cout << rang::fgB::green << "Noice" << rang::fg::reset << std::endl;
-		}
-	}
+        if(cxxresult.count("help")) {
+            std::cout << options.help() << std::endl;
+            return EXIT_SUCCESS;
+        }
 
-	return 0;
+        if(cxxresult.count("version")) {
+            std::cout << "Amalgamation version: " << Amalgamation::version << std::endl;
+            return EXIT_SUCCESS;
+        }
+
+    } catch (cxxopts::OptionException& e) {
+
+        std::cout << e.what() << std::endl;
+
+    }
+
+    return EXIT_SUCCESS;
+
 }
