@@ -8,6 +8,7 @@ that is meant to be mostly header only
 * Constants use SCREAMING_SNAKE_CASE
 * C++ headers use .hpp
 * .inl files are prefered over .cpp files
+* All private members in a class have to be near the top of the class definition and prefixed with `_`
 
 # To do:
 ## Short term :arrow_down:

@@ -45,8 +45,10 @@ int main(int argc, char* argv[]) {
 
     GLFWwindow* window;
 
-    if (!glfwInit())
+    if (!glfwInit()) {
+        ae::error() << "Failed to initialize glfw" << std::endl;;
         return EXIT_FAILURE;
+    }
 
     window = glfwCreateWindow(1280, 720, "A window", NULL, NULL);
     if (!window) {
@@ -57,20 +59,27 @@ int main(int argc, char* argv[]) {
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
-        ae::error() << "[ gl::error ]: Failed to initialize GLAD!\nEND" << std::endl;
+        ae::error() << "Failed to initialize glad!" << std::endl;
         return EXIT_FAILURE;
     }
 
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glBegin(GL_QUADS);
-        glColor3f(0.f, 1.f, 0.f);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glVertex2f(0.5f, 0.5f);
-        glVertex2f(-0.5f, 0.5f);
+        glBegin(GL_TRIANGLES);
+            glColor3f(0.f, 0.f, 1.f);
+            glVertex2f(-0.5f, -0.5f);
+            glVertex2f(0.5f, -0.5f);
+            glVertex2f(0.5f, 0.5f);
         glEnd();
+
+        glBegin(GL_TRIANGLES);
+            glColor3f(0.f, 1.f, 0.f);
+            glVertex2f(0.5f, 0.5f);
+            glVertex2f(-0.5f, 0.5f);
+            glVertex2f(-0.5f, -0.5f);
+        glEnd();
+
 
         glfwSwapBuffers(window);
 
