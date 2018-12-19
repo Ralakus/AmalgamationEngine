@@ -2,12 +2,15 @@
 #include <cxxopts.hpp>
 
 #include <glad/glad.h>
-
 #include <GLFW/glfw3.h>
 
-namespace Amalgamation {
+#include "core/utilities/logger.hpp"
+
+namespace amalgamation {
     constexpr auto version = "0.1.0";
 }
+
+namespace ae = amalgamation;
 
 int main(int argc, char* argv[]) {
 
@@ -29,13 +32,14 @@ int main(int argc, char* argv[]) {
         }
 
         if(cxxresult.count("version")) {
-            std::cout << "Amalgamation version: " << Amalgamation::version << std::endl;
+            std::cout << "Amalgamation version: " << ae::version << std::endl;
             return EXIT_SUCCESS;
         }
 
     } catch (cxxopts::OptionException& e) {
 
-        std::cout << e.what() << std::endl;
+        ae::error() << e.what() << std::endl;
+        return EXIT_FAILURE;
 
     }
 
@@ -45,8 +49,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
 
     window = glfwCreateWindow(1280, 720, "A window", NULL, NULL);
-    if (!window)
-    {
+    if (!window) {
         glfwTerminate();
         return EXIT_FAILURE;
     }
@@ -54,12 +57,11 @@ int main(int argc, char* argv[]) {
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
-        std::cerr << "[ gl::error ]: Failed to initialize GLAD!\nEND" << std::endl;
+        ae::error() << "[ gl::error ]: Failed to initialize GLAD!\nEND" << std::endl;
         return EXIT_FAILURE;
     }
 
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glBegin(GL_QUADS);
