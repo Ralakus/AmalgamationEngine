@@ -19,28 +19,19 @@ src            = {
 }
 include_dirs   = {
     "lib/cxxopts/include",
-    "lib/nuklear/src",
-    "lib/nuklear/demo/glfw_opengl3",
     "lib/glad/include",
+    "lib/glm",
 }
 lib_paths      = {
 }
 link_libraries = {
     "glfw",
-    "GL"
+    "GL",
 }
 
 defines = {
     "AE_64_BIT"
 }
-
-if operating_system == linux then
-    defines[#defines + 1] = "AE_OS_LINUX"
-elseif operating_system == windows then
-    defines[#defines + 1] = "AE_OS_WINDOWS"
-elseif operating_system == other then 
-    defines[#defines + 1] = "AE_OS_OTHER"
-end
 
 compiler = "clang++"
 linker   = "clang++"
@@ -53,10 +44,14 @@ if build_mode == release then
     compile_args = compile_args .. " -O3 -flto "
     link_args    = link_args    .. " -O3 -flto "
 
+    defines[#defines + 1] = "AE_BUILD_RELEASE"
+
 elseif build_mode == debug then
 
     compile_args = compile_args .. " -O0 -g -Wall "
     link_args    = link_args    .. " -O0 -g -Wall "
+
+    defines[#defines + 1] = "AE_BUILD_DEBUG"
 
 end
 

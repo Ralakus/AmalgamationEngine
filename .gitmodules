@@ -2,10 +2,6 @@
 	path = lib/cxxopts
 	url = https://github.com/jarro2783/cxxopts.git
 	branch = master
-[submodule "lib/nuklear"]
-	path = lib/nuklear
-	url = https://github.com/vurtun/nuklear.git
-	branch = master
 [submodule "lib/glm"]
 	path = lib/glm
 	url = https://github.com/g-truc/glm.git
