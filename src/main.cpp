@@ -4,7 +4,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "core/utilities/logger.hpp"
+#include <core/utilities/logger.hpp>
+#include <core/graphics/window.hpp>
+
+#include <engine/graphics/opengl/glwindow.hpp>
 
 namespace amalgamation {
     constexpr auto version = "0.1.0";
@@ -43,50 +46,18 @@ int main(int argc, char* argv[]) {
 
     }
 
-    GLFWwindow* window;
+    ae::GLWindow window("Window", 1280, 720, false);
+    window.open();
 
-    if (!glfwInit()) {
-        ae::error() << "Failed to initialize glfw" << std::endl;;
-        return EXIT_FAILURE;
+    while (window.is_valid()) {
+
+        if(window.update() == false) {
+            ae::glnoticeln("Window close requested");
+        }
+
     }
 
-    window = glfwCreateWindow(1280, 720, "A window", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        return EXIT_FAILURE;
-    }
-
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
-        ae::error() << "Failed to initialize glad!" << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glBegin(GL_TRIANGLES);
-            glColor3f(0.f, 0.f, 1.f);
-            glVertex2f(-0.5f, -0.5f);
-            glVertex2f(0.5f, -0.5f);
-            glVertex2f(0.5f, 0.5f);
-        glEnd();
-
-        glBegin(GL_TRIANGLES);
-            glColor3f(0.f, 1.f, 0.f);
-            glVertex2f(0.5f, 0.5f);
-            glVertex2f(-0.5f, 0.5f);
-            glVertex2f(-0.5f, -0.5f);
-        glEnd();
-
-
-        glfwSwapBuffers(window);
-
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
+    window.close();
 
     return EXIT_SUCCESS;
 

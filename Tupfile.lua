@@ -5,7 +5,7 @@ local linux, windows, other = 0, 1, 2
 
 operating_system = linux
 
-build_mode = release
+build_mode = debug
 
 output     = "Amalgamation"
 
@@ -21,12 +21,14 @@ include_dirs   = {
     "lib/cxxopts/include",
     "lib/glad/include",
     "lib/glm",
+    "src",
 }
 lib_paths      = {
 }
 link_libraries = {
     "glfw",
     "GL",
+    "dl"
 }
 
 defines = {
@@ -80,8 +82,8 @@ for i = 1, #link_libraries do
     link_link_libs_str = link_link_libs_str .. " -l".. link_libraries[i] 
 end
 
-build_command = compiler .. " -c " .. build_include_dir_str .. build_defines_str .. compile_args .. " -o %o %f"
-link_command  = linker   .. link_link_paths_str   .. link_link_libs_str .. link_args .. " -o %o %f"
+build_command = compiler .. " -c " .. compile_args.. build_include_dir_str .. build_defines_str .. " -o %o %f"
+link_command  = linker   .. link_args .. link_link_paths_str   .. link_link_libs_str .. " -o %o %f"
 
 objects = tup.foreach_rule(
     src,

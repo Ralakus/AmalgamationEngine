@@ -8,7 +8,7 @@ namespace amalgamation {
     constexpr auto& error_stream = std::cerr;
 
     namespace ansi {
-#ifdef AE_OS_LINUX
+//#ifdef AE_OS_LINUX
         constexpr auto red     = "\x1b[31m";
         constexpr auto green   = "\x1b[32m";
         constexpr auto yellow  = "\x1b[33m";
@@ -16,7 +16,7 @@ namespace amalgamation {
         constexpr auto magenta = "\x1b[35m";
         constexpr auto cyan    = "\x1b[36m";
         constexpr auto reset   = "\x1b[0m";
-#else
+/*#else
         constexpr auto red     = "";
         constexpr auto green   = "";
         constexpr auto yellow  = "";
@@ -24,7 +24,7 @@ namespace amalgamation {
         constexpr auto magenta = "";
         constexpr auto cyan    = "";
         constexpr auto reset   = "";
-#endif
+#endif*/
     }
 
     template<class... T>
