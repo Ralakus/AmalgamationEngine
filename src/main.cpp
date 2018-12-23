@@ -12,6 +12,8 @@
 #include <engine/graphics/opengl/buffers/glvertex_array.hpp>
 #include <engine/graphics/opengl/buffers/glelement_buffer.hpp>
 
+#include <engine/graphics/opengl/glshader.hpp>
+
 namespace amalgamation {
     constexpr auto version = "0.1.0";
 }
@@ -54,47 +56,29 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    const char* vtxshadersrc = R"glsl(#version 330 core
+    const char* shader_src = R"glsl(@V
+#version 330 core
 layout (location = 0) in vec3 aPos;
 
 void main()
 {
     gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-})glsl";
-
-    unsigned int vertex_shader;
-    GLCALL(vertex_shader = glCreateShader(GL_VERTEX_SHADER));
-    GLCALL(glShaderSource(vertex_shader, 1, &vtxshadersrc, NULL));
-    GLCALL(glCompileShader(vertex_shader));
-
-    const char* fgmtshadersrc = R"glsl(#version 330 core
+}
+@F
+#version 330 core
 out vec4 FragColor;
 
 void main()
 {
     FragColor = vec4(0.1f, 0.9f, 0.1f, 1.0f);
-})glsl";
+}@)glsl";
 
-    unsigned int fragment_shader;
-    GLCALL(fragment_shader = glCreateShader(GL_FRAGMENT_SHADER));
-    GLCALL(glShaderSource(fragment_shader, 1, &fgmtshadersrc, NULL));
-    GLCALL(glCompileShader(fragment_shader));
-
-    unsigned int shader_program;
-    GLCALL(shader_program = glCreateProgram());
-
-    GLCALL(glAttachShader(shader_program, vertex_shader));
-    GLCALL(glAttachShader(shader_program, fragment_shader));
-    GLCALL(glLinkProgram(shader_program));
-
-    GLCALL(glUseProgram(shader_program));
-
-    GLCALL(glDeleteShader(vertex_shader));
-    GLCALL(glDeleteShader(fragment_shader));
+    ae::GLShader shader(shader_src);
+    shader.bind();
 
     float vertices[] = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
+         0.5f,  0.5f, 0.0f,  // top right
+         0.5f, -0.5f, 0.0f,  // bottom right
         -0.5f, -0.5f, 0.0f,  // bottom left
         -0.5f,  0.5f, 0.0f   // top left 
     };

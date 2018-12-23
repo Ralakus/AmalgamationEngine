@@ -45,7 +45,7 @@ namespace amalgamation {
 #if defined(AE_GL_NO_EXEC)
     #define GLCALL(x)
 #elif AE_BUILD_DEBUG
-    #define GLCALL(x) do { amalgamation::GLErrorHandler::glcheck_error(); x; if(!amalgamation::GLErrorHandler::gllog_call(#x, __FILE__, __LINE__)) {}; } while(false)
+    #define GLCALL(x) amalgamation::GLErrorHandler::glcheck_error(); x; amalgamation::GLErrorHandler::gllog_call(#x, __FILE__, __LINE__)
 #else
     #define GLCALL(x) x
 #endif
