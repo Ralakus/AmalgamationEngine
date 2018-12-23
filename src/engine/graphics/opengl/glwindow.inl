@@ -1,6 +1,11 @@
 
 namespace amalgamation {
 
+    static void glfwError(int id, const char* description)
+    {
+        errorln("glfw: ", id, " desc: ", description);
+    }
+
     GLWindow::GLWindow()
         : Window(API::opengl),
         _window(nullptr), _monitor(nullptr), _mode(nullptr) {}
@@ -30,6 +35,8 @@ namespace amalgamation {
                 GLFWInstance::open_windows(true, GLFWInstance::open_windows() - 1);
             }
         }
+
+        glfwSetErrorCallback(&glfwError);
 
         this->_monitor = glfwGetPrimaryMonitor();
         this->_mode    = glfwGetVideoMode(this->_monitor);

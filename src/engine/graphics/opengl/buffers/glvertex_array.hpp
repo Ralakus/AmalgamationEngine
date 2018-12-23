@@ -24,9 +24,7 @@ namespace amalgamation {
         }
 
         void destroy() {
-            glnoticeln("Destroy called for vertex array, id: ", this->_arrayid);
             if(this->_arrayid != 0) {
-                glnoticeln("Vertex array destroy idcheck passed");
                 this->unbind();
                 GLCALL(glDeleteVertexArrays(1, &_arrayid));
             }

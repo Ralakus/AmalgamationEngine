@@ -39,9 +39,7 @@ namespace amalgamation {
         }
 
         void destroy() {
-            glnoticeln("Destroy called for element buffer, id: ", this->_bufferid);
             if(this->_bufferid != 0) {
-                glnoticeln("Element buffer destroy idcheck passed");
                 this->unbind();
                 GLCALL(glDeleteBuffers(1, &this->_bufferid));
             }

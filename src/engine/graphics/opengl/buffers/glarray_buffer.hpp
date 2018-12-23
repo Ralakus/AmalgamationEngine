@@ -99,12 +99,9 @@ namespace amalgamation {
         }
 
         void destroy() {
-            glnoticeln("Destroy called for array buffer, id: ", this->_bufferid);
             if(this->_bufferid != 0) {
-                glnoticeln("Array buffer destroy idcheck passed");
                 this->unbind();
-                glnoticeln("Array buffer ptr: ", &this->_bufferid);
-                GLCALL(glDeleteBuffers(GL_ARRAY_BUFFER, &this->_bufferid));
+                GLCALL(glDeleteBuffers(1, &this->_bufferid));
             }
         }
 
@@ -119,7 +116,6 @@ namespace amalgamation {
             if(this->_bound) {
                 this->_bound = false;
                 GLCALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
-                glnoticeln("Unbind called");
             }
         }
 

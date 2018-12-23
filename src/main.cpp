@@ -50,7 +50,9 @@ int main(int argc, char** argv) {
     }
 
     ae::GLWindow window("Window", 1280, 720, false);
-    window.open();
+    if(!window.open()) {
+        return EXIT_FAILURE;
+    }
 
     const char* vtxshadersrc = R"glsl(#version 330 core
 layout (location = 0) in vec3 aPos;
