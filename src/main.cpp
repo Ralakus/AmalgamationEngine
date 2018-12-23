@@ -9,13 +9,16 @@
 
 #include <engine/graphics/opengl/glwindow.hpp>
 
+#include <engine/graphics/opengl/buffers/glvertex_array.hpp>
+#include <engine/graphics/opengl/buffers/glelement_buffer.hpp>
+
 namespace amalgamation {
     constexpr auto version = "0.1.0";
 }
 
 namespace ae = amalgamation;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
 
     cxxopts::Options options("Amalgamation", "This is a project made using the Amalgamation Engine");
 
@@ -67,7 +70,7 @@ out vec4 FragColor;
 
 void main()
 {
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+    FragColor = vec4(0.1f, 0.9f, 0.1f, 1.0f);
 })glsl";
 
     unsigned int fragment_shader;
@@ -98,24 +101,23 @@ void main()
         1, 2, 3    // second triangle
     };
 
-    unsigned int vao;
-    GLCALL(glGenVertexArrays(1, &vao));
-    GLCALL(glBindVertexArray(vao));
+    ae::GLVertexArray vao;
+    vao.create();
+    vao.bind();
 
-    unsigned int vbo;
-    GLCALL(glGenBuffers(1, &vbo));
-    GLCALL(glBindBuffer(GL_ARRAY_BUFFER, vbo));
-    GLCALL(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
+    ae::GLArrayBuffer vbo(vertices, sizeof(vertices));
+    vbo.bind();
 
-    unsigned int ebo;
-    GLCALL(glGenBuffers(1, &ebo));
-    GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo));
-    GLCALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
+    vbo.get_layout().push<float>(3);
 
-    GLCALL(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
-    GLCALL(glEnableVertexAttribArray(0));
+    ae::GLElementBuffer ebo(indices, sizeof(indices));
+    ebo.bind();
 
-    GLCALL(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
+    vao.set_buffer(vbo);
+
+    ae::noticeln("vao: ", vao.get_id(), ", vbo: ", vbo.get_id(),", ebo: ", ebo.get_id());
+
+    GLCALL(glClearColor(0.3f, 0.3f, 0.3f, 1.0f));
 
     GLCALL(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 
@@ -127,11 +129,11 @@ void main()
             ae::glnoticeln("Window close requested");
         }
 
-
     }
 
-    GLCALL(glDeleteVertexArrays(1, &vao));
-    GLCALL(glDeleteBuffers(1, &vbo));
+    vao.destroy();
+    vbo.destroy();
+    ebo.destroy();
 
     window.close();
 

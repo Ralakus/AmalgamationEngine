@@ -27,8 +27,6 @@ lib_paths      = {
 }
 link_libraries = {
     "glfw",
-    "GL",
-    "dl"
 }
 
 defines = {
@@ -57,8 +55,20 @@ elseif build_mode == debug then
 
 end
 
+if operating_system == linux then
+
+    link_libraries[#link_libraries + 1] = "GL"
+    link_libraries[#link_libraries + 1] = "dl"
+
+elseif operating_system == windows then 
+
+    link_libraries[#link_libraries + 1] = "opengl32"
+
+end
 
 
+
+-- Magic happens below this comment
 
 
 
