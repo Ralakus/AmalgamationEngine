@@ -8,22 +8,22 @@
 namespace amalgamation {
 
     template<class... T>
-    decltype(notice()) glnotice(T&&... args) {
+    inline decltype(notice()) glnotice(T&&... args) {
         return ((notice(ansi::yellow, "[ gl::", ansi::cyan, "notice", ansi::yellow, " ]: ", ansi::reset)) << ... << std::forward<T&&>(args));
     }
 
     template<class... T>
-    decltype(glnotice()) glnoticeln(T&&... args) {
+    inline decltype(glnotice()) glnoticeln(T&&... args) {
         return ((glnotice()) << ... << std::forward<T&&>(args)) << std::endl;
     }
 
     template<class... T>
-    decltype(error()) glerror(T&&... args) {
+    inline decltype(error()) glerror(T&&... args) {
         return ((error(ansi::yellow, "[ gl::", ansi::red, "error", ansi::yellow, " ]: ", ansi::reset)) << ... << std::forward<T&&>(args));
     }
 
     template<class... T>
-    decltype(glerror()) glerrorln(T&&... args) {
+    inline decltype(glerror()) glerrorln(T&&... args) {
         return ((glerror()) << ... << std::forward<T&&>(args)) << std::endl;
     }
 

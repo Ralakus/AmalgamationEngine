@@ -50,8 +50,8 @@ if build_mode == release then
 
 elseif build_mode == debug then
 
-    compile_args = compile_args .. " -O0 -g -Wall "
-    link_args    = link_args    .. " -O0 -g -Wall "
+    compile_args = compile_args .. " -O0 -g3 -Wall "
+    link_args    = link_args    .. " -O0 -g3 -Wall "
 
     defines[#defines + 1] = "AE_BUILD_DEBUG"
 

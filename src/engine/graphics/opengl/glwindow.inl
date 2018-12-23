@@ -35,6 +35,9 @@ namespace amalgamation {
         this->_mode    = glfwGetVideoMode(this->_monitor);
 
         glfwWindowHint(GLFW_SAMPLES, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         this->_window = glfwCreateWindow(this->_width, this->_height, this->_title.c_str(), this->_fullscreen ? this->_monitor : nullptr, nullptr);
 
@@ -52,8 +55,6 @@ namespace amalgamation {
             glerrorln("Failed to initialize glad!");
             return false;
         }
-
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         GLCALL(glEnable(GL_DEPTH_TEST));
         GLCALL(glEnable(GL_MULTISAMPLE));
@@ -76,10 +77,10 @@ namespace amalgamation {
 
     bool GLWindow::update() {
 		if (!glfwWindowShouldClose(this->_window) && this->_valid) {
-			GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 			glfwGetFramebufferSize(this->_window, reinterpret_cast<int*>(&this->_width), reinterpret_cast<int*>(&this->_height));
 			glfwSwapBuffers(this->_window);
 			glfwPollEvents();
+			GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
             return true;
 		} else {
 			this->_valid = false;

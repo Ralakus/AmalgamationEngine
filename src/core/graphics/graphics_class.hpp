@@ -17,7 +17,7 @@ namespace amalgamation {
         GraphicsClass(API api) : _api(api) {}
         virtual ~GraphicsClass() {}
 
-        API get_api() const { return _api; }
+        inline API get_api() const { return _api; }
 
     };
 
