@@ -7,6 +7,8 @@
 #include <string_view>
 #include <memory>
 
+#include <unordered_map>
+
 namespace amalgamation {
 
     class GLShader : public Shader {
@@ -17,6 +19,8 @@ namespace amalgamation {
 
         std::string_view _vertex_src;
         std::string_view _fragment_src;
+
+        std::unordered_map<std::string, std::int32_t> _uniform_cache;
 
         bool _post_load() override;
 
@@ -56,6 +60,56 @@ namespace amalgamation {
         }
 
         std::uint32_t get_id() const { return this->_shaderid; }
+
+        std::int32_t get_uniform_location(const std::string& name) {
+            if(this->_uniform_cache.count(name) > 0) {
+                return _uniform_cache[name];
+            } else {
+                GLCALL(std::int32_t location  = glGetUniformLocation(this->_shaderid, name.c_str()));
+                if(location != -1) {
+                    _uniform_cache[name] = location;
+                } else {
+                    glerrorln("Uniform \"", name, "\" does not exist!");
+                }
+                return location;
+            }
+        }
+
+        void set_uniform(const std::string& name, float value) {
+            GLCALL(glUniform1f(this->get_uniform_location(name), value));
+        }
+
+        void set_uniform(const std::string& name, int value) {
+            GLCALL(glUniform1i(this->get_uniform_location(name), value));
+        }
+
+        void set_uniform(const std::string& name, float x, float y) {
+            GLCALL(glUniform2f(this->get_uniform_location(name), x, y));
+        }
+
+        void set_uniform(const std::string& name, const glm::vec2& vec) {
+            GLCALL(glUniform2f(this->get_uniform_location(name), vec.x, vec.y));
+        }
+
+        void set_uniform(const std::string& name, float x, float y, float z) {
+            GLCALL(glUniform3f(this->get_uniform_location(name), x, y, z));
+        }
+
+        void set_uniform(const std::string& name, const glm::vec3& vec) {
+            GLCALL(glUniform3f(this->get_uniform_location(name), vec.x, vec.y, vec.z));
+        }
+
+        void set_uniform(const std::string& name, float x, float y, float z, float w) {
+            GLCALL(glUniform4f(this->get_uniform_location(name), x, y, z, w));
+        }
+
+        void set_uniform(const std::string& name, const glm::vec4& vec) {
+            GLCALL(glUniform4f(this->get_uniform_location(name), vec.x, vec.y, vec.z, vec.w));
+        }
+
+        void set_uniform(const std::string& name, const glm::mat4& mat) {
+            GLCALL(glUniformMatrix4fv(this->get_uniform_location(name), 1, GL_FALSE, &mat[0].x));
+        }
 
     };
 

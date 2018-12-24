@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+
 #include <core/platform/platform.hpp>
 #include <core/utilities/logger.hpp>
 

@@ -65,13 +65,17 @@ void main()
 }@F#version 330 core
 out vec4 FragColor;
 
+uniform vec4 u_frag_colour = vec4(0.1f, 0.9f, 0.1f, 1.0f);
+
 void main()
 {
-    FragColor = vec4(0.1f, 0.9f, 0.1f, 1.0f);
+    FragColor = u_frag_colour;
 }@)glsl";
 
     ae::GLShader shader(shader_src);
     shader.bind();
+
+    shader.set_uniform("u_frag_colour", 0.1f, 0.9f, 1.f, 1.0f);
 
     float vertices[] = {
          0.5f,  0.5f, 0.0f,
@@ -79,7 +83,7 @@ void main()
         -0.5f, -0.5f, 0.0f,
         -0.5f,  0.5f, 0.0f
     };
-    unsigned int indices[] = {
+    std::uint32_t indices[] = {
         0, 1, 3,
         1, 2, 3
     };
@@ -93,7 +97,7 @@ void main()
 
     vbo.get_layout().push<float>(3);
 
-    ae::GLElementBuffer ebo(indices, sizeof(indices));
+    ae::GLElementBuffer ebo(indices, sizeof(indices) / sizeof(std::uint32_t));
     ebo.bind();
 
     vao.set_buffer(vbo);
@@ -106,7 +110,7 @@ void main()
 
     while (window.is_valid()) {
         
-        GLCALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0));
+        GLCALL(glDrawElements(GL_TRIANGLES, ebo.get_count(), GL_UNSIGNED_INT, 0));
 
         if(window.update() == false) {
             ae::glnoticeln("Window close requested");
