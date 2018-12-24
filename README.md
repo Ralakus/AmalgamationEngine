@@ -14,6 +14,7 @@ that is meant to be mostly header only
 ## Short term :arrow_down:
 * Get basic framework setup
 * Get renderer setup
+* Windows support
 
 ## Long term :arrow_forward:
 * Make Editor / tools for engine

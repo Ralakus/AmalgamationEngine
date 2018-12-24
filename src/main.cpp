@@ -57,19 +57,19 @@ int main(int argc, char** argv) {
     }
 
     const char* shader_src = R"glsl(@V#version 330 core
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec3 a_pos;
 
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    gl_Position = vec4(a_pos.x, a_pos.y, a_pos.z, 1.0);
 }@F#version 330 core
-out vec4 FragColor;
+out vec4 frag_colour;
 
 uniform vec4 u_frag_colour = vec4(0.1f, 0.9f, 0.1f, 1.0f);
 
 void main()
 {
-    FragColor = u_frag_colour;
+    frag_colour = u_frag_colour;
 }@)glsl";
 
     ae::GLShader shader(shader_src);
