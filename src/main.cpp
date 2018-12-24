@@ -56,16 +56,13 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    const char* shader_src = R"glsl(@V
-#version 330 core
+    const char* shader_src = R"glsl(@V#version 330 core
 layout (location = 0) in vec3 aPos;
 
 void main()
 {
     gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-}
-@F
-#version 330 core
+}@F#version 330 core
 out vec4 FragColor;
 
 void main()
@@ -77,14 +74,14 @@ void main()
     shader.bind();
 
     float vertices[] = {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
+         0.5f,  0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f
     };
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
+    unsigned int indices[] = {
+        0, 1, 3,
+        1, 2, 3
     };
 
     ae::GLVertexArray vao;
@@ -101,7 +98,7 @@ void main()
 
     vao.set_buffer(vbo);
 
-    ae::noticeln("vao: ", vao.get_id(), ", vbo: ", vbo.get_id(),", ebo: ", ebo.get_id());
+    ae::noticeln("shader: ", shader.get_id(), ", vao: ", vao.get_id(), ", vbo: ", vbo.get_id(),", ebo: ", ebo.get_id());
 
     GLCALL(glClearColor(0.3f, 0.3f, 0.3f, 1.0f));
 
@@ -120,6 +117,8 @@ void main()
     vao.destroy();
     vbo.destroy();
     ebo.destroy();
+
+    shader.destroy();
 
     window.close();
 

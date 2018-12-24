@@ -29,7 +29,9 @@ namespace amalgamation {
             this->load(src);
         }
 
-        ~GLShader() {}
+        ~GLShader() {
+            this->destroy();
+        }
 
         void bind  () const {
             if(!this->_bound) {
@@ -53,11 +55,11 @@ namespace amalgamation {
             }
         }
 
+        std::uint32_t get_id() const { return this->_shaderid; }
+
     };
 
     bool GLShader::_post_load() {
-
-        glnoticeln("Function called");
 
         GLCALL(this->_shaderid = glCreateProgram());
 

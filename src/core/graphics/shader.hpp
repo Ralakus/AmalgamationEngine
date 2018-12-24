@@ -28,6 +28,10 @@ namespace amalgamation {
             return this->_post_load();
         }
 
+        bool load() {
+            return this->_post_load();
+        }
+
     };
 
 }
